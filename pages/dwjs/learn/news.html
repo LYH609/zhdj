@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../../../css/mui.min.css">
+		<style>
+			header {
+				background: #cc352b !important;
+				border: none;
+				box-shadow: none !important;
+			}
+			
+			h1 {
+				font-size: 20px !important;
+				color: #ffffff !important;
+			}
+			
+			.mui-table-view .mui-media-object {
+				line-height: 80px !important;
+				max-width: 150px !important;
+				height: 80px !important;
+			}
+			
+			.js_ellipsis {
+				overflow: hidden;
+				text-overflow: ellipsis;
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-line-clamp: 3;
+				font-size: 17px !important;
+				color: #212121 !important;
+			}
+			
+			.mui-media-body {
+				position: relative;
+			}
+			
+			.mui-table-view-cell>a:not(.mui-btn) {
+				white-space: inherit !important;
+			}
+			
+			.timethis {
+				position: absolute;
+				bottom: 7px;
+				right: 15px;
+			}
+			ul{
+				margin-top: 10px !important;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav bg-color">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title">新闻消息</h1>
+		</header>
+		<div class="mui-content">
+			<div id="slider" class="mui-slider">
+				<div class="mui-slider-group mui-slider-loop">
+					<div class="mui-slider-item mui-slider-item-duplicate">
+						<a href="#">
+							<img src="../../../img/news_banner@3x.png">
+						</a>
+					</div>
+					<!-- 第一张 -->
+					<div class="mui-slider-item">
+						<a href="#">
+							<img src="../../../img/news_banner@3x.png">
+						</a>
+					</div>
+					<!-- 第二张 -->
+					<div class="mui-slider-item">
+						<a href="#">
+							<img src="../../../img/news_banner@3x.png">
+						</a>
+					</div>
+					<!-- 第三张 -->
+					<div class="mui-slider-item">
+						<a href="#">
+							<img src="../../../img/news_banner@3x.png">
+						</a>
+					</div>
+					<div class="mui-slider-item mui-slider-item-duplicate">
+						<a href="#">
+							<img src="../../../img/news_banner@3x.png">
+						</a>
+					</div>
+				</div>
+				<div class="mui-slider-indicator">
+					<div class="mui-indicator mui-active"></div>
+					<div class="mui-indicator"></div>
+					<div class="mui-indicator"></div>
+				</div>
+			</div>
+
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-media" id="http://politics.people.com.cn/n1/2017/0830/c1024-29502568.html">
+					<a href="javascript:;">
+						<img class="mui-media-object mui-pull-left" src="../../../img/news_1@2x.png">
+						<div class="mui-media-body">
+							<p class='js_ellipsis'>习近平：加强领导总结经验运用规律&nbsp;站在更高起点谋划和推进改革</p>
+						</div>
+						<p class="timethis"><span class="fr">2017-7-26</span></p>
+					</a>
+				</li>
+			</ul>
+			
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-media" id="http://news.cnr.cn/native/gd/20170829/t20170829_523924693.shtml">
+					<a href="javascript:;">
+						<img class="mui-media-object mui-pull-left" src="../../../img/news_2@2x.png">
+						<div class="mui-media-body">
+							<p class='js_ellipsis'>政协常委会第二十二次会议举行全体会议 俞正声出席</p>
+						</div>
+						<p class="timethis"><span class="fr">2017-7-26</span></p>
+					</a>
+				</li>
+			</ul>
+			
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-media" id="http://news.xinhuanet.com/local/2016-12/01/c_129385375.htm">
+					<a href="javascript:;">
+						<img class="mui-media-object mui-pull-left" src="../../../img/news_3@2x.png">
+						<div class="mui-media-body">
+							<p class='js_ellipsis'>人大常委会第二十九次会议举行第二次全体会议 张德江出席会议</p>
+						</div>
+						<p class="timethis"><span class="fr">2017-5-26</span></p>
+					</a>
+				</li>
+			</ul>
+			<div style="height: 50px;width: 100%;"></div>
+		</div>
+		<script src="../../../js/mui.min.js"></script>
+		<script>
+			mui.init();
+			var gallery = mui('.mui-slider');
+			gallery.slider({
+				interval: 3000
+			});
+			window.onload = function() {
+				mui.plusReady(function() {
+					var showpage = function() {
+						var id = setInterval(function() {
+							userdata = JSON.parse(plus.storage.getItem('userinfo'));
+							if(userdata) {
+								clearInterval(id);
+								setTimeout(function() {
+									plus.nativeUI.closeWaiting();
+									mui.currentWebview.show("slide-in-right");
+								}, 50);
+							}
+						}, 20);
+					};
+					showpage();
+				});
+			}
+			
+			mui('.mui-content').on('tap', '.mui-table-view-cell', function(e) {
+				var xwlink = this.getAttribute('id');
+				var xwtitle = this.childNodes[1].childNodes[3].childNodes[1].innerText;
+				mui.openWindow({
+					url: "xw_ctn.html",
+					id: "xw_ctn",
+					styles: {
+						top: "0px",
+						bottom: "0px",
+					},
+					createNew: false,
+					show: {
+						autoShow: false,
+						event: 'titleUpdate',
+						extras: {}
+					},
+					waiting: {
+						autoShow: true,
+						title: '正在加载...',
+					}
+				});
+				mui.fire(plus.webview.getWebviewById("xw_ctn"), 'xw_data', {
+					xw_link: xwlink,
+					xw_title: xwtitle
+				});
+			});
+		</script>
+	</body>
+
+</html>

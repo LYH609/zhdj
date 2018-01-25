@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../../css/mui.min.css">
+		<style type="text/css">
+			header {
+				background: #cc352b !important;
+				border: none;
+				box-shadow: none !important;
+			}
+			
+			h1 {
+				font-size: 20px !important;
+				color: #ffffff !important;
+			}
+			
+			.search_box {
+				width: 100%;
+				height: 59px;
+				line-height: 59px;
+				font-size: 18px;
+				text-align: center;
+				color: #545454;
+			}
+			
+			.search_filter {
+				width: 100%;
+				height: 59px;
+				position: fixed;
+				left: 0;
+				border-bottom: 1px solid #E4E4E4;
+				top: 94px;
+				z-index: 999;
+				background: #FFFFFF;
+			}
+			
+			.mui-content {
+				background: #FFFFFF !important;
+			}
+			
+			.mui-segmented-control-positive.mui-segmented-control-inverted .mui-control-item.mui-active {
+				color: #CC352B !important;
+				border-bottom: 2px solid #CC352B !important;
+			}
+			
+			.top_tap {
+				position: fixed;
+				top: 44px;
+				left: 0px;
+				z-index: 999;
+				padding: 10px 10px;
+				padding-bottom: 0px;
+				background: #f7f7f7;
+			}
+			
+			.mui-input-row label {
+				width: 28% !important;
+			}
+			
+			.search_filter_search {
+				background: #F7F7F7 !important;
+			}
+			
+			input {
+				background: #FFFFFF !important;
+			}
+			
+			.search_input {
+				margin-top: 10px !important;
+			}
+			
+			.search_input {
+				padding: 0px 5px;
+			}
+			.filterimg{
+				height: 25px;
+				width: 25px;
+				position: relative;
+				top: 6px;
+				background: url(../../img/approve_search@2x.png) no-repeat;
+				background-size: 100% 100%;
+			}
+			.sousuoimg{
+				height: 25px;
+				width: 25px;
+				position: relative;
+				top: 6px;
+				background: url(../../img/approve_filtrate@2x.png) no-repeat;
+				background-size: 100% 100%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<h1 id="title" class="mui-title">审批</h1>
+		</header>
+		<div class="mui-content">
+			<div class="top_tap">
+				<div id="segmentedControl" class="mui-segmented-control mui-segmented-control-inverted mui-segmented-control-positive">
+					<a class="mui-control-item mui-active" href="">
+						待审批
+					</a>
+					<a class="mui-control-item" href="">
+						已审批
+					</a>
+					<a class="mui-control-item" href="">
+						我发起
+					</a>
+					<a class="mui-control-item" href="">
+						抄送我
+					</a>
+				</div>
+			</div>
+			<div class="search_filter search_filter_search">
+				<div class="mui-row">
+					<div class="search_input" style="display: none;">
+						<div class="mui-input-row mui-search" style="width: 75%;float: left;">
+							<input id="search_sp" type="search" class="mui-input-clear" placeholder="搜索">
+						</div>
+						<button class="cancle_btn" style="border: none;background: #F7F7F7;width: 25%;height: 34px;color: #CC352B;">取消</button>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6" id="search_box">
+						<div class="search_box" id="search_for">
+							<span class="mui-icon sousuoimg" style="font-size: 30px;"></span>搜索
+						</div>
+					</div>
+					<div class="mui-col-sm-6 mui-col-xs-6" id="filter_box">
+						<div class="search_box" id="filter">
+							<span class="mui-icon filterimg" style="font-size: 30px;"></span>过滤
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="../../js/mui.min.js"></script>
+	<script type="text/javascript">
+		mui.init({
+			subpages: [{
+				url: 'pullrefresh_sub.html',
+				id: 'pullrefresh_sub.html',
+				styles: {
+					top: '153px',
+					bottom: '0px',
+				}
+			}]
+		});
+		window.onload = function() {
+			mui.plusReady(function() {
+				var showpage = function() {
+					var id = setInterval(function() {
+						userdata = JSON.parse(plus.storage.getItem('userinfo'));
+						if(userdata) {
+							clearInterval(id);
+							setTimeout(function() {
+								plus.nativeUI.closeWaiting();
+								mui.currentWebview.show("slide-in-right");
+							}, 50);
+						}
+					}, 20);
+				};
+				showpage();
+			});
+		}
+
+		mui('.mui-content').on('keyup', '#search_sp', function(e) {
+			if(e.keyCode == 13) {
+				mui.fire(plus.webview.getWebviewById("pullrefresh_sub.html"), "search_enter", {
+					id: "search_enter",
+					searchdata:mui("#search_sp")[0].value
+				});
+			}
+		});
+		//搜索过滤
+		mui(".mui-content").on('tap', '.cancle_btn', function(e) {
+			mui('#search_box')[0].style.display = "block";
+			mui('#filter_box')[0].style.display = "block";
+			mui('.search_input')[0].style.display = "none";
+			mui.fire(plus.webview.getWebviewById("pullrefresh_sub.html"), "search_cancle", {
+				id: "search_cancle"
+			});
+		});
+
+		mui(".mui-content").on('tap', '.search_box', function(e) {
+			var id = this.getAttribute("id");
+			if(id == "search_for") {
+				mui('#search_box')[0].style.display = "none";
+				mui('#filter_box')[0].style.display = "none";
+				mui('.search_input')[0].style.display = "block";
+				mui.fire(plus.webview.getWebviewById("pullrefresh_sub.html"), "search_fordata", {
+					id: "search_for"
+				});
+			} else if(id == "filter") {
+				mui.openWindow({
+					url: "filter.html",
+					id: "filter.html",
+					styles: {
+						top: "109px",
+						bottom: "0px",
+					},
+					createNew: false,
+					show: {
+						autoShow: true,
+						event: 'titleUpdate',
+						extras: {}
+					},
+					waiting: {
+						autoShow: false,
+						title: '正在加载...',
+					}
+				});
+			}
+		});
+
+		mui(".mui-content").on('tap', '.mui-control-item', function(e) {
+			mui('#search_box')[0].style.display = "block";
+			mui('#filter_box')[0].style.display = "block";
+			mui('.search_input')[0].style.display = "none";
+			if(plus.webview.getWebviewById("filter.html")){
+				mui.fire(plus.webview.getWebviewById("filter.html"), 'tap_click', {
+					id: 1
+				})
+			}
+			for(var i = 0; i < 4; i++) {
+				mui('.mui-control-item')[i].setAttribute('class', 'mui-control-item');
+			}
+			this.setAttribute('class', 'mui-control-item mui-active');
+			var click_type = this.innerText;
+			mui.fire(plus.webview.getWebviewById('pullrefresh_sub.html'), 'sp_data', {
+				id: click_type
+			})
+		});
+
+		var contentWebview = null;
+		document.querySelector('header').addEventListener('doubletap', function() {
+			if(contentWebview == null) {
+				contentWebview = plus.webview.currentWebview().children()[0];
+			}
+			contentWebview.evalJS("mui('#pullrefresh').pullRefresh().scrollTo(0,0,100)");
+		});
+		var old_back=mui.back;
+		var col=null;
+		document.addEventListener("top_color",function(e){
+			col=e.detail.id;
+		});
+		mui.back=function(){
+			if(!col){
+				old_back();
+			}else{
+				plus.navigator.setStatusBarBackground("#bdbbb9");
+				old_back();
+			}
+		};
+	</script>
+
+</html>

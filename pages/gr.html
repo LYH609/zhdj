@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>Bat</title>
+		<link rel="stylesheet" href="../css/mui.min.css" />
+		<script src="html5plus://ready"></script>
+		<style>
+			.top_gr {
+				position: relative;
+				height: 135px;
+				width: 96%;
+				background: url(../img/avatar_bg.png) no-repeat;
+				
+				background-size: 100% 100%;
+				margin-top: 10px;
+				margin-left: 2%;
+				margin-bottom: 10px;
+				border-radius: 10px;
+				box-shadow: 0px 0px 10px #bbb;
+			}
+			
+			.top_gr_tx_img {
+				border-radius: 75px;
+				margin-top: 15px;
+				margin-left: 30px;
+			}
+			
+			.top_gr_tx {
+				margin-top: 10px;
+				width: 75px;
+				height: 75px;
+				padding: 7px;
+				display: inline-block;
+				background: url("../img/default_avatar.png") no-repeat;
+				background-size: 100% 100%
+			}
+			
+			.top_gr_name {
+				width: auto;
+				display: inline-block;
+				position: absolute;
+				line-height: 20px;
+				top: 15px;
+				left: 125px;
+				height: 20px;
+				text-align: center;
+				font-size: 18px;
+			}
+			
+			.top_gr_name_type {
+				width: auto;
+				display: inline-block;
+				position: absolute;
+				line-height: 20px;
+				top: 40px;
+				left: 125px;
+				height: 20px;
+				text-align: center;
+				font-size: 15px;
+			}
+			
+			.top_gr_name_zz {
+				width: auto;
+				display: inline-block;
+				position: absolute;
+				line-height: 20px;
+				top: 65px;
+				left: 125px;
+				height: 20px;
+				text-align: center;
+				font-size: 15px;
+			}
+			
+			.mui-table-view-cell {
+				padding-bottom: 13px;
+				padding-top: 13px
+			}
+			
+			.img_msg {
+				width: 19px;
+				height: 19px;
+				margin-right: 5px;
+				float: left;
+				background: url("../img/personal_center_12@2x.png") no-repeat;
+				background-size: 100% 100%;
+			}
+			
+			.img_sszz {
+				width: 19px;
+				height: 19px;
+				margin-right: 5px;
+				float: left;
+				background: url("../img/personal_center_01@2x.png") no-repeat;
+				background-size: 100% 100%;
+			}
+			
+			.img_bj {
+				width: 19px;
+				height: 19px;
+				margin-right: 5px;
+				float: left;
+				background: url("../img/personal_center_02@2x.png") no-repeat;
+				background-size: 100% 100%
+			}
+			
+			.img_zwdj {
+				width: 19px;
+				height: 19px;
+				margin-right: 5px;
+				float: left;
+				background: url("../img/personal_center_11@2x.png") no-repeat;
+				background-size: 100% 100%
+			}
+			
+			.img_sc {
+				width: 19px;
+				height: 19px;
+				margin-right: 5px;
+				float: left;
+				background: url("../img/personal_center_03@2x.png") no-repeat;
+				background-size: 100% 100%
+			}
+			
+			.img_rdsj {
+				width: 19px;
+				height: 19px;
+				margin-right: 5px;
+				float: left;
+				background: url("../img/personal_center_09@2x.png") no-repeat;
+				background-size: 100% 100%
+			}
+			
+			.img_zl {
+				width: 19px;
+				height: 19px;
+				float: left;
+				margin-right: 5px;
+				background: url("../img/personal_center_04@2x.png") no-repeat;
+				background-size: 100% 100%
+			}
+			
+			.img_xt {
+				width: 19px;
+				height: 19px;
+				float: left;
+				margin-right: 5px;
+				background: url("../img/personal_center_05@2x.png") no-repeat;
+				background-size: 100% 100%
+			}
+			
+			.img_gy {
+				width: 19px;
+				height: 19px;
+				float: left;
+				margin-right: 5px;
+				background: url("../img/personal_center_07@2x.png") no-repeat;
+				background-size: 100% 100%
+			}
+			
+			.img_jxdj {
+				width: 19px;
+				height: 19px;
+				float: left;
+				margin-right: 5px;
+				background: url("../img/personal_center_10@2x.png") no-repeat;
+				background-size: 100% 100%
+			}
+			
+			.img_kf {
+				width: 19px;
+				height: 19px;
+				float: left;
+				margin-right: 5px;
+				background: url("../img/personal_center_08@2x.png") no-repeat;
+				background-size: 100% 100%
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content">
+			<div class="top_gr">
+				<img class="top_gr_tx_img" src="../img/default_avatar@2x.png" width="75" height="75" />
+				<div class="top_gr_name"></div>
+				<div class="top_gr_name_type"></div>
+				<div class="top_gr_name_zz"></div>
+			</div>
+			<ul id="list" class="mui-table-view mui-table-view-chevron">
+				<li class="mui-table-view-cell">
+					<a class="" href="">
+						<div class="img_msg"></div>
+						<span>所属部门：</span><span class="text_gr_1"></span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell" id="bumen">
+					<a class="" href="" style="padding-right: 10px;">
+						<div class="img_sszz"></div>
+						<span>所属组织：</span><span class="text_gr_1"></span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="" href="">
+						<div class="img_bj"></div>
+						<span>岗位类别：</span><span class="text_gr_2"></span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="" href="">
+						<div class="img_zwdj"></div>
+						<span>职务等级：</span><span class="text_gr_4"></span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="" href="">
+						<div class="img_jxdj"></div>
+						<span>警衔等级：</span><span class="text_gr_6"></span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="" href="">
+						<div class="img_sc"></div>
+						<span>政治面貌：</span><span class="text_gr_3"></span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="" href="">
+						<div class="img_rdsj"></div>
+						<span id="time_rtd">入党时间：</span><span class="text_gr_5"></span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell" id="gr/xtsz.html">
+					<a class="mui-navigate-right" href="">
+						<div class="img_xt"></div>
+						<span>系统设置</span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right" href="">
+						<div class="img_kf"></div>
+						<span>我的客服</span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell" id="gr/about.html">
+					<a class="mui-navigate-right" href="">
+						<div class="img_gy"></div>
+						<span>关于应用</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript" src="../js/ip_config.js" ></script>
+		<script>
+			mui.init();
+			var userdata = null;
+
+			var first = null;
+			mui.back = function() {
+				if(!first) {
+					first = new Date().getTime();
+					mui.toast('再按一次退出应用');
+					setTimeout(function() {
+						first = null;
+					}, 1000);
+				} else {
+					if(new Date().getTime() - first < 1000) {
+						plus.runtime.quit();
+					}
+				}
+			};
+			
+			/*var IMAGE_UNSPECIFIED = "image/*";
+			var PHOTOZOOM = 2;
+			var PHOTOLAT = 1;
+			var main;
+			var Intent;
+			var MediaStore;
+			var File;
+			var Uri;
+
+			function getgallerimg() {
+				plus.nativeUI.showWaiting("打开相册");
+				main = plus.android.runtimeMainActivity();
+				Intent = plus.android.importClass("android.content.Intent");
+				MediaStore = plus.android.importClass("android.provider.MediaStore");
+				File = plus.android.importClass("java.io.File");
+				Uri = plus.android.importClass("android.net.Uri");
+				var outPutPath = plus.io.convertLocalFileSystemURL("_doc/a.png");
+				var intent = new Intent(Intent.ACTION_PICK, null);
+				intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, IMAGE_UNSPECIFIED);
+				main.startActivityForResult(intent, PHOTOZOOM);
+				plus.nativeUI.closeWaiting();
+				main.onActivityResult = function(requestCode, resultCode, data) {
+					if(PHOTOZOOM == requestCode) {
+						var file = new File(outPutPath);
+						var outPutUri = Uri.fromFile(file);
+						if(data == undefined) {
+							mui.toast("您已取消操作");
+							return false;
+						}
+						plus.android.importClass(data);
+						var uri = data.getData();
+						var cropIntent = new Intent("com.android.camera.action.CROP");
+						cropIntent.setDataAndType(uri, IMAGE_UNSPECIFIED);
+						cropIntent.putExtra(MediaStore.EXTRA_OUTPUT, outPutUri);
+						cropIntent.putExtra("crop", "true");
+						cropIntent.putExtra("aspectX", 1);
+						cropIntent.putExtra("aspectY", 1);
+						cropIntent.putExtra("outputX", 300);
+						cropIntent.putExtra("outputY", 300);
+						cropIntent.putExtra("return-data", true);
+						main.startActivityForResult(cropIntent, PHOTOLAT);
+					} else if(requestCode == PHOTOLAT) {
+						var file = new File(outPutPath);
+						var a = file.exists();
+						if(a) {
+							mui('.top_gr_tx_img')[0].setAttribute("src", outPutPath + "?v=" + new Date().getTime());
+							var bitmap = new plus.nativeObj.Bitmap();
+							bitmap.load(outPutPath, function() {
+								var base4 = bitmap.toBase64Data();
+								mui.ajax("http://"+ip_address+"usermessage/changePicture", {
+									data: {
+										base64Data: base4
+									},
+									dataType: 'json',
+									type: 'post',
+									timeout: 0,
+									success: function(r) {
+										plus.storage.setItem('userinfo', JSON.stringify(r.value));
+										bitmap.clear();
+									},
+									error: function(xhr, type, errorThrown) {
+										alert(errorThrown);
+									}
+								});
+							}, function(e) {
+								console.log('加载图片失败：' + JSON.stringify(e));
+							});
+						}
+					}
+				};
+			}
+
+			function getImage() {
+				plus.nativeUI.showWaiting("启动摄像头");
+				main = plus.android.runtimeMainActivity();
+				Intent = plus.android.importClass("android.content.Intent");
+				MediaStore = plus.android.importClass("android.provider.MediaStore");
+				File = plus.android.importClass("java.io.File");
+				Uri = plus.android.importClass("android.net.Uri");
+				var outPutPath = plus.io.convertLocalFileSystemURL("_doc/b.png");
+				var cmr = plus.camera.getCamera();
+				plus.nativeUI.closeWaiting();
+				cmr.captureImage(function(p) {
+					plus.io.resolveLocalFileSystemURL(p, function(entry) {
+						var file = new File(outPutPath);
+						var outPutUri = Uri.fromFile(file);
+						var path = entry.toLocalURL();
+						path = path.replace("\\", "");
+						path = path.replace("file://", "");
+						var _file = new File(path);
+						var a = _file.exists();
+						var curCropUri = Uri.fromFile(new File(path));
+						var cropIntent = new Intent("com.android.camera.action.CROP");
+						cropIntent.setDataAndType(curCropUri, IMAGE_UNSPECIFIED);
+						cropIntent.putExtra(MediaStore.EXTRA_OUTPUT, outPutUri);
+						cropIntent.putExtra("crop", "true");
+						cropIntent.putExtra("aspectX", 1);
+						cropIntent.putExtra("aspectY", 1);
+						cropIntent.putExtra("outputX", 300);
+						cropIntent.putExtra("outputY", 300);
+						cropIntent.putExtra("return-data", true);
+						main.startActivityForResult(cropIntent, 1);
+
+						main.onActivityResult = function(requestCode, resultCode, data) {
+							mui('.top_gr_tx_img')[0].setAttribute("src", outPutPath + "?v=" + new Date().getTime());
+							var bitmap = new plus.nativeObj.Bitmap();
+							bitmap.load(outPutPath, function() {
+								var base4 = bitmap.toBase64Data();
+								mui.ajax('http://'+ip_address+'usermessage/changePicture', {
+									data: {
+										base64Data: base4
+									},
+									dataType: 'json',
+									type: 'post',
+									timeout: 0,
+									success: function(r) {
+										plus.storage.setItem('userinfo', JSON.stringify(r.value));
+										bitmap.clear();
+									},
+									error: function(xhr, type, errorThrown) {
+										alert(errorThrown);
+									}
+								});
+							}, function(e) {
+								//alert('加载图片失败：' + JSON.stringify(e));
+							});
+						};
+					}, function(e) {
+						//alert("读取拍照文件错误：" + e.message);
+					});
+				}, function(e) {
+					//alert("失败：" + e.message);
+				}, {
+					filename: "_doc/camera/",
+					index: 1
+				});
+			}*/
+
+			window.onload = function() {
+				mui.plusReady(function() {
+					var showpage = function() {
+						var id = setInterval(function() {
+							userdata = JSON.parse(plus.storage.getItem('userinfo'));
+							if(userdata) {
+								clearInterval(id);
+								var nnh = "入党时间：";
+								if(userdata.politicalStatus == "团员") {
+									nnh = "入团时间："
+								}
+								mui('#time_rtd')[0].innerText = nnh;
+								if(userdata.headImage) {
+									mui('.top_gr_tx_img')[0].setAttribute('src', "http://"+ip_address+"uploadFiles/headImage/" + userdata.headImage + "?v=" + new Date().getTime());
+								}
+								mui('.top_gr_name')[0].innerText = userdata.userName;
+								mui('.top_gr_name_type')[0].innerText = userdata.politicalStatus;
+								mui('.top_gr_name_zz')[0].innerText = userdata.unitStructure.unitName;
+								mui('.text_gr_1')[0].innerText = userdata.unitStructure.unitName;
+								mui('.text_gr_1')[1].innerText = userdata.partyBranch;
+								mui('.text_gr_2')[0].innerText = userdata.peopleType;
+								mui('.text_gr_3')[0].innerText = userdata.politicalStatus;
+								mui('.text_gr_4')[0].innerText = userdata.partyType;
+								mui('.text_gr_5')[0].innerText = userdata.entryPartTime;
+								mui('.text_gr_6')[0].innerText = userdata.titleType;
+
+								setTimeout(function() {
+									plus.nativeUI.closeWaiting();
+									mui.currentWebview.show("slide-in-right");
+								}, 50);
+							}
+						}, 20);
+					};
+					showpage();
+				});
+			}
+			document.addEventListener('close_gr', function(event) {
+				var ws = plus.webview.currentWebview();
+				setTimeout(function() {
+					plus.webview.close(ws, "none", 100);
+				}, 600);
+			});
+
+			mui(".mui-content").on('tap', '.mui-table-view-cell', function(e) {
+				var id = this.getAttribute('id');
+				if(id == "bumen") {
+					plus.nativeUI.alert(mui('.text_gr_1')[1].innerText, function() {}, "所属组织", "确定");
+				}
+				if(id && id != "bumen") {
+					mui.openWindow({
+						url: id,
+						id: id,
+						styles: {
+							top: "0",
+							bottom: "0",
+						},
+						createNew: false,
+						show: {
+							autoShow: false,
+							event: 'titleUpdate',
+							extras: {}
+						},
+						waiting: {
+							autoShow: true,
+							title: '正在加载..',
+						}
+					});
+				}
+			});
+			mui(".mui-content").on('tap', 'img', function(e) {
+				var bts = [{
+					title: "从相册中选取"
+				}, {
+					title: "拍照上传头像"
+				}];
+				plus.nativeUI.actionSheet({
+					cancel: "取消",
+					buttons: bts
+				}, function(e) {
+					if(e.index == "1") {
+						//getgallerimg();
+						mui.fire(plus.webview.getWebviewById('index'), 'imgpicksele', {
+							data: "1"
+						});
+					} else if(e.index == "2") {
+						//getImage();
+						mui.fire(plus.webview.getWebviewById('index'), 'paizhao', {
+							data: "1"
+						});
+					}
+				});
+			});
+			document.addEventListener("imgreturn_1", function(e) {
+				mui('.top_gr_tx_img')[0].setAttribute("src", e.detail.data + "?v=" + new Date().getTime());
+			});
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<style>
+			header {
+				background: #cc352b !important;
+			}
+			
+			h1 {
+				font-size: 20px !important;
+				color: #ffffff !important;
+			}
+			
+			.area {
+				margin: 20px auto 0px auto;
+			}
+			
+			.mui-input-group:first-child {
+				margin-top: 20px;
+			}
+			
+			.mui-input-group label {
+				width: 30%;
+				text-align: right;
+			}
+			
+			.mui-input-row label~input,
+			.mui-input-row label~select,
+			.mui-input-row label~textarea {
+				width: 70%;
+			}
+			
+			.mui-checkbox input[type=checkbox],
+			.mui-radio input[type=radio] {
+				top: 6px;
+			}
+			
+			.mui-content-padded {
+				margin-top: 25px;
+			}
+			
+			.mui-btn {
+				padding: 10px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav bg-color">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title">修改密码</h1>
+		</header>
+		<div class="mui-content">
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<label>旧密码</label>
+					<input id='oldpassword' type="password" class="mui-input-clear mui-input" placeholder="请输入旧密码">
+				</div>
+				<div class="mui-input-row">
+					<label>新密码</label>
+					<input id='password' type="password" class="mui-input-clear mui-input" placeholder="请输入新密码">
+				</div>
+				<div class="mui-input-row">
+					<label>确认密码</label>
+					<input id='password_confirm' type="password" class="mui-input-clear mui-input" placeholder="请确认新密码">
+				</div>
+			</form>
+			<div class="mui-content-padded">
+				<button id='reg' type="button" class="mui-btn mui-btn-block mui-btn-danger">确定修改</button>
+			</div>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/ip_config.js" ></script>
+		<script>
+			(function($, doc) {
+				$.init();
+				var userdata = null;
+				$.plusReady(function() {
+					userdata = JSON.parse(plus.storage.getItem('userinfo'));
+					userinfo = JSON.parse(plus.storage.getItem('userlogin_info'));
+					var oldpassword = doc.getElementById('oldpassword');
+					var regButton = doc.getElementById('reg');
+					var passwordBox = doc.getElementById('password');
+					var passwordConfirmBox = doc.getElementById('password_confirm');
+					regButton.addEventListener('tap', function(event) {
+						if(userinfo.password != oldpassword.value) {
+							plus.nativeUI.toast('旧密码输入错误');
+							return;
+						}
+						var regInfo = {
+							oldPwd: userinfo.password,
+							newPwd1: passwordBox.value,
+							newPwd2: passwordConfirmBox.value
+						};
+						var passwordConfirm = passwordBox.value;
+						if(passwordConfirm != regInfo.newPwd2) {
+							plus.nativeUI.toast('密码两次输入不一致');
+							return;
+						} /*else if(regInfo.newPwd.length < 5) {
+							plus.nativeUI.toast('密码最短为 5 个字符');
+							return;
+						}*/
+						mui.ajax('http://'+ip_address+'usermessage/changePwd', {
+							data: regInfo,
+							dataType: 'json',
+							type: 'post',
+							timeout: 0,
+							success: function(r) {
+								if(r.code == 200) {
+									plus.nativeUI.toast('密码修改成功');
+									plus.storage.clear();
+									var mainPage = mui.preload({
+										"id": 'login',
+										"url": "/login.html"
+									});
+									var login_flag = false;
+									mainPage.addEventListener("loaded", function() {
+										login_flag = true;
+									});
+									var toMain = function() {
+										var idd = setInterval(function() {
+											if(login_flag) {
+												clearInterval(idd);
+												mainPage.show("pop-in");
+											}
+										}, 20);
+									};
+									toMain();
+									setTimeout(function() {
+										plus.webview.close(plus.webview.getWebviewById('pages/gr.html'), "none", 100);
+										plus.webview.close(plus.webview.getWebviewById('index'), "none", 100);
+									}, 100);
+								}else{
+									plus.nativeUI.toast('修改密码失败');
+									return;
+								}
+							},
+							error: function(xhr, type, errorThrown) {
+
+							}
+						});
+					});
+					plus.nativeUI.closeWaiting();
+					$.currentWebview.show("slide-in-right");
+				});
+			}(mui, document));
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,376 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../../css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			header {
+				background: #cc352b !important;
+				border: none;
+				box-shadow: none !important;
+			}
+			
+			html,
+			body {
+				overflow-x: hidden;
+			}
+			
+			h1 {
+				font-size: 20px !important;
+				color: #ffffff !important;
+			}
+			
+			.receive_content_div {
+				width: 100%;
+				background: #FFFFFF;
+				margin-top: 15px;
+				padding: 10px 10px;
+			}
+			
+			.read_status {
+				color: #BBBBBB;
+				font-size: 14px;
+				float: right;
+				background: #f5f5f5;
+				border-radius: 10px;
+				padding: 0px 10px;
+				text-indent: 0;
+			}
+			
+			.read_status_active {
+				color: #FFFFFF !important;
+				background: #f67070;
+			}
+			
+			.mui-media-body {
+				text-indent: 10px;
+			}
+			
+			.u_name {
+				color: #333;
+				font-size: 18px;
+			}
+			
+			.mui-ellipsis {
+				padding-top: 10px !important;
+			}
+			
+			.rz_type {
+				font-size: 18px;
+				color: #333;
+				padding: 10px 5px;
+			}
+			
+			.rz_title {
+				color: #757575;
+				padding: 2px 5px;
+			}
+			
+			.rz_content {
+				color: #333333;
+				line-height: 25px;
+				font-size: 18px;
+			}
+			
+			.check_rz {
+				line-height: 30px;
+				font-size: 18px;
+				color: #F37F77;
+				text-align: right;
+			}
+			
+			img {
+				border-radius: 52px;
+			}
+			
+			.mui-input-row label {
+				width: 30% !important;
+				padding-right: 0px;
+				font-size: 18px;
+				padding-bottom: 17px;
+				padding-top: 17px;
+			}
+			
+			.mui-input-group .mui-input-row {
+				height: 55px !important;
+			}
+			
+			.input_x {
+				height: 55px !important;
+				width: 70% !important;
+			}
+			
+			.receive_user {
+				
+				height: 40px;
+				overflow: hidden;
+			}
+			
+			.receice_user_name {
+				padding: 2px 3px;
+				min-width: 50px;
+				margin-top: 10px;
+				height: 25px;
+				display: inline-block;
+				border-radius: 5px;
+				color: #CC352B;
+				line-height: 23px;
+				text-align: center;
+			}
+			
+			.content_ts {
+				font-size: 18px;
+				color: #000;
+				padding-top: 10px;
+				text-indent: 15px;
+				position: relative;
+			}
+			
+			.btn_div {
+				padding: 15px 15px;
+			}
+			
+			.icon_link {
+				float: right;
+				margin-right: 10px;
+				width: 20px;
+				height: 20px;
+				background: url(../../../img/uploading_accessory@2x.png) no-repeat;
+				background-size: 100% 100%;
+			}
+			
+			#upload_fj {
+				position: absolute;
+				width: 20px;
+				height: 20px;
+				right: 10px;
+				top: 10px;
+				opacity: 0;
+			}
+			
+			.add_user_icon {
+				width: 20px;
+				height: 20px;
+				background: url(../../../img/add_member_02@2x.png) no-repeat;
+				background-size: 100% 100%;
+				float: right;
+				margin-top: 15px;
+				margin-right: 10px;
+			}
+			
+			.mui-checkbox input[type=checkbox],
+			.mui-radio input[type=radio] {
+				top: 12px !important;
+			}
+			
+			.fj_name {
+				padding: 10px 15px;
+				color: #b12c2c;
+				word-break: break-all;
+			}
+			.rels{
+				margin-bottom: 0px;
+				text-align: center;
+				position: relative;
+				width: 100%;
+				color: #333;
+				bottom: 0px;
+				display: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav bg-color">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title">新建汇报</h1>
+		</header>
+		<div class="mui-content">
+			<form class="mui-input-group input_rz" id="form_rbdata">
+				<div class="mui-input-row" style="height: auto !important">
+					<label>收件人：</label>
+					<div class="receive_user">
+						<span class="add_user_icon"></span>
+					</div>
+					<p class="rels" stu="off">点击展开</p>
+				</div>
+				<div class="mui-input-row">
+					<label>主题：</label>
+					<input type="text" class="input_x" placeholder="输入主题">
+				</div>
+				<div class="mui-input-row pwd_read" style="display: none;">
+					<label>查阅密码：</label>
+					<input type="text" class="input_x" placeholder="查阅密码">
+				</div>
+				<div class="mui-input-row mui-radio mui-left" style="display: none;">
+					<label style="width: 100% !important;">普通信件</label>
+					<input name="radio1" type="radio" checked="" value="普通信件">
+				</div>
+				<div class="mui-input-row mui-radio mui-left" style="display: none;">
+					<label style="width: 100% !important;">私信</label>
+					<input name="radio1" type="radio" value="私信">
+				</div>
+				<div>
+					<p class="content_ts">
+						内容<span class="icon_link"></span>
+						<input type="file" name="upload_fj" id="upload_fj" value="" multiple/>
+					</p>
+					<textarea name="backup" class="backupcontent" rows="3" cols="3" placeholder="输入内容"></textarea>
+				</div>
+				<div class="fj_name"></div>
+			</form>
+			<div class="btn_div">
+				<button type="button" style="width: 100%;padding: 10px 10px;" class="mui-btn mui-btn-danger">提交</button>
+			</div>
+		</div>
+		<script src="../../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../../js/ip_config.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			var useridlist = [];
+			var atta=[];
+			var filename='';
+			var isEncryption = 0;
+			window.onload = function() {
+				mui.plusReady(function() {
+					var showpage = function() {
+						var id = setInterval(function() {
+							userdata = JSON.parse(plus.storage.getItem('userinfo'));
+							if(userdata) {
+								clearInterval(id);
+								setTimeout(function() {
+									plus.nativeUI.closeWaiting();
+									mui.currentWebview.show("slide-in-right");
+								}, 50);
+							}
+						}, 20);
+					};
+					showpage();
+				});
+			}
+			document.querySelector('[name="radio1"][value="私信"]').addEventListener('change', function() {
+				if(document.querySelector('[name="radio1"]:checked').value == "私信") {
+					mui('.pwd_read')[0].style.display = "block";
+					isEncryption = 1;
+				}
+			});
+			document.querySelector('[name="radio1"][value="普通信件"]').addEventListener('change', function() {
+				if(document.querySelector('[name="radio1"]:checked').value == "普通信件") {
+					mui('.pwd_read')[0].style.display = "none";
+					isEncryption = 0;
+				}
+			});
+
+			mui('.mui-content').on('change', '#upload_fj', function(e) {
+				var nm = this.value.split("\\");
+				mui('.fj_name')[0].innerText = filename+nm[nm.length - 1];
+				filename+=nm[nm.length - 1]+'\n';
+				atta.push(mui('#upload_fj')[0].files[0]);
+			});
+
+			mui('.mui-content').on('tap', '.add_user_icon', function(e) {
+				mui.openWindow('../rz/select_user.html', 'select_user.html', {
+					styles: {
+						top: "0",
+						bottom: "0",
+					},
+					createNew: false,
+					show: {
+						autoShow: false,
+						event: 'titleUpdate',
+						extras: {}
+					},
+					waiting: {
+						autoShow: true,
+						title: '正在加载..',
+					}
+				});
+			});
+			document.addEventListener("select_user", function(e) {
+				var usernameobj = e.detail.user;
+				for(var key in usernameobj) {
+					if(useridlist.indexOf(key) == -1) {
+						useridlist.push(key);
+						var span = document.createElement("span");
+						span.setAttribute("id", key);
+						span.className = "receice_user_name";
+						span.innerText = usernameobj[key]+"、";
+						mui('.receive_user')[0].appendChild(span);
+						if(useridlist.length>=3){
+							mui(".rels")[0].style.display="block";
+						}
+					}
+				}
+			});
+			mui('.mui-content').on('tap', '.receice_user_name', function(e) {
+				var userid = this.getAttribute("id");
+				if(userid) {
+					var index = useridlist.indexOf(userid);
+					if(index > -1) {
+						useridlist.splice(index, 1);
+					}
+					this.parentNode.removeChild(this);
+				}
+			});
+
+			mui('.mui-content').on('tap', '.mui-btn', function(e) {
+				if(mui('.input_x')[0].value == "") {
+					alert("请填写主题");
+					return false;
+				}
+				if(isEncryption == 1 && mui('.input_x')[1].value == "") {
+					alert("请填写查阅密码");
+					return false;
+				}
+				if(!useridlist) {
+					alert("请选择发送的领导");
+					return false;
+				}
+				var fd = new FormData();
+				fd.append("theme", mui('.input_x')[0].value);
+				fd.append("isEncryption", isEncryption);
+				fd.append("consultPwd", mui('.input_x')[1].value);
+				fd.append("content", mui('.backupcontent')[0].value);
+				fd.append("addresseeJson", JSON.stringify(useridlist));
+				for(var i=0;i<atta.length;i++){
+					fd.append("attachment", atta[i]);
+				}
+				mui.ajax('http://' + ip_address + 'mailbox/sendMail', {
+					data: fd,
+					dataType: 'json',
+					type: 'post',
+					timeout: 0,
+					contentType: false,
+					processData: false,
+					success: function(r) {
+						if(r.code == 200) {
+							plus.nativeUI.toast('发送成功');
+							mui.back();
+						} else {
+							plus.nativeUI.toast('发送失败，请重新发送');
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						console.log(errorThrown)
+					}
+				});
+			});
+			mui('.mui-content').on('tap', '.rels', function(e) {
+				if(this.getAttribute("stu")=="off"){
+					mui('.receive_user')[0].style.height="auto";
+					this.setAttribute("stu","on");
+					this.innerText="收起";
+				}else if(this.getAttribute("stu")=="on"){
+					mui('.receive_user')[0].style.height="40px";
+					this.setAttribute("stu","off");
+					this.innerText="展开";
+				}
+				
+			});
+		</script>
+	</body>
+
+</html>

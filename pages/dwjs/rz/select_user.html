@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>Bat</title>
+		<link rel="stylesheet" href="../../../css/mui.min.css" />
+		<script src="html5plus://ready"></script>
+		<style>
+			.mui-navigate-right {
+				line-height: 42px;
+			}
+			
+			.number_right {
+				float: right;
+				padding-right: 20px;
+			}
+			
+			#list {
+				margin-top: 0px;
+				margin-bottom: 10px;
+			}
+			
+			.mui-table-view-cell.mui-collapse .mui-collapse-content {
+				overflow: initial;
+			}
+			
+			.dyhmc_los .mui-navigate-right {
+				margin-right: -17px !important;
+			}
+			
+			.mui-table-view-cell.mui-collapse .mui-table-view .mui-table-view-cell:after {
+				left: 60px !important;
+			}
+			
+			.mui-table-view {
+				margin-top: 10px !important;
+			}
+			
+			.mui-navigate-right:after,
+			.mui-push-right:after {
+				right: 15px;
+				content: '';
+			}
+			
+			header {
+				background: #cc352b !important;
+				border: none;
+				box-shadow: none !important;
+			}
+			
+			h1 {
+				font-size: 20px !important;
+				color: #ffffff !important;
+			}
+			
+			.mui-input-group .mui-input-row:after {
+				background-color: #FFFFFF !important;
+			}
+			
+			.userheadimg {
+				width: 30px;
+				position: absolute;
+				left: 53px;
+				border-radius: 30px;
+				top: 5px;
+			}
+			
+			.mui-checkbox.mui-left label,
+			.mui-radio.mui-left label {
+				text-indent: 30px;
+			}
+			
+			.btn_div {
+				padding: 15px 15px;
+				position: fixed;
+				bottom: 10px;
+				width: 100%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav bg-color">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title">选择联系人</h1>
+		</header>
+		<div class="mui-content" id="news_ctn">
+
+		</div>
+		<div style="height: 60px;width: 100%;"></div>
+		<div class="btn_div">
+			<button style="width: 100%;padding: 10px 10px;" class="mui-btn mui-btn-danger">确定</button>
+		</div>
+		<script src="../../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../../js/ip_config.js"></script>
+		<script>
+			mui.init();
+			var adduser = "";
+			var userdata = null;
+			window.onload = function() {
+				mui.plusReady(function() {
+					var showpage = function() {
+						var id = setInterval(function() {
+							userdata = JSON.parse(plus.storage.getItem('userinfo'));
+							clearInterval(id);
+							setTimeout(function() {
+								plus.nativeUI.closeWaiting();
+								mui.currentWebview.show("slide-in-right");
+							}, 50);
+
+						}, 20);
+					};
+					showpage();
+				});
+			}
+			var usernamecol = [];
+			var userheadpng = {};
+			var usernameinfo = {};
+			var inhtml = "";
+			var chkall = [];
+			var chknum = [];
+			var cbknum = [];
+			var arealist = [];
+			var ulist = [];
+			mui.ajax('http://' + ip_address + 'process/findAllAreaPeople', {
+				data: {
+
+				},
+				dataType: 'json',
+				type: 'post',
+				timeout: 0,
+				success: function(r) {
+					if(r.code == 200) {
+						for(var i = 0; i < r.value.length; i++) {
+							var ss = '<ul class="mui-table-view">' +
+								'<li class="mui-table-view-cell mui-collapse user_select_li">' +
+								'<a class="mui-navigate-right" href="#" style="background: #FFFFFF;">' +
+								'<span>' + r.value[i].areaName + '</span>' +
+								'<span class="number_right">' + r.value[i].users.length + '</span>' +
+								'</a>' +
+								'<div class="mui-collapse-content mui-input-group" style="padding: 0px 15px;">' +
+								'<ul class="mui-table-view mui-table-view-chevron" id="userlist_' + i + '" style="margin-top: 0px;">' +
+								'<li class="mui-table-view-cell dyhmc_los">' +
+								'<div class="mui-input-row mui-checkbox mui-left">' +
+								'<img src="../../../img/default_avatar@2x.png" class="userheadimg" />' +
+								'<label>全部</label>' +
+								'<input id="selectall_' + i + '" value="Item 1" type="checkbox" thisnumber="' + r.value[i].users.length + '">' +
+								'</div>' +
+								'</li>' +
+								'</ul>' +
+								'</div>' +
+								'</li>' +
+								'</ul>';
+							var obj = document.getElementById("news_ctn");
+							obj.insertAdjacentHTML("beforeEnd", ss);
+							for(var j = 0; j < r.value[i].users.length; j++) {
+								var usimg = "";
+								if(r.value[i].users[j].userImage) {
+									usimg = "http://" + ip_address + "uploadFiles/headImage/" + r.value[i].users[j].userImage;
+								} else {
+									usimg = "../../../img/default_avatar@2x.png";
+								}
+								var cc = '<li class="mui-table-view-cell dyhmc_los">' +
+									'<div class="mui-input-row mui-checkbox mui-left">' +
+									'<img src="' + usimg + '" class="userheadimg userheadimg_' + i + '" userid="' + r.value[i].users[j].userId + '"/>' +
+									'<label>' + r.value[i].users[j].userName + '</label>' +
+									'<input name="subcheck_' + i + '" value="Item 1" type="checkbox" data-a="' + r.value[i].users[j].userName + '" userid="' + r.value[i].users[j].userId + '">' +
+									'</div>' +
+									'</li>';
+								var usedom = document.getElementById("userlist_" + i);
+								usedom.insertAdjacentHTML("beforeEnd", cc);
+							}
+						}
+						for(var k = 0; k < r.value.length; k++) {
+							usernamecol[k] = "";
+							chkall[k] = document.getElementById("selectall_" + k);
+							chkall[k].addEventListener("change", function() {
+								var z = this.getAttribute("id").replace("selectall_", "");
+								usernamecol[z] = "";
+								if(this.checked) {
+									mui("input[name='subcheck_" + z + "']").each(function() {
+										this.checked = true;
+										usernameinfo[this.getAttribute("userid")] = this.getAttribute("data-a");
+										usernamecol[z] += this.getAttribute("data-a") + ",";
+									});
+									mui(".userheadimg_" + z).each(function() {
+										userheadpng["id_" + this.getAttribute("userid")] = this.getAttribute("src");
+									});
+									chknum[z] = this.getAttribute("thisnumber");
+								} else {
+									mui("input[name='subcheck_" + z + "']").each(function() {
+										this.checked = false;
+										delete usernameinfo[this.getAttribute("userid")];
+									});
+									mui(".userheadimg_" + z).each(function() {
+										delete userheadpng["id_" + this.getAttribute("userid")];
+									});
+									usernamecol[z] = "";
+									chknum[z] = 0;
+								}
+							}, false);
+
+							cbknum[k] = mui("input[name='subcheck_" + k + "']").length;
+							chknum[k] = 0;
+
+							mui(".mui-input-group").on("change", "input[name='subcheck_" + k + "']", function(e) {
+								var z = this.getAttribute("name").replace("subcheck_", "");
+								if(this.checked) {
+									chknum[z]++;
+									usernamecol[z] += this.getAttribute('data-a') + ",";
+									userheadpng["id_" + this.parentNode.childNodes[0].getAttribute("userid")] = this.parentNode.childNodes[0].getAttribute("src");
+									usernameinfo[this.getAttribute("userid")] = this.getAttribute("data-a");
+								} else {
+									chknum[z]--;
+									usernamecol[z] = usernamecol[z].replace(this.getAttribute('data-a') + ",", "");
+									delete userheadpng["id_" + this.parentNode.childNodes[0].getAttribute("userid")];
+									delete usernameinfo[this.getAttribute("userid")];
+								}
+								if(cbknum[z] == chknum[z]) {
+									chkall[z].checked = true;
+								} else {
+									chkall[z].checked = false;
+								}
+							});
+						}
+					}
+				},
+				error: function(xhr, type, errorThrown) {
+
+				}
+			});
+
+			mui('.btn_div').on('tap', '.mui-btn', function(e) {
+				//回传选中的用户
+				if(plus.webview.getWebviewById("rz/xrb.html")) {
+					mui.fire(plus.webview.getWebviewById("rz/xrb.html"), 'select_user', {
+						user: userheadpng,
+						uname: usernameinfo
+					});
+				} else if(plus.webview.getWebviewById("rz/xzb.html")) {
+					mui.fire(plus.webview.getWebviewById("rz/xzb.html"), 'select_user', {
+						user: userheadpng,
+						uname: usernameinfo
+					});
+				} else if(plus.webview.getWebviewById("rz/xyb.html")) {
+					mui.fire(plus.webview.getWebviewById("rz/xyb.html"), 'select_user', {
+						user: userheadpng,
+						uname: usernameinfo
+					});
+				} else if(plus.webview.getWebviewById("dwjs/miss/release.html")) {
+					mui.fire(plus.webview.getWebviewById("dwjs/miss/release.html"), 'select_user', {
+						user: userheadpng,
+						uname: usernameinfo,
+						addu: adduser
+					});
+				} else if(plus.webview.getWebviewById("eidt_report.html")) {
+					mui.fire(plus.webview.getWebviewById("eidt_report.html"), 'select_user', {
+						user: userheadpng,
+						uname: usernameinfo,
+						addu: adduser
+					});
+				} else if(plus.webview.getWebviewById("email/email_edit.html")) {
+					mui.fire(plus.webview.getWebviewById("email/email_edit.html"), 'select_user', {
+						user: usernameinfo
+					});
+				}
+				mui.back();
+			});
+			document.addEventListener("type_user", function(e) {
+				adduser = e.detail.id;
+			});
+		</script>
+	</body>
+
+</html>

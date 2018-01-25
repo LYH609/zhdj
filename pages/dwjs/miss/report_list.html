@@ -1,0 +1,205 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../../css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			header {
+				background: #cc352b !important;
+				border: none;
+				box-shadow: none !important;
+			}
+			
+			h1 {
+				font-size: 20px !important;
+				color: #ffffff !important;
+			}
+			
+			.receive_content_div {
+				width: 100%;
+				background: #FFFFFF;
+				margin-top: 15px;
+				padding: 10px 10px;
+			}
+			
+			.read_status {
+				color: #BBBBBB;
+				font-size: 14px;
+				float: right;
+				background: #f5f5f5;
+				border-radius: 10px;
+				padding: 0px 10px;
+				text-indent: 0;
+			}
+			
+			.read_status_active {
+				color: #FFFFFF !important;
+				background: #f67070;
+			}
+			
+			.mui-media-body {
+				text-indent: 10px;
+			}
+			
+			.u_name {
+				color: #333;
+				font-size: 18px;
+			}
+			
+			.mui-ellipsis {
+				padding-top: 10px !important;
+			}
+			
+			.rz_type {
+				font-size: 18px;
+				color: #333;
+				padding: 10px 5px;
+			}
+			
+			.rz_title {
+				color: #757575;
+				padding: 2px 5px;
+			}
+			
+			.rz_content {
+				color: #333333;
+				line-height: 25px;
+				padding: 0px 10px;
+				font-size: 18px;
+			}
+			
+			.check_rz {
+				line-height: 30px;
+				font-size: 18px;
+				color: #F37F77;
+				text-align: right;
+			}
+			
+			.rz_ctn_none {
+				display: none;
+			}
+			
+			img {
+				border-radius: 52px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav bg-color">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title">记录详情</h1>
+		</header>
+		<div class="mui-content">
+
+		</div>
+		<script src="../../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../../js/ip_config.js" ></script>
+		<script type="text/javascript">
+			mui.init();
+			var userdata = null;
+			var hyid=null;
+			window.onload = function() {
+				mui.plusReady(function() {
+					var showpage = function() {
+						var id = setInterval(function() {
+							userdata = JSON.parse(plus.storage.getItem('userinfo'));
+							if(userdata) {
+								clearInterval(id);
+								mui.ajax('http://'+ip_address+'meeting/findMeetingPretsByMeetingId', {
+									data: {
+										meetingId:hyid
+									},
+									dataType: 'json',
+									type: 'get',
+									timeout: 0,
+									success: function(r) {
+										if(r.code == 200) {
+											var c = "";
+											var headimg = "";
+											if(r.value.length==0){
+												mui.toast("该活动暂无报告");
+												return false;
+											}
+											for(var i = 0; i < r.value.length; i++) {
+												if(r.value[i].createUserImage) {
+													headimg = "http://"+ip_address+"uploadFiles/headImage/" + r.value[i].createUserImage
+												} else {
+													headimg = "../../../img/default_avatar@2x.png";
+												}
+												c += '<div class="receive_content_div">'+
+															'<a href="javascript:;">'+
+																'<img class="mui-media-object mui-pull-left" width="52" src="'+headimg+'">'+
+																'<div class="mui-media-body">'+
+																	'<span class="u_name">'+r.value[i].createUserName+'</span><span class=""></span>'+
+																	'<p class="mui-ellipsis">'+r.value[i].createTime+'</p>'+
+																'</div>'+
+															'</a>'+
+															'<div class="rz_type">主题:'+r.value[i].theme+'</div>'+
+															'<div class="rz_title">内容:</div>'+
+															'<div class="rz_content">'+r.value[i].content+'</div>'+
+															'<div class="check_rz" rzid="'+r.value[i].systemno+'">查看全文></div>'+
+														'</div>';
+											}
+											mui('.mui-content')[0].innerHTML = c;
+											for(var i = 0; i < mui('.rz_content').length; i++) {
+												if(mui('.rz_content')[i].innerText.length > 50) {
+													var ctn = mui('.rz_content')[i].innerText.slice(0, 50);
+													mui('.rz_content')[i].innerText = ctn + "...";
+												};
+											}
+										}
+									},
+									error: function(xhr, type, errorThrown) {
+
+									}
+								});
+								setTimeout(function() {
+									plus.nativeUI.closeWaiting();
+									mui.currentWebview.show("slide-in-right");
+								}, 50);
+							}
+						}, 20);
+					};
+					showpage();
+				});
+			}
+			
+			document.addEventListener("meetid",function(e){
+				hyid=e.detail.id;
+			});
+			
+			mui('.mui-content').on('tap', '.check_rz', function(e) {
+				var rid = this.getAttribute("rzid");
+				var firedata = {
+					rzid: rid
+				};
+				var detailpage = mui.openWindow({
+					url: "report_detail.html",
+					id: "reoprt_detail",
+					styles: {
+						top: "0px",
+						bottom: "0px",
+					},
+					createNew: false,
+					show: {
+						autoShow: false,
+						event: 'titleUpdate',
+						extras: {}
+					},
+					waiting: {
+						autoShow: true,
+						title: '正在加载...',
+					}
+				});
+				detailpage.addEventListener("loaded", function() {
+					mui.fire(detailpage, 'rz_data', firedata);
+				});
+			});
+		</script>
+	</body>
+
+</html>

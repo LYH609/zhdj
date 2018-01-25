@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" href="../css/mui.min.css" />
+		<script src="html5plus://ready"></script>
+		<style>
+			.tz_dwsp {
+				width: 30px;
+				height: 30px;
+				border: 1px solid #E8E8E8;
+				border-radius: 5px;
+				font-size: 20px !important;
+				line-height: 30px;
+				background-size: 100% 100%;
+				margin-bottom: 6px;
+			}
+			
+			.dj_cqts {
+				width: 30px;
+				height: 30px;
+				margin-bottom: 6px;
+				border: 1px solid #E8E8E8;
+				border-radius: 5px;
+				font-size: 20px !important;
+				line-height: 30px;
+				background-size: 100% 100%;
+			}
+			
+			ul {
+				background: #FFFFFF !important;
+				margin-top: 0 !important;
+				margin-bottom: 10px !important;
+			}
+			
+			.dj_qj {
+				width: 30px;
+				height: 30px;
+				margin-bottom: 6px;
+				border: 1px solid #E8E8E8;
+				border-radius: 5px;
+				font-size: 20px !important;
+				line-height: 30px;
+				background-size: 100% 100%;
+			}
+			
+			img {
+				border-radius: 100px;
+			}
+			
+			.mui-search {
+				padding-top: 10px;
+				background: #FFFFFF;
+			}
+			
+			.mui-search .mui-placeholder {
+				padding-top: 10px;
+			}
+			
+			.mui-search:before {
+				margin-top: -14px !important;
+			}
+			
+			.time_new {
+				color: #BBBBBB;
+				font-size: 14px;
+				float: right;
+			}
+			
+			.mui-table-view-cell>.mui-badge,
+			.mui-table-view-cell>.mui-btn,
+			.mui-table-view-cell>.mui-switch,
+			.mui-table-view-cell>a>.mui-badge,
+			.mui-table-view-cell>a>.mui-btn,
+			.mui-table-view-cell>a>.mui-switch {
+				top: 65% !important;
+			}
+			.mui-grid-view.mui-grid-9 .mui-table-view-cell{
+				border-bottom: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content" id="news_ctn">
+			<div id="slider" class="mui-slider">
+				<div class="mui-slider-group mui-slider-loop">
+					<div class="mui-slider-item mui-slider-item-duplicate">
+						<a href="#">
+							<img src="../img/banner01.png" style="border-radius: 0px;">
+						</a>
+					</div>
+					<!-- 第一张 -->
+					<div class="mui-slider-item">
+						<a href="#">
+							<img src="../img/banner01.png" style="border-radius: 0px;">
+						</a>
+					</div>
+					<!-- 第二张 -->
+					<div class="mui-slider-item">
+						<a href="#">
+							<img src="../img/banner02.png" style="border-radius: 0px;">
+						</a>
+					</div>
+					<!-- 第三张 -->
+					<div class="mui-slider-item">
+						<a href="#">
+							<img src="../img/banner03.png" style="border-radius: 0px;">
+						</a>
+					</div>
+					<div class="mui-slider-item mui-slider-item-duplicate">
+						<a href="#">
+							<img src="../img/banner01.png" style="border-radius: 0px;">
+						</a>
+					</div>
+				</div>
+				<div class="mui-slider-indicator">
+					<div class="mui-indicator mui-active"></div>
+					<div class="mui-indicator"></div>
+					<div class="mui-indicator"></div>
+				</div>
+			</div>
+			<!--<div class="mui-input-row mui-search">
+				<input id="search_user" type="search" class="mui-input-clear" placeholder="搜索">
+			</div>-->
+			<ul class="mui-table-view mui-grid-view mui-grid-9 ul_b">
+				<li class="mui-table-view-cell cell_top mui-media mui-col-xs-4 mui-col-sm-4" id="dwjs/pullrefresh_main.html">
+					<a href="#">
+						<span class="mui-icon tz_dwsp">0</span>
+						<div class="mui-media-body">待我审批</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell cell_top mui-media mui-col-xs-4 mui-col-sm-4" id="">
+					<a href="#">
+						<span class="mui-icon dj_cqts">0</span>
+						<div class="mui-media-body">今日事项</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell cell_top mui-media mui-col-xs-4 mui-col-sm-4" id="">
+					<a href="#">
+						<span class="mui-icon dj_qj">0</span>
+						<div class="mui-media-body">本周计划</div>
+					</a>
+				</li>
+			</ul>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell cell_this mui-media" id="notice/notice_hy.html">
+					<a href="javascript:;">
+						<img class="mui-media-object mui-pull-left" src="../img/information_-conference@3x.png">
+						<div class="mui-media-body">
+							活动<span class="time_new">11:30</span>
+							<p class='mui-ellipsis'>暂无活动信息</p>
+						</div>
+						<span class="mui-badge mui-badge-danger" style="display: none;">0</span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell cell_this mui-media" id="notice/notice_sp.html">
+					<a href="javascript:;">
+						<img class="mui-media-object mui-pull-left" src="../img/information_approve@3x.png">
+						<div class="mui-media-body">
+							审批<span class="time_new">10:30</span>
+							<p class='mui-ellipsis'>暂无审批信息</p>
+						</div>
+						<span class="mui-badge mui-badge-danger" style="display: none;">0</span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell cell_this mui-media" id="notice/notice_tz.html">
+					<a href="javascript:;">
+						<img class="mui-media-object mui-pull-left" src="../img/information_-inform@3x.png">
+						<div class="mui-media-body">
+							通知<span class="time_new">09:30</span>
+							<p class='mui-ellipsis'>暂无通知</p>
+						</div>
+						<span class="mui-badge mui-badge-danger" style="display: none;">0</span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell cell_this mui-media" id="notice/notice_sx.html" style="display: none;">
+					<a href="javascript:;">
+						<img class="mui-media-object mui-pull-left" src="../img/information_-message@3x.png">
+						<div class="mui-media-body">
+							私信<span class="time_new">11:32</span>
+							<p class='mui-ellipsis'>暂无私信</p>
+						</div>
+						<span class="mui-badge mui-badge-danger" style="display: none;">0</span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell cell_this mui-media" id="notice/notice_xx.html">
+					<a href="javascript:;">
+						<img class="mui-media-object mui-pull-left" src="../img/information_letter@2x.png">
+						<div class="mui-media-body">
+							汇报<span class="time_new">11:32</span>
+							<p class='mui-ellipsis'>暂无汇报</p>
+						</div>
+						<span class="mui-badge mui-badge-danger" style="display: none;">0</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript" src="../js/ip_config.js"></script>
+		<script>
+			mui.init();
+
+			var userdata = null;
+
+			var gallery = mui('.mui-slider');
+			gallery.slider({
+				interval: 3000
+			});
+
+			var first = null;
+			mui.back = function() {
+				if(!first) {
+					first = new Date().getTime();
+					mui.toast('再按一次退出应用');
+					setTimeout(function() {
+						first = null;
+					}, 1000);
+				} else {
+					if(new Date().getTime() - first < 1000) {
+						plus.runtime.quit();
+					}
+				}
+			};
+
+			mui.ajax('http://' + ip_address + 'carousel/listImg', {
+				data: {
+
+				},
+				dataType: 'json',
+				type: 'post',
+				timeout: 0,
+				success: function(r) {
+					if(r.value.length>0) {
+						var gallpoint='<div class="mui-indicator mui-active"></div>';
+						var galldom = '<div class="mui-slider-item mui-slider-item-duplicate">' +
+							'<a href="#">' +
+							'<img src="http://' + ip_address + r.value[r.value.length-1].filePath + '" style="border-radius: 0px;">' +
+							'</a>' +
+							'</div>';
+						for(var i = 0; i < r.value.length; i++) {
+							galldom += '<div class="mui-slider-item">' +
+								'<a href="#">' +
+								'<img src="http://' + ip_address + r.value[i].filePath + '" style="border-radius: 0px;">' +
+								'</a>' +
+								'</div>';
+						}
+						for(var i = 0; i < (r.value.length-1); i++) {
+							gallpoint+='<div class="mui-indicator"></div>';
+						}
+						galldom += '<div class="mui-slider-item mui-slider-item-duplicate">' +
+							'<a href="#">' +
+							'<img src="http://' + ip_address + r.value[0].filePath + '" style="border-radius: 0px;">' +
+							'</a>' +
+							'</div>';
+						mui('.mui-slider-group')[0].innerHTML = galldom;
+						mui('.mui-slider-indicator')[0].innerHTML=gallpoint;
+						var gallery = mui('.mui-slider');
+						gallery.slider({
+							interval: 3000
+						});
+					}
+				},
+				error: function(xhr, type, errorThrown) {
+
+				}
+			});
+
+			mui.ajax('http://' + ip_address + 'process/countNtbdw', {
+				data: {
+
+				},
+				dataType: 'json',
+				type: 'post',
+				timeout: 0,
+				success: function(r) {
+					if(r.code == 500) {
+						mui.toast(r.msg);
+						return false;
+					}
+					mui('.tz_dwsp')[0].innerText = r.value;
+				},
+				error: function(xhr, type, errorThrown) {
+
+				}
+			});
+			document.addEventListener("sp_tg", function(e) {
+				mui.ajax('http://' + ip_address + 'process/countNtbdw', {
+					data: {
+
+					},
+					dataType: 'json',
+					type: 'post',
+					timeout: 0,
+					success: function(r) {
+						if(r.code == 500) {
+							mui.toast(r.msg);
+							return false;
+						}
+						mui('.tz_dwsp')[0].innerText = r.value;
+					},
+					error: function(xhr, type, errorThrown) {
+
+					}
+				});
+			});
+
+			mui(".mui-content").on('tap', '.cell_top', function(e) {
+				var id = this.getAttribute('id');
+				if(id) {
+					mui.openWindow({
+						url: id,
+						id: id,
+						styles: {
+							top: "0",
+							bottom: "0",
+						},
+						createNew: false,
+						show: {
+							autoShow: false,
+							event: 'titleUpdate',
+							extras: {}
+						},
+						waiting: {
+							autoShow: true,
+							title: '正在加载..',
+						}
+					});
+				}
+			});
+
+			mui(".mui-content").on('tap', '.cell_this', function(e) {
+				var id = this.getAttribute('id');
+				if(id == "notice/notice_hy.html") {
+					this.childNodes[1].childNodes[3].childNodes[3].innerText = "暂无活动信息";
+				} else if(id == "notice/notice_sp.html") {
+					this.childNodes[1].childNodes[3].childNodes[3].innerText = "暂无审批信息";
+				} else if(id == "notice/notice_tz.html") {
+					this.childNodes[1].childNodes[3].childNodes[3].innerText = "暂无通知";
+				} else if(id == "notice/notice_sx.html") {
+					this.childNodes[1].childNodes[3].childNodes[3].innerText = "暂无私信";
+				} else if(id == "notice/notice_xx.html") {
+					this.childNodes[1].childNodes[3].childNodes[3].innerText = "暂无汇报";
+				}
+				this.childNodes[1].childNodes[5].style.display = "none";
+				var deleno = this.childNodes[1].childNodes[5].innerText;
+				mui.fire(plus.webview.getWebviewById("index"), 'deletemsg', {
+					id: deleno
+				});
+				if(id) {
+					mui.openWindow({
+						url: id,
+						id: id,
+						styles: {
+							top: "0",
+							bottom: "0",
+						},
+						createNew: false,
+						show: {
+							autoShow: false,
+							event: 'titleUpdate',
+							extras: {}
+						},
+						waiting: {
+							autoShow: true,
+							title: '正在加载..',
+						}
+					});
+				}
+			});
+
+			document.addEventListener('close_news', function(event) {
+				var ws = plus.webview.currentWebview();
+				setTimeout(function() {
+					plus.webview.close(ws, "none", 100);
+				}, 600);
+			});
+
+			document.addEventListener("new_message", function(e) {
+				if(e.detail.data) {
+					if(e.detail.data.hy > 0) {
+						mui('.mui-ellipsis')[0].innerText = "收到活动信息，请查看";
+						mui('.mui-badge')[0].style.display = "inline-block";
+						mui('.mui-badge')[0].innerText = Number(mui('.mui-badge')[0].innerText) + Number(e.detail.data.hy);
+					} else {
+						mui('.mui-badge')[0].style.display = "none";
+						mui('.mui-ellipsis')[0].innerText = "暂无活动信息";
+						mui('.mui-badge')[0].innerText = "0";
+					}
+					if(e.detail.data.sp > 0) {
+						mui('.mui-ellipsis')[1].innerText = "收到审批信息";
+						mui('.mui-badge')[1].style.display = "inline-block";
+						mui('.mui-badge')[1].innerText = Number(mui('.mui-badge')[1].innerText) + Number(e.detail.data.sp);
+					} else {
+						mui('.mui-badge')[1].style.display = "none";
+						mui('.mui-ellipsis')[1].innerText = "暂无审批信息";
+						mui('.mui-badge')[1].innerText = "0";
+					}
+					if(e.detail.data.tz > 0) {
+						mui('.mui-ellipsis')[2].innerText = "收到通知，请查看";
+						mui('.mui-badge')[2].style.display = "inline-block";
+						mui('.mui-badge')[2].innerText = Number(mui('.mui-badge')[2].innerText) + Number(e.detail.data.tz);
+					} else {
+						mui('.mui-badge')[2].style.display = "none";
+						mui('.mui-ellipsis')[2].innerText = "暂无通知信息";
+						mui('.mui-badge')[2].innerText = "0";
+					}
+					if(e.detail.data.sx > 0) {
+						mui('.mui-ellipsis')[3].innerText = "收到私信，请查看";
+						mui('.mui-badge')[3].style.display = "inline-block";
+						mui('.mui-badge')[3].innerText = Number(mui('.mui-badge')[3].innerText) + Number(e.detail.data.sx);
+					} else {
+						mui('.mui-badge')[3].style.display = "none";
+						mui('.mui-ellipsis')[3].innerText = "暂无私信";
+						mui('.mui-badge')[3].innerText = "0";
+					}
+					if(e.detail.data.xx > 0) {
+						mui('.mui-ellipsis')[4].innerText = "收到汇报，请查看";
+						mui('.mui-badge')[4].style.display = "inline-block";
+						mui('.mui-badge')[4].innerText = Number(mui('.mui-badge')[4].innerText) + Number(e.detail.data.xx);
+					} else {
+						mui('.mui-badge')[4].style.display = "none";
+						mui('.mui-ellipsis')[4].innerText = "暂无汇报";
+						mui('.mui-badge')[4].innerText = "0";
+					}
+				}
+				mui.ajax('http://' + ip_address + 'process/countNtbdw', {
+					data: {
+
+					},
+					dataType: 'json',
+					type: 'post',
+					timeout: 0,
+					success: function(r) {
+						if(r.code == 500) {
+							mui.toast(r.msg);
+							return false;
+						}
+						mui('.tz_dwsp')[0].innerText = r.value;
+					},
+					error: function(xhr, type, errorThrown) {
+
+					}
+				});
+			});
+
+			window.onload = function() {
+				mui.plusReady(function() {
+					var showpage = function() {
+						var id = setInterval(function() {
+							userdata = JSON.parse(plus.storage.getItem('userinfo'));
+							clearInterval(id);
+							setTimeout(function() {
+								plus.nativeUI.closeWaiting();
+								mui.currentWebview.show("slide-in-right");
+							}, 50);
+
+						}, 20);
+					};
+					showpage();
+				});
+			}
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../../css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			header {
+				background: #cc352b !important;
+				border: none;
+				box-shadow: none !important;
+			}
+			
+			h1 {
+				font-size: 20px !important;
+				color: #ffffff !important;
+			}
+			
+			html,
+			body {
+				background: #FFFFFF;
+			}
+			
+			.test_goal {
+				float: right;
+				color: #CC352B;
+			}
+			.test_stu{
+				color: #007AFF;
+				font-size: 16px;
+				float: right;
+			}
+			li{
+				padding: 15px !important;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav bg-color">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title">练习中心</h1>
+		</header>
+		<div class="mui-content">
+			<ul class="mui-table-view" id="kj_list_ctn">
+
+			</ul>
+		</div>
+		<script type="text/javascript" src="../../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../../js/ip_config.js"></script>
+		<script>
+			var testresult = {};
+			var userdata = null;
+			window.onload = function() {
+				mui.plusReady(function() {
+					var showpage = function() {
+						var id = setInterval(function() {
+							userdata = JSON.parse(plus.storage.getItem('userinfo'));
+							if(userdata) {
+								clearInterval(id);
+								mui.ajax('http://' + ip_address + 'testpaper/listTestPaper4Test', {
+									data: {
+										userId: userdata.userId
+									},
+									dataType: 'json',
+									type: 'post',
+									timeout: 0,
+									success: function(r) {
+										console.log(JSON.stringify(r));
+										if(r.code != 200) {
+											mui.toast(r.msg);
+											return;
+										}
+										var listctn = document.getElementById("kj_list_ctn");
+										for(var i = 0; i < r.value.length; i++) {
+											var score = "";
+											if(r.value[i].status == "已考") {
+												if(r.value[i].testScore.score == "-1") {
+													score = "-";
+												} else {
+													score = r.value[i].testScore.score;
+												}
+											}
+											testresult[r.value[i].testId] = r.value[i].testScore;
+											var li_list = document.createElement("li");
+											li_list.className = "mui-table-view-cell mui-media";
+											li_list.setAttribute("id", r.value[i].testId);
+											li_list.setAttribute("status", r.value[i].status);
+											li_list.innerHTML = '<a href="javascript:;">' +
+												'<div class="mui-media-body">' +
+												'<p class="mui-ellipsis">' +(i+1)+"、"+r.value[i].testName +'<span class="test_stu"></span></p>' +
+												'<p class="mui-ellipsis"><span style="float:right;color:#CC352B;"></span></p>' +
+												'</div>' +
+												'</a>';
+											listctn.appendChild(li_list);
+										}
+									},
+									error: function(xhr, type, errorThrown) {
+
+									}
+								});
+								setTimeout(function() {
+									plus.nativeUI.closeWaiting();
+									mui.currentWebview.show("slide-in-right");
+								}, 50);
+							}
+						}, 20);
+					};
+					showpage();
+				});
+			}
+			mui('.mui-content').on('tap', '.mui-table-view-cell', function(e) {
+				mui.openWindow('lx_online.html', 'lx_online', {
+					styles: {
+						top: "0px",
+						bottom: "0px",
+					},
+					createNew: false,
+					show: {
+						autoShow: false,
+						event: 'titleUpdate',
+						extras: {}
+					},
+					waiting: {
+						autoShow: true,
+						title: '正在加载...',
+					}
+				});
+				mui.fire(plus.webview.getWebviewById('lx_online'), 'testid', {
+					id: this.getAttribute('id'),
+					result: testresult,
+					status:"待考",
+					userid:userdata.userId
+				});
+			
+			});
+			
+		</script>
+	</body>
+
+</html>

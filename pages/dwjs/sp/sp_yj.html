@@ -1,0 +1,243 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../../css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			header {
+				background: #cc352b !important;
+				border: none;
+				box-shadow: none !important;
+			}
+			
+			h1 {
+				font-size: 20px !important;
+				color: #ffffff !important;
+			}
+			
+			.mui-input-row label {
+				width: 35% !important;
+				padding-right: 0px;
+				font-size: 18px;
+				padding-bottom: 17px;
+				padding-top: 17px;
+			}
+			
+			.mui-input-row label~input,
+			.mui-input-row label~select,
+			.mui-input-row label~textarea {
+				width: 65% !important;
+				font-size: 18px;
+			}
+			
+			.input_rz {
+				margin-top: 20px;
+			}
+			
+			.mui-input-group .mui-input-row {
+				height: 55px !important;
+			}
+			
+			.mui-input-group .backup_div {
+				height: 83px !important;
+			}
+			
+			.input_x {
+				height: 50px !important;
+			}
+			
+			.upload_png {
+				padding-top: 11px;
+				right: 0;
+				margin-right: 10px;
+				position: absolute;
+			}
+			
+			.png_name {
+				width: 50%;
+				display: inline-block;
+				height: 55px;
+				overflow: hidden;
+				position: absolute;
+				line-height: 55px;
+			}
+			
+			.send_who span {
+				color: #E0E0E0;
+			}
+			
+			.send_who_div label {
+				width: 100% !important;
+			}
+			
+			.send_who_png img {
+				border-radius: 50px;
+				padding: 5px;
+			}
+			
+			.send_who_div .mui-input-row {
+				height: auto !important;
+			}
+			
+			.send_who_png {
+				padding: 15px;
+			}
+			
+			.div_s {
+				width: 100%;
+				height: 30px;
+				background: #F7F7F7;
+			}
+			
+			.file_up {
+				height: 55px;
+				z-index: 999;
+				position: absolute;
+				opacity: 0;
+			}
+			
+			.png_up {
+				height: 55px;
+				z-index: 999;
+				position: absolute;
+				opacity: 0;
+			}
+			
+			.btn_div {
+				padding: 15px 15px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav bg-color">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title">审批意见</h1>
+		</header>
+		<div class="mui-content">
+			<form class="mui-input-group input_rz" id="form_rbdata">
+				<div class="mui-input-row backup_div">
+					<textarea name="backup" class="backupcontent" rows="3" cols="3" placeholder="审批意见"></textarea>
+				</div>
+				<div class="mui-input-row">
+					<label style="width: 20% !important;">图片</label>
+					<div class="png_name" style="width: 69% !important;">选择图片</div>
+					<input type="file" id="png_up" class="png_up" name="" id="" value="" style="width: 80% !important;" />
+					<img class="upload_png" src="../../../img/uploading_picture@2x.png" width="30" />
+				</div>
+				<div class="mui-input-row">
+					<label style="width: 20% !important;">附件</label>
+					<div class="png_name" style="width: 69% !important;">选择附件</div>
+					<input type="file" id="file_up" class="file_up" name="" id="" value="" style="width: 80% !important;" />
+					<img class="upload_png" src="../../../img/uploading_accessory@2x.png" width="30" />
+				</div>
+				
+			</form>
+			<div class="btn_div">
+				<button type="button" style="width: 100%;padding: 10px 10px;" class="mui-btn mui-btn-danger">提交</button>
+			</div>
+		</div>
+		<script src="../../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../../js/ip_config.js" ></script>
+		<script type="text/javascript">
+			mui.init();
+			var userlist = [];
+			var reqid=null;
+			var reqstatus=null;
+			var userdata=null;
+			var photos=[];
+			var atta=[];
+			window.onload = function() {
+				mui.plusReady(function() {
+					var showpage = function() {
+						var id = setInterval(function() {
+							userdata = JSON.parse(plus.storage.getItem('userinfo'));
+							if(userdata) {
+								clearInterval(id);
+								setTimeout(function() {
+									plus.nativeUI.closeWaiting();
+									mui.currentWebview.show("slide-in-right");
+								}, 50);
+							}
+						}, 20);
+					};
+					showpage();
+				});
+			}
+			mui('.mui-content').on('change', '#file_up', function(e) {
+				var nm = this.value.split("\\");
+				mui('.png_name')[1].innerText = nm[nm.length - 1];
+				atta.push(mui('#file_up')[0].files[0]);
+			});
+			mui('.mui-content').on('change', '#png_up', function(e) {
+				var self = this.value;
+				pic1(self);
+				photos.push(mui('#png_up')[0].files[0]);
+			});
+			mui('.mui-content').on('tap', '.mui-btn', function(e) {
+				var fd = new FormData();
+				
+				fd.append("remark", mui('.backupcontent')[0].value);
+				fd.append("reqId",reqid);
+				fd.append("status",reqstatus);
+				for(var s=0;s<atta.length;s++){
+					fd.append("attachment", atta[s]);
+				}
+				for(var k=0;k<photos.length;k++){
+					fd.append("img", photos[k]);
+				}
+				mui.ajax('http://'+ip_address+'process/doTask',{
+						data:fd,
+						dataType:'json',
+						type:'post',
+						timeout:0,
+						contentType:false,
+                   		processData:false,
+						success:function(r){
+							if(r.code==500){
+								mui.toast("审核出错，请重新审核");
+								return false;
+							}
+							if(reqstatus==1){
+								mui.fire(plus.webview.getWebviewById("sp_tj"),'sp_tg',{id:21});
+								mui.fire(plus.webview.getWebviewById("pullrefresh_sub.html"),'sp_tg',{id:21});
+								mui.back();
+							}else if(reqstatus==0){
+								mui.fire(plus.webview.getWebviewById("sp_tj"),'sp_tg',{id:0});
+								mui.fire(plus.webview.getWebviewById("pullrefresh_sub.html"),'sp_tg',{id:0});
+								mui.back();
+							}
+							mui.fire(plus.webview.getWebviewById("pages/notice.html"),'sp_tg',{id:2});
+						},
+						error:function(xhr,type,errorThrown){
+							
+						}
+					});
+			});
+
+			function pic1(a) {
+				var strs = new Array();
+				var pic1 = a;
+				strs = pic1.split('.');
+				var suffix = strs[strs.length - 1];
+				if(suffix != 'jpg' && suffix != 'gif' && suffix != 'jpeg' && suffix != 'png') {
+					alert("你选择的不是图片,请选择图片！");
+					mui('.png_name')[0].innerText = "选择图片";
+					return false;
+				} else {
+					var nm = a.split("\\");
+					mui('.png_name')[0].innerText = nm[nm.length - 1];
+				}
+			}
+			document.addEventListener("tell_id",function(e){
+				console.log(e.detail.id);
+				reqid=e.detail.id;
+				reqstatus=e.detail.stu;
+			});
+		</script>
+	</body>
+
+</html>

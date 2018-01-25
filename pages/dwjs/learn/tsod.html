@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../../../css/mui.min.css">
+		<style>
+			header {
+				background: #cc352b !important;
+				border: none;
+				box-shadow: none !important;
+			}
+			
+			h1 {
+				font-size: 20px !important;
+				color: #ffffff !important;
+			}
+			
+			.mui-table-view .mui-media-object {
+				line-height: 80px !important;
+				max-width: 150px !important;
+				height: 80px !important;
+			}
+			
+			.js_ellipsis {
+				overflow: hidden;
+				text-overflow: ellipsis;
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-line-clamp: 3;
+				font-size: 17px !important;
+				color: #212121 !important;
+			}
+			
+			.mui-media-body {
+				position: relative;
+			}
+			
+			.mui-table-view-cell>a:not(.mui-btn) {
+				white-space: inherit !important;
+			}
+			
+			ul{
+				width: 96% !important;
+				margin-left: 2%;
+				box-shadow: 0 0 10px #DDDDDD;
+				margin-top: 10px !important;
+			}
+			html,body{
+				background: #F7F7F7 !important;
+			}
+			.mui-content{
+				background: #F7F7F7 !important;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav bg-color">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title">两学一做</h1>
+		</header>
+		<div class="mui-content">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-media" id="http://cpc.people.com.cn/n1/2017/0417/c64094-29214154.html">
+					<a href="javascript:;">
+						<img class="mui-media-object mui-pull-left" src="../../../img/tsoa_1.png">
+						<div class="mui-media-body">
+							<p class='js_ellipsis'>习近平：抓住"关键少数" 抓实基层支部</p>
+						</div>
+						<p class="timethis"><span class="fr">2016-09-26 11:30</span></p>
+					</a>
+				</li>
+			</ul>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-media" id="http://news.sina.com.cn/c/2017-07-28/doc-ifyinwmp0436039.shtml">
+					<a href="javascript:;">
+						<img class="mui-media-object mui-pull-left" src="../../../img/tsoa_2.png">
+						<div class="mui-media-body">
+							<p class='js_ellipsis'>习近平：高举中国特色社会主义伟大旗帜 为决胜全面小康社会实现中国梦而奋斗</p>
+						</div>
+						<p class="timethis"><span class="fr">2017-01-22 13:00</span></p>
+					</a>
+				</li>
+			</ul>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-media" id="http://cpc.people.com.cn/n1/2016/1228/c64094-28981579.html">
+					<a href="javascript:;">
+						<img class="mui-media-object mui-pull-left" src="../../../img/tsoa_3.png">
+						<div class="mui-media-body">
+							<p class='js_ellipsis'>中共中央政治局召开民主生活会 中共中央总书记习近平主持会议并发表重要讲话</p>
+						</div>
+						<p class="timethis"><span class="fr">2016-12-26 15:00</span></p>
+					</a>
+				</li>
+			</ul>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-media" id="http://cpc.people.com.cn/n1/2016/1102/c164113-28828404.html">
+					<a href="javascript:;">
+						<img class="mui-media-object mui-pull-left" src="../../../img/tsoa_4.png">
+						<div class="mui-media-body">
+							<p class='js_ellipsis'>数读十八届六中全会公报</p>
+						</div>
+						<p class="timethis"><span class="fr">2016-12-30 15:00</span></p>
+					</a>
+				</li>
+			</ul>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-media" id="http://www.81.cn/zgjd2016/2016-12/22/content_7417740.htm">
+					<a href="javascript:;">
+						<img class="mui-media-object mui-pull-left" src="../../../img/tsoa_5.png">
+						<div class="mui-media-body">
+							<p class='js_ellipsis'>面向全体党员开放的“两学一做”究竟是什么</p>
+						</div>
+						<p class="timethis"><span class="fr">2017-8-30 15:00</span></p>
+					</a>
+				</li>
+			</ul>
+			<div style="height: 50px;width: 100%;"></div>
+		</div>
+		<script src="../../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../../js/ip_config.js" ></script>
+		<script>
+			mui.init();
+			var gallery = mui('.mui-slider');
+			gallery.slider({
+				interval: 3000
+			});
+			
+			window.onload = function() {
+				mui.plusReady(function() {
+					var showpage = function() {
+						var id = setInterval(function() {
+							userdata = JSON.parse(plus.storage.getItem('userinfo'));
+							if(userdata) {
+								clearInterval(id);
+								setTimeout(function() {
+									plus.nativeUI.closeWaiting();
+									mui.currentWebview.show("slide-in-right");
+								}, 50);
+							}
+						}, 20);
+					};
+					showpage();
+				});
+			}
+			mui('.mui-content').on('tap', '.mui-table-view-cell', function(e) {
+				var xwlink = this.getAttribute('id');
+				var xwtitle = this.childNodes[1].childNodes[3].childNodes[1].innerText;
+				mui.openWindow({
+					url: "xw_ctn.html",
+					id: "xw_ctn",
+					styles: {
+						top: "0px",
+						bottom: "0px",
+					},
+					createNew: false,
+					show: {
+						autoShow: false,
+						event: 'titleUpdate',
+						extras: {}
+					},
+					waiting: {
+						autoShow: true,
+						title: '正在加载...',
+					}
+				});
+				mui.fire(plus.webview.getWebviewById("xw_ctn"), 'xw_data', {
+					xw_link: xwlink,
+					xw_title: xwtitle
+				});
+			});
+		</script>
+	</body>
+
+</html>

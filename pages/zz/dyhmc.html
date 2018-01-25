@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>Bat</title>
+		<link rel="stylesheet" href="../../css/mui.min.css" />
+		<script src="html5plus://ready"></script>
+		<style>
+			header {
+				background: #cc352b !important;
+				border: none;
+				box-shadow: none !important;
+			}
+			
+			h1 {
+				font-size: 20px !important;
+				color: #ffffff !important;
+			}
+			
+			html,
+			body {
+				height: 100%;
+			}
+			
+			.dTreeNode {
+				font-size: 16px;
+				height: 30px;
+				line-height: 30px;
+			}
+			
+			img {
+				border-radius: 50px;
+				width: 42px;
+			}
+			
+			.fr {
+				float: right;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav bg-color">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title"></h1>
+		</header>
+		<div class="mui-content">
+			<div class="mui-input-row mui-search" style="margin-top: 10px;">
+				<input id="search_user" type="search" class="mui-input-clear" placeholder="请输入名字查询">
+			</div>
+			<div id="user_content">
+				<ul class="mui-table-view" id="ulist1">
+
+				</ul>
+			</div>
+		</div>
+
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/ip_config.js" ></script>
+		<script>
+			mui.init();
+			var area_click = "";
+			mui('.mui-content').on('keyup', '#search_user', function(e) {
+				if(e.keyCode == 13) {
+					var iname = document.getElementById('search_user').value;
+					mui.ajax('http://'+ip_address+'usermessage/findUserByName', {
+						data: {
+							"userName": iname,
+							"area": area_click
+						},
+						dataType: 'json',
+						type: 'post',
+						timeout: 0,
+						success: function(r) {
+							if(r.code == 500) {
+								mui.toast(r.msg);
+								return false;
+							}
+							if(r.value.length > 0) {
+								var ulist = "";
+								var img = "";
+								for(var i = 0; i < r.value.length; i++) {
+									if(r.value[i].userImage) {
+										img = "http://"+ip_address+"uploadFiles/headImage/" + r.value[i].userImage;
+									} else {
+										img = "../../img/default_avatar@2x.png";
+									}
+									ulist += '<li class="mui-table-view-cell mui-media" id="userinfo.html" uid="'+r.value[i].userId+'">'+
+												'<a href="javascript:;">'+
+													'<img class="mui-media-object mui-pull-left" src="'+img+'">'+
+													'<div class="mui-media-body">'+
+														'<span>'+r.value[i].userName+'</span><span class="fr">'+r.value[i].politicalStatus+'</span>'+
+														'<p class="mui-ellipsis">'+r.value[i].peopleType+'<span class="fr">'+r.value[i].phoneNumber+'</span></p>'+
+													'</div>'+
+												'</a>'+
+											'</li>';
+								}
+								mui('#ulist1')[0].innerHTML = ulist;
+							}
+						},
+						error: function(xhr, type, errorThrown) {
+
+						}
+					});
+				}
+			});
+			window.onload = function() {
+				mui.plusReady(function() {
+					var showpage = function() {
+						var id = setInterval(function() {
+							userdata = JSON.parse(plus.storage.getItem('userinfo'));
+							if(userdata) {
+								clearInterval(id);
+								setTimeout(function() {
+									plus.nativeUI.closeWaiting();
+									mui.currentWebview.show("slide-in-right");
+								}, 50);
+							}
+						}, 20);
+					};
+					showpage();
+				});
+			}
+			mui(".mui-content").on('tap', '.mui-table-view-cell', function(e) {
+				var id = this.getAttribute('id');
+				var uid = this.getAttribute('uid');
+				if(id) {
+					mui.openWindow({
+						url: id,
+						id: id,
+						styles: {
+							top: "0",
+							bottom: "0",
+						},
+						createNew: false,
+						show: {
+							autoShow: false,
+							event: 'titleUpdate',
+							extras: {}
+						},
+						waiting: {
+							autoShow: true,
+							title: '正在加载..',
+						}
+					});
+					mui.fire(plus.webview.getWebviewById(id), 'giveuid', {
+						data: uid
+					});
+				}
+			});
+			document.addEventListener("zz_data", function(e) {
+				area_click = e.detail.id;
+				mui('.mui-title')[0].innerText = area_click;
+				mui.ajax('http://'+ip_address+'usermessage/findUserByArea', {
+					data: {
+						"area": area_click
+					},
+					dataType: 'json',
+					type: 'post',
+					timeout: 0,
+					success: function(r) {
+						var ulist = "";
+						var img = "";
+						if(r.code == 200) {
+							for(var i = 0; i < r.value.userMessages.length; i++) {
+								if(r.value.userMessages[i].userImage) {
+									img = "http://"+ip_address+"uploadFiles/headImage/" + r.value.userMessages[i].userImage;
+								} else {
+									img = "../../img/default_avatar@2x.png";
+								}
+								ulist += '<li class="mui-table-view-cell mui-media" id="userinfo.html" uid="'+r.value.userMessages[i].userId+'">'+
+											'<a href="javascript:;">'+
+												'<img class="mui-media-object mui-pull-left" src="'+img+'">'+
+												'<div class="mui-media-body">'+
+													'<span>'+r.value.userMessages[i].userName+'</span><span class="fr">'+r.value.userMessages[i].politicalStatus+'</span>'+
+													'<p class="mui-ellipsis">'+r.value.userMessages[i].peopleType+'<span class="fr">'+r.value.userMessages[i].phoneNumber+'</span></p>'+
+												'</div>'+
+											'</a>'+
+										'</li>';
+							}
+						}
+						mui('#ulist1')[0].innerHTML = ulist;
+					},
+					error: function(xhr, type, errorThrown) {
+						console.log(errorThrown);
+					}
+				});
+			});
+		</script>
+	</body>
+
+</html>

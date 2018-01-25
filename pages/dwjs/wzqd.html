@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="../../css/mui.min.css" />
+		<script src="html5plus://ready"></script>
+		<script type="text/javascript" src="../../js/mui.min.js"></script>
+		<style type="text/css">
+			header {
+				background: #cc352b !important;
+				border: none;
+				box-shadow: none !important;
+			}
+			
+			h1 {
+				font-size: 20px !important;
+				color: #ffffff !important;
+			}
+			.mui-content {
+				background: #F7F7F7 !important;
+			}
+			
+			html,
+			body {
+				background: #F7F7F7 !important;
+			}
+			
+			.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body {
+				height: 20px;
+				line-height: 20px;
+			}
+			
+			.mui-grid-view.mui-grid-9 {
+				background: #FFFFFF !important;
+				border-top: none !important;
+				border: none !important;
+			}
+			
+			.mui-grid-view.mui-grid-9 .mui-table-view-cell {
+				padding: 0 !important;
+				border-bottom: 1px solid #eee;
+			}
+			
+			.mui-media-body {
+				font-size: 14px !important;
+			}
+			.isuse{
+				background:#ddd;
+			}
+			.user_info {
+				width: 100%;
+				height: 70px;
+				border-bottom: 1px solid #e4e4e4;
+				padding-left: 30px;
+			}
+			
+			.user_info img {
+				border-radius: 50px;
+				float: left;
+			}
+			.creat_name {
+				color: #212121;
+				line-height: 25px;
+				font-size: 18px;
+				text-indent: 10px;
+				margin-bottom: 0 !important;
+			}
+			.creat_status {
+				color: #f55d53;
+				line-height: 25px;
+				font-size: 15px;
+				margin-bottom: 0 !important;
+				text-indent: 10px;
+			}
+			.click_qd{
+				background: #007AFF;
+				color: #FFFFFF;
+				width: 100px;
+				height: 100px;
+				text-align: center;
+				border-radius: 100px;
+				line-height: 100px;
+				position: relative;
+				left: 50%;
+				margin-left: -50px;
+				top: 50px;
+			}
+			.nowlbs{
+				width: 100%;
+				font-size: 15px;
+				color: #333;
+				text-align: center;
+				position: relative;
+				top: 60px;
+			}
+			.forward_qd{
+				width: 100%;
+				font-size: 15px;
+				color: #333;
+				margin-top: 20px;
+				text-align: center;
+			}
+			.forward_qd span{
+				color:#d0ac2cd9;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav bg-color">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title">打卡签到</h1>
+		</header>
+		<div class="mui-content" style="background: #FFFFFF;">
+			<div style="height: 20px;width: 100%;"></div>
+			<div class="user_info">
+				<img class="headpng_user" src="../../img/default_avatar@2x.png" width="50" />
+				<p class="creat_name"></p>
+				<p class="creat_status"></p>
+				<a>打卡记录</a>
+			</div>
+			<div class="forward_qd">上次打卡:<span class="before_get"></span></div>
+			<div class="click_qd">打卡签到</div>
+			<div class="nowlbs">当前位置:<span class="location_now">正在获取位置...</span></div>
+		</div>
+		<script type="text/javascript" src="../../js/ip_config.js" ></script>
+		<!--<script>
+			function initialize() {
+
+
+					var geolocation = new BMap.Geolocation();
+					var geoc = new BMap.Geocoder() ;
+
+					geolocation.getCurrentPosition(function(r){
+						if(this.getStatus() == BMAP_STATUS_SUCCESS){
+							var mk = new BMap.Marker(r.point);
+
+							var pt = r.point ;
+							geoc.getLocation(pt,function(rs){
+								var addComp = rs.addressComponents;
+								alert(JSON.stringify(addComp));
+								alert(addComp.province+addComp.city+addComp.district+addComp.street+addComp.streetNumber) ;
+							}) ;
+						}
+						else {
+							alert('failed'+this.getStatus());
+						}
+					},{enableHighAccuracy: true}) ;
+				}
+		</script>
+		<script src="http://api.map.baidu.com/api?v=2.0&ak=GIF4iq82gq7FHTPuyBnuZI8fCxDeGpHo&callback=initialize"></script>-->
+		<script type="text/javascript">
+			window.onload = function() {
+				mui.plusReady(function() {
+					var showpage = function() {
+						var id = setInterval(function() {
+							userdata = JSON.parse(plus.storage.getItem('userinfo'));
+							if(userdata) {
+								clearInterval(id);
+								console.log(plus.storage.getItem('userinfo'));
+								setTimeout(function() {
+									plus.nativeUI.closeWaiting();
+									mui.currentWebview.show("slide-in-right");
+								}, 50);
+								var timenow = CurentTime();
+								mui(".creat_status")[0].innerText = timenow;
+								mui('.creat_name')[0].innerText = userdata.userName;
+								if(userdata.headImage) {
+									mui('.headpng_user')[0].setAttribute('src', "http://"+ip_address+"uploadFiles/headImage/" + userdata.headImage + "?v=" + new Date().getTime());
+								}
+								plus.geolocation.getCurrentPosition(function(p){
+									alert(JSON.stringify(p));
+									/*if(p.coords.latitude=="5e-324"){
+										alert("未开放获取位置权限,请开放权限再进行打卡操作");
+										return false;
+									}*/
+
+									var nowlocation = p.addresses;
+									if(nowlocation){
+										mui(".location_now")[0].innerText = nowlocation;
+									}
+								}, function(e){
+									alert('获取当前位置失败: ' + e.message);
+								}, {provider:"baidu",coordsType:"bd09ll"});
+							}
+						}, 20);
+					};
+					showpage();
+				});
+			}
+			mui(".mui-content").on('tap', '.click_qd', function(e) {
+				alert("签到");
+			});
+			
+			function CurentTime()
+		    { 
+		        var now = new Date();
+		       
+		        var year = now.getFullYear();       //年
+		        var month = now.getMonth() + 1;     //月
+		        var day = now.getDate();            //日
+		       
+		        var hh = now.getHours();            //时
+		        var mm = now.getMinutes();          //分
+		       
+		        var clock = year + "-";
+		       
+		        if(month < 10)
+		            clock += "0";
+		       
+		        clock += month + "-";
+		       
+		        if(day < 10)
+		            clock += "0";
+		           
+		        clock += day + " ";
+		       
+		        if(hh < 10)
+		            clock += "0";
+		           
+		        clock += hh + ":";
+		        if (mm < 10) clock += '0'; 
+		        clock += mm; 
+		        return(clock); 
+		    } 
+		</script>
+	</body>
+</html>

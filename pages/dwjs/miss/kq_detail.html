@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>Bat</title>
+		<link rel="stylesheet" href="../../../css/mui.min.css" />
+		<script src="html5plus://ready"></script>
+		<style>
+			header {
+				background: #cc352b !important;
+				border: none;
+				box-shadow: none !important;
+			}
+			
+			h1 {
+				font-size: 20px !important;
+				color: #ffffff !important;
+			}
+			
+			html,
+			body {
+				height: 100%;
+			}
+			
+			.dTreeNode {
+				font-size: 16px;
+				height: 30px;
+				line-height: 30px;
+			}
+			
+			img {
+				border-radius: 50px;
+			}
+			
+			.fr {
+				padding-left: 10px;
+			}
+			.mui-media-body{
+				position: relative;
+			}
+			.ustatus{
+				width: 42px;
+				height: 42px;
+				position: absolute;
+				background: #F5B55F;
+				color: #FFFFFF;
+				right: 0;
+			    top: 0;
+			    border-radius: 42px;
+			    line-height: 42px;
+			    font-size: 16px;
+			    text-align: center;
+			}
+			.ustatus_1{
+				background: #6CDBAE !important;
+			}
+			.ustatus_2{
+				background: #ED725D !important;
+			}
+			.ustatus_3{
+				background: #928383 !important;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav bg-color">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title">考勤详情</h1>
+		</header>
+		<div class="mui-content">
+			<div id="user_content">
+				<ul class="mui-table-view" id="kq_detail">
+					
+				</ul>
+			</div>
+		</div>
+
+		<script src="../../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../../js/ip_config.js" ></script>
+		<script>
+			mui.init();
+			var userdata=null;
+			var hy_id=null;
+			mui('.mui-content').on('keyup', '#search_user', function(e) {
+				if(e.keyCode == 13) {
+					var iname = document.getElementById('search_user').value;
+				}
+			});
+			window.onload = function() {
+				mui.plusReady(function() {
+					var showpage = function() {
+						var id = setInterval(function() {
+							userdata = JSON.parse(plus.storage.getItem('userinfo'));
+							if(userdata) {
+								clearInterval(id);
+								setTimeout(function() {
+									plus.nativeUI.closeWaiting();
+									mui.currentWebview.show("slide-in-right");
+								}, 50);
+							}
+						}, 20);
+					};
+					showpage();
+				});
+			}
+			
+			mui('.mui-content').on('tap','.ustatus',function(e){
+				e.preventDefault();
+				var t_self=this;
+				var userid=this.getAttribute("uid");
+				if(this.innerText=="缺席"){
+					plus.nativeUI.prompt( "状态修改", function(e){
+						if(e.index==0){
+							var a=e.value;
+							var b="";
+							var cln="ustatus ustatus_3";
+							if(a=="出差" || a=="请假" || a=="签到"){
+								if(a=="出差"){
+									b="3";
+									cln="ustatus ustatus_2";
+								}
+								if(a=="请假"){
+									b="2";
+									cln="ustatus";
+								}
+								if(a=="签到"){
+									b="1";
+									cln="ustatus ustatus_1";
+								}
+								mui.ajax('http://'+ip_address+'meeting/updateCwaPeopleStatus',{
+									data:{
+										meetingId:hy_id,
+										userId:userid,
+										status:b
+									},
+									dataType:'json',
+									type:'post',
+									timeout:0,
+									success:function(r){
+										if(r.code==500){
+											mui.toast(r.msg);
+											return false;
+										}
+										t_self.innerText=a;
+										t_self.className=cln;
+										mui.toast("状态修改成功");
+										mui.fire(plus.webview.getWebviewById("dwjs/miss/kaoqin.html"),'refreshdata',{id:"11"})
+									},
+									error:function(xhr,type,errorThrown){
+										
+									}
+								});
+							}else{
+								alert("请输入符合的状态，如：请假");
+							}
+						}
+					}, "", "请输入状态并确定", ["确定","取消"] );
+				}
+			});
+			
+			document.addEventListener("give_meetid",function(e){
+				hy_id=e.detail.id;
+				mui.ajax('http://'+ip_address+'meeting/findCwaDetailByMeetingId',{
+					data:{
+						meetingId:e.detail.id
+					},
+					dataType:'json',
+					type:'post',
+					timeout:0,
+					success:function(r){
+						if(r.code==500){
+							mui.toast(r.msg);
+							return false;
+						}
+						var kq_dt="";
+						for(var i=0;i<r.value.length;i++){
+							var ustat="签到";
+							var ustat_class="ustatus ustatus_1";
+							var userimg="../../../img/default_avatar@2x.png";
+							if(r.value[i].userImage){
+								userimg="http://"+ip_address+"uploadFiles/headImage/" +r.value[i].userImage;
+							}
+							if(r.value[i].status==0){
+								ustat="缺席";
+								ustat_class="ustatus ustatus_3";
+							}
+							if(r.value[i].status==1){
+								ustat="签到";
+								ustat_class="ustatus ustatus_1";
+							}
+							if(r.value[i].status==2){
+								ustat="请假";
+								ustat_class="ustatus";
+							}
+							if(r.value[i].status==3){
+								ustat="出差";
+								ustat_class="ustatus ustatus_2";
+							}
+							kq_dt+='<li class="mui-table-view-cell mui-media" id="'+r.value[i].userId+'">'+
+										'<a href="javascript:;">'+
+											'<img class="mui-media-object mui-pull-left" src="'+userimg+'">'+
+											'<div class="mui-media-body">'+
+												'<span>'+r.value[i].userName+'</span><span class="fr">'+r.value[i].political+'</span>'+
+												'<p class="mui-ellipsis">'+r.value[i].unitName+'</p>'+
+												'<div class="'+ustat_class+'" uid="'+r.value[i].userId+'">'+ustat+'</div>'+
+											'</div>'+
+										'</a>'+
+									'</li>';
+						}
+						mui('#kq_detail')[0].innerHTML=kq_dt;
+					},
+					error:function(xhr,type,errorThrown){
+						
+					}
+				});
+			});
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,508 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../../css/mui.picker.min.css" />
+		<style type="text/css">
+			header {
+				background: #cc352b !important;
+				border: none;
+				box-shadow: none !important;
+			}
+			
+			h1 {
+				font-size: 20px !important;
+				color: #ffffff !important;
+			}
+			
+			.mui-input-row label {
+				width: 35% !important;
+				padding-right: 0px;
+				font-size: 18px;
+				padding-top: 17px;
+			}
+			
+			.mui-input-row label~input,
+			.mui-input-row label~select,
+			.mui-input-row label~textarea {
+				width: 65% !important;
+				font-size: 18px;
+			}
+			
+			.input_rz {
+				margin-top: 20px;
+			}
+			
+			.mui-input-group .mui-input-row {
+				height: 55px !important;
+			}
+			
+			.mui-input-group .backup_div {
+				height: 83px !important;
+			}
+			
+			.input_x {
+				height: 50px !important;
+			}
+			
+			.upload_png {
+				padding-top: 11px;
+				right: 0;
+				margin-right: 10px;
+				position: absolute;
+			}
+			
+			.png_name {
+				width: 50%;
+				display: inline-block;
+				height: 55px;
+				overflow: hidden;
+				position: absolute;
+				line-height: 55px;
+			}
+			
+			.send_who span {
+				color: #E0E0E0;
+			}
+			
+			.send_who_div label {
+				width: 100% !important;
+			}
+			
+			.send_who_png img {
+				border-radius: 50px;
+				padding: 5px;
+			}
+			
+			.send_who_div .mui-input-row {
+				height: auto !important;
+			}
+			
+			.send_who_png {
+				padding: 0px 15px;
+				float: left;
+				max-height: 132px;
+			}
+			
+			.div_s {
+				width: 100%;
+				height: 30px;
+				background: #F7F7F7;
+			}
+			
+			.file_up {
+				height: 55px;
+				z-index: 999;
+				position: absolute;
+				opacity: 0;
+			}
+			
+			.png_up {
+				height: 55px;
+				z-index: 999;
+				position: absolute;
+				opacity: 0;
+			}
+			
+			.btn_div {
+				padding: 15px 15px;
+			}
+			
+			.user_div {
+				float: left;
+				margin-right: 20px;
+			}
+			
+			.uname {
+				font-size: 14px;
+				text-align: center;
+			}
+			
+			.onoff {
+				text-align: center;
+				color: #CC352B !important;
+				float: right;
+				margin-right: 20px;
+				display: none;
+			}
+			
+			.time_div {
+				display: inline-block;
+				width: 65%;
+				height: 54px;
+				line-height: 54px;
+				font-size: 18px;
+			}
+			.meetingroom_div{
+				display: inline-block;
+				width: 65%;
+				height: 54px;
+				line-height: 54px;
+				font-size: 18px;
+			}
+			.type_div {
+				display: inline-block;
+				width: 65%;
+				height: 54px;
+				line-height: 54px;
+				font-size: 18px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav bg-color">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title">发布动态</h1>
+		</header>
+		<div class="mui-content">
+			<div class="mui-input-group send_who_div">
+				<div class="div_s"></div>
+				<div class="mui-input-row">
+					<label class="send_who">参与人员<span>(点击头像删除)</span><span class="onoff" stu="off">展开</span></label>
+					<div class="send_who_png">
+						<img class="user_headpng" src="../../../img/add_member@2x.png" width="40" user_name="add" datatarget="add1" />
+					</div>
+				</div>
+			</div>
+			<form class="mui-input-group input_rz" id="form_rbdata">
+				<div class="mui-input-row">
+					<label>主题</label>
+					<input type="text" class="input_x" placeholder="主题">
+				</div>
+				<div class="mui-input-row">
+					<label>类型</label>
+					<!--<select name="" style="height: 50px;color: #8f8f94;" id="type_meet">
+						<option value="选择类型" selected style="color: #6D6D72;">选择类型</option>
+					</select>-->
+					<div class="type_div">选择类型</div>
+				</div>
+				<div class="mui-input-row">
+					<label>开始时间</label>
+					<div class="time_div">选择时间</div>
+				</div>
+				<div class="mui-input-row">
+					<label>会议室</label>
+					<div class="meetingroom_div">选择会议室</div>
+				</div>
+				<div class="mui-input-row">
+					<label>预计时长</label>
+					<input type="text" class="input_x" placeholder="预计时长(小时)">
+				</div>
+				<div class="mui-input-row backup_div">
+					<textarea name="backup" class="backupcontent" rows="3" cols="3" placeholder="备注"></textarea>
+				</div>
+				<div class="mui-input-group send_who_div">
+					<div class="div_s"></div>
+					<div class="mui-input-row">
+						<label class="send_who">审核人员<span>(点击头像删除)</span><span class="onoff" stu="off">展开</span></label>
+						<div class="send_who_png">
+							<img class="user_headpng" src="../../../img/add_member@2x.png" width="40" user_name="add" datatarget="add2" />
+						</div>
+					</div>
+				</div>
+				<div class="mui-input-group send_who_div">
+					<div class="div_s"></div>
+					<div class="mui-input-row">
+						<label class="send_who">抄送人员<span>(点击头像删除)</span><span class="onoff" stu="off">展开</span></label>
+						<div class="send_who_png">
+							<img class="user_headpng" src="../../../img/add_member@2x.png" width="40" user_name="add" datatarget="add3" />
+
+						</div>
+					</div>
+				</div>
+
+			</form>
+			<div class="btn_div">
+				<button type="button" style="width: 100%;padding: 10px 10px;" class="mui-btn mui-btn-danger">提交</button>
+			</div>
+		</div>
+		<script src="../../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../../js/mui.picker.all.js"></script>
+		<script type="text/javascript" src="../../../js/ip_config.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			var userdata = null;
+			var userlist = [];
+			var user_1 = null;
+			var user_2 = null;
+			var user_3 = null;
+			window.onload = function() {
+				mui.plusReady(function() {
+					var showpage = function() {
+						var id = setInterval(function() {
+							userdata = JSON.parse(plus.storage.getItem('userinfo'));
+							if(userdata) {
+								clearInterval(id);
+								setTimeout(function() {
+									plus.nativeUI.closeWaiting();
+									mui.currentWebview.show("slide-in-right");
+								}, 50);
+							}
+						}, 20);
+					};
+					showpage();
+				});
+			}
+
+			mui('.mui-content').on("tap", '.time_div', function() {
+				mui('.input_x')[0].blur();
+				mui('.input_x')[1].blur();
+				mui('.backupcontent')[0].blur();
+				var dtPicker = new mui.DtPicker({
+					type: 'datetime',
+					beginDate: new Date(2015, 04, 25),
+					endDate: new Date(2065, 04, 25),
+				});
+				dtPicker.show(function(e) {
+					mui('.time_div')[0].innerText = e.value;
+				});
+			});
+			mui('.mui-content').on("tap", '.type_div', function() {
+				mui('.input_x')[0].blur();
+				mui('.input_x')[1].blur();
+				mui('.backupcontent')[0].blur();
+				mui.ajax('http://' + ip_address + 'meeting/listMeetingType', {
+					data: {},
+					dataType: 'json',
+					type: 'post',
+					timeout: 0,
+					contentType: false,
+					processData: false,
+					success: function(r) {
+						var typedata = [];
+						for(var i = 0; i < r.value.length; i++) {
+							var bigtype = {
+								value: r.value[i].systemno,
+								text: r.value[i].name,
+								children: []
+							};
+							typedata.push(bigtype);
+							for(var j = 0; j < r.value[i].childs.length; j++) {
+								var smalltype = {
+									value: r.value[i].childs[j].systemno,
+									text: r.value[i].childs[j].name
+								};
+								typedata[i].children.push(smalltype);
+							}
+						}
+						var picker = new mui.PopPicker({
+							layer: 2
+						});
+						picker.setData(typedata);
+						picker.show(function(selectItems) {
+							mui('.type_div')[0].innerText = selectItems[1].text + '(' + selectItems[0].text + ')';
+							mui('.type_div')[0].setAttribute("id", selectItems[1].value);
+						})
+					},
+					error: function(xhr, type, errorThrown) {
+						console.log(errorThrown)
+					}
+				});
+
+			});
+			
+			mui('.mui-content').on("tap", '.meetingroom_div', function() {
+				mui('.input_x')[0].blur();
+				mui('.input_x')[1].blur();
+				mui('.backupcontent')[0].blur();
+				mui.ajax('http://' + ip_address + '/meeting/listBoardroom', {
+					data: {
+						start:"0",
+						length:"10000"
+					},
+					dataType: 'json',
+					type: 'post',
+					timeout: 0,
+					
+					success: function(r) {
+						//console.log(JSON.stringify(r));
+						var typedata = [];
+						for(var i = 0; i < r.value.data.length; i++) {
+							var bigtype = {
+								value: r.value.data[i].systemno,
+								text: r.value.data[i].name
+							};
+							typedata.push(bigtype);
+						}
+						var picker = new mui.PopPicker();
+						picker.setData(typedata);
+						picker.show(function(selectItems) {
+							mui('.meetingroom_div')[0].innerText = selectItems[0].text;
+							mui('.meetingroom_div')[0].setAttribute("id", selectItems[0].value);
+						})
+					},
+					error: function(xhr, type, errorThrown) {
+						console.log(errorThrown)
+					}
+				});
+
+			});
+
+			mui('.mui-content').on('tap', '.mui-btn', function(e) {
+				mui('.input_x')[0].blur();
+				mui('.input_x')[1].blur();
+				mui('.backupcontent')[0].blur();
+
+				var meet_type = mui('.type_div')[0].getAttribute("id");
+				
+				var meetingroom = mui('.meetingroom_div')[0].getAttribute("id");
+				//console.log(meet_type);
+				var formdata_release = new FormData();
+				if(mui('.input_x')[0].value == "") {
+					mui.toast("请填写主题");
+					return false;
+				}
+				if(mui('.type_div')[0].innerText == "选择类型") {
+					mui.toast("请选择类型");
+					return;
+				}
+				if(mui('.meetingroom_div')[0].innerText == "选择会议室") {
+					mui.toast("请选择会议室");
+					return;
+				}
+				if(mui('.time_div')[0].innerText == "选择时间") {
+					mui.toast("请选择时间");
+					return false;
+				}
+				if(!user_1) {
+					mui.toast("请选择参会人员");
+					return false;
+				}
+				if(!user_2) {
+					mui.toast("请选择审核人员");
+					return false;
+				}
+				formdata_release.append("theme", mui('.input_x')[0].value);
+				formdata_release.append("meetingTypeId", meet_type);
+				formdata_release.append("time", mui('.time_div')[0].innerText);
+				formdata_release.append("boardroomId", meetingroom);
+				formdata_release.append("duration", mui('.input_x')[1].value);
+				formdata_release.append("remark", mui('.backupcontent')[0].value);
+				formdata_release.append("participantJson", JSON.stringify(user_1));
+				formdata_release.append("eavJson", JSON.stringify(user_2));
+				formdata_release.append("ccObjectJson", JSON.stringify(user_3));
+				mui.ajax('http://' + ip_address + 'meeting/saveMetting', {
+					data: formdata_release,
+					dataType: 'json',
+					type: 'post',
+					timeout: 0,
+					contentType: false,
+					processData: false,
+					success: function(r) {
+						if(r.code == 200) {
+							plus.nativeUI.toast('发布成功');
+							mui.back();
+						} else {
+							plus.nativeUI.toast('发送失败，请重新发送');
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						console.log(errorThrown)
+					}
+				});
+			});
+
+			mui('.mui-content').on('tap', 'img', function(e) {
+				var username = this.getAttribute("user_name");
+				if(username == "add") {
+					mui.openWindow('../rz/select_user.html', 'select_user.html', {
+						styles: {
+							top: "0",
+							bottom: "0",
+						},
+						createNew: false,
+						show: {
+							autoShow: false,
+							event: 'titleUpdate',
+							extras: {}
+						},
+						waiting: {
+							autoShow: true,
+							title: '正在加载..',
+						}
+					});
+					mui.fire(plus.webview.getWebviewById("select_user.html"), 'type_user', {
+						id: this.getAttribute("datatarget")
+					})
+				}
+			});
+
+			document.addEventListener("select_user", function(e) {
+				var headpng = "";
+				userlist = [];
+				for(var i in e.detail.user) {
+					var uid = i.split("_")[1];
+					userlist.push(uid);
+					headpng += '<div class="user_div" user_name="' + i + '" user_type="' + e.detail.addu + '">' +
+						'<img class="user_headpng" src="' + e.detail.user[i] + '" width="40" user_name="' + i + '" />' +
+						'<div class="uname">' + e.detail.uname[uid] + '</div>' +
+						'</div>';
+				}
+				headpng += '<img class="user_headpng" src="../../../img/add_member@2x.png" width="40" user_name="add"  datatarget="' + e.detail.addu + '"/>';
+				if(e.detail.addu == "add1") {
+					mui('.send_who_png')[0].innerHTML = headpng;
+					user_1 = userlist;
+					if(user_1.length > 10) {
+						mui('.onoff')[0].style.display = "inline-block";
+					}
+				} else if(e.detail.addu == "add2") {
+					mui('.send_who_png')[1].innerHTML = headpng;
+					user_2 = userlist;
+					if(user_2.length > 10) {
+						mui('.onoff')[1].style.display = "inline-block";
+					}
+				} else if(e.detail.addu == "add3") {
+					mui('.send_who_png')[2].innerHTML = headpng;
+					user_3 = userlist;
+					if(user_3.length > 10) {
+						mui('.onoff')[2].style.display = "inline-block";
+					}
+				}
+			});
+
+			mui('.mui-content').on('tap', '.user_div', function(e) {
+				var userid = this.getAttribute("user_name").split("_")[1];
+				var user_type = this.getAttribute("user_type");
+				if(userid != "add") {
+					if(user_type == "add1") {
+						var index = user_1.indexOf(userid);
+						if(index > -1) {
+							user_1.splice(index, 1);
+						}
+					}
+					if(user_type == "add2") {
+						var index = user_2.indexOf(userid);
+						if(index > -1) {
+							user_2.splice(index, 1);
+						}
+					}
+					if(user_type == "add3") {
+						var index = user_3.indexOf(userid);
+						if(index > -1) {
+							user_3.splice(index, 1);
+						}
+					}
+					this.parentNode.removeChild(this);
+				}
+			});
+			mui('.mui-content').on('tap', '.onoff', function(e) {
+				var status = this.getAttribute("stu");
+				if(status == "off") {
+					this.parentNode.parentNode.childNodes[3].style.maxHeight = "none";
+					this.innerText = "收起";
+					this.setAttribute("stu", "on");
+				} else if(status == "on") {
+					this.parentNode.parentNode.childNodes[3].style.maxHeight = "132px";
+					this.innerText = "展开";
+					this.setAttribute("stu", "off");
+				}
+			});
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>Bat</title>
+		<link rel="stylesheet" href="../../css/mui.min.css" />
+		<script src="html5plus://ready"></script>
+		<style>
+			header {
+				background: #cc352b !important;
+				border: none;
+				box-shadow: none !important;
+			}
+			
+			h1 {
+				font-size: 20px !important;
+				color: #ffffff !important;
+			}
+			
+			html,
+			body {
+				height: 100%;
+			}
+			
+			.js_title {
+				color: #CC352B;
+			}
+			
+			.js_list {
+				position: relative;
+				padding: 11px 15px;
+				border-bottom: 1px solid #ddd;
+			}
+			
+			.js_list:after {
+				background-color: #c8c7cc;
+			}
+			.js_ellipsis{
+				overflow : hidden;
+				text-overflow: ellipsis;
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+			}
+			.btn_coll{
+				float: right;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav bg-color">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title">职务职责</h1>
+		</header>
+		<div class="mui-content">
+			<ul class="mui-table-view" id="gwlist_ul">
+				<!--<li class="js_list" jsid="">
+					<a href="javascript:;">
+						<div class="mui-media-body">
+							<span class="js_title">岗位</span>
+							<p class='js_ellipsis' style="-webkit-line-clamp: 2;">角色说明角色说明角色说明角色说明角色说明角色说明角色说明色说明角色说明角色说明角色说明色说明角色说明角色说明角色说明色说明角色说明角色说明角色说明</p>
+							<span class="btn_coll" status="off">展开</span>
+						</div>
+					</a>
+				</li>
+				<li class="js_list">
+					<a href="javascript:;">
+						<div class="mui-media-body">
+							<span class="js_title">岗位</span>
+							<p class='js-ellipsis'>角色说明角色说明角色说明角色说明角色说明角色说明角色说明</p>
+							<span class="btn_coll" status="off">展开</span>
+						</div>
+					</a>
+				</li>-->
+			</ul>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/ip_config.js" ></script>
+		<script>
+			mui.init();
+			window.onload = function() {
+				mui.plusReady(function() {
+					var showpage = function() {
+						var id = setInterval(function() {
+							userdata = JSON.parse(plus.storage.getItem('userinfo'));
+							if(userdata) {
+								clearInterval(id);
+								mui.ajax('http://'+ip_address+'unitpost/listUnitPost',{
+									data:{
+										
+									},
+									dataType:'json',//服务器返回json格式数据
+									type:'post',//HTTP请求类型
+									timeout:0,//超时时间设置为10秒；
+									success:function(r){
+										if(r.code==500){
+											mui.toast(r.msg);
+											return false;
+										}
+										var jslist="";
+										for(var i=0;i<r.value.length;i++){
+											/*jslist+=`<li class="js_list" jsid="${r.value[i].postId}">
+														<a href="javascript:;">
+															<div class="mui-media-body">
+																<span class="js_title">${r.value[i].postName}</span>
+																<p class='js_ellipsis' style="-webkit-line-clamp: 2;">${r.value[i].postDesc}</p>
+																<span class="btn_coll" status="off">展开</span>
+															</div>
+														</a>
+													</li>`;*/
+											jslist+='<li class="js_list" jsid="'+r.value[i].postId+'">'+
+														'<a href="javascript:;">'+
+															'<div class="mui-media-body">'+
+																'<span class="js_title">'+r.value[i].postName+'</span>'+
+																'<p class="js_ellipsis" style="-webkit-line-clamp: 2;">'+r.value[i].postDesc+'</p>'+
+																'<span class="btn_coll" status="off">展开</span>'+
+															'</div>'+
+														'</a>'+
+													'</li>';
+										}
+										mui('#gwlist_ul')[0].innerHTML=jslist;
+									},
+									error:function(xhr,type,errorThrown){
+										
+									}
+								});
+								setTimeout(function() {
+									plus.nativeUI.closeWaiting();
+									mui.currentWebview.show("slide-in-right");
+								}, 50);
+							}
+						}, 20);
+					};
+					showpage();
+				});
+			}
+			mui('.mui-content').on('tap','.btn_coll',function(){
+				if(this.getAttribute("status")=="off"){
+					this.parentNode.childNodes[1].style.webkitLineClamp=1111;
+					this.setAttribute("status","on");
+					this.innerText="收起";
+				}else if(this.getAttribute("status")=="on"){
+					this.parentNode.childNodes[1].style.webkitLineClamp=2;
+					this.setAttribute("status","off");
+					this.innerText="展开";
+				}
+			});
+		</script>
+	</body>
+
+</html>

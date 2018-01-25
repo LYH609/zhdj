@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="../../css/mui.min.css" />
+		<script src="html5plus://ready"></script>
+		<script type="text/javascript" src="../../js/mui.min.js"></script>
+		<style type="text/css">
+			header {
+				background: #cc352b !important;
+				border: none;
+				box-shadow: none !important;
+			}
+			
+			h1 {
+				font-size: 20px !important;
+				color: #ffffff !important;
+			}
+			.mui-content {
+				background: #F7F7F7 !important;
+			}
+			
+			html,
+			body {
+				background: #F7F7F7 !important;
+			}
+			
+			.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body {
+				height: 20px;
+				line-height: 20px;
+			}
+			
+			.dj_text {
+				height: 50px;
+				line-height: 50px;
+				font-size: 18px;
+				background: #FFFFFF;
+				margin-top: 5px;
+				text-indent: 15px;
+				border-top: 1px solid #e4e4e4;
+				border-bottom: 1px solid #e4e4e4;
+			}
+			
+			.dj_xrb {
+				width: 30px;
+				height: 30px;
+				background: url(../../img/log_day@2x.png) no-repeat;
+				background-size: 100% 100%;
+			}
+			.dj_xzb {
+				width: 30px;
+				height: 30px;
+				background: url(../../img/log_week@2x.png) no-repeat;
+				background-size: 100% 100%;
+			}
+			.dj_xyb {
+				width: 30px;
+				height: 30px;
+				background: url(../../img/log_month@2x.png) no-repeat;
+				background-size: 100% 100%;
+			}
+			.dj_fcd {
+				width: 30px;
+				height: 30px;
+				background: url(../../img/log_send@2x.png) no-repeat;
+				background-size: 100% 100%;
+			}
+			.dj_sdd {
+				width: 30px;
+				height: 30px;
+				background: url(../../img/log_receive@2x.png) no-repeat;
+				background-size: 100% 100%;
+			}
+			
+			.mui-grid-view.mui-grid-9 {
+				background: #FFFFFF !important;
+				border-top: none !important;
+				border: none !important;
+			}
+			
+			.mui-grid-view.mui-grid-9 .mui-table-view-cell {
+				padding: 0 !important;
+				border-bottom: 1px solid #eee;
+			}
+			
+			.mui-media-body {
+				font-size: 14px !important;
+			}
+			.isuse{
+				background:#ddd;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav bg-color">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title">智能会议室</h1>
+		</header>
+		<div class="mui-content">
+			<ul class="mui-table-view mui-grid-view mui-grid-9 ul_b meetingroomlist">
+				
+			</ul>
+
+			
+		</div>
+		<script type="text/javascript" src="../../js/ip_config.js" ></script>
+		<script type="text/javascript">
+			window.onload = function() {
+				mui.plusReady(function() {
+					var showpage = function() {
+						var id = setInterval(function() {
+							userdata = JSON.parse(plus.storage.getItem('userinfo'));
+							if(userdata) {
+								clearInterval(id);
+								setTimeout(function() {
+									plus.nativeUI.closeWaiting();
+									mui.currentWebview.show("slide-in-right");
+								}, 50);
+							}
+							
+							mui.ajax('http://' + ip_address + '/meeting/listBoardroom', {
+								data: {
+									start:"0",
+									length:"10000"
+								},
+								dataType: 'json',
+								type: 'post',
+								timeout: 0,
+								
+								success: function(r) {
+						
+									var list="";
+									for(var i = 0; i < r.value.data.length; i++) {
+										var statusclass="";
+										if(r.value.data[i].useStatus==1){
+											statusclass="isuse";
+										}
+										list+='<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4 '+statusclass+'" id="'+r.value.data[i].useStatus+'">'+
+												'<a href="#" class="active">'+
+													'<span class="mui-icon mui-icon-home"></span>'+
+													'<div class="mui-media-body">'+r.value.data[i].name+'</div>'+
+													'<div class="mui-media-body">'+r.value.data[i].useStatusStr+'</div>'+
+												'</a>'+
+											'</li>';
+									}
+									mui(".meetingroomlist")[0].innerHTML=list;
+								},
+								error: function(xhr, type, errorThrown) {
+									console.log(errorThrown)
+								}
+							});
+						}, 20);
+					};
+					showpage();
+				});
+			}
+			mui(".mui-content").on('tap', '.mui-table-view-cell', function(e) {
+				var status = this.getAttribute("id");
+				if(status=="0"){
+					alert("当前会议室闲置中，可使用");
+				}else{
+					alert("当前会议室正在使用中");
+				}
+			});
+		</script>
+	</body>
+</html>

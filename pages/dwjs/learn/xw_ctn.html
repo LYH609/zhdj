@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../../css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			header {
+				background: #cc352b !important;
+				border: none;
+				box-shadow: none !important;
+			}
+			
+			h1 {
+				font-size: 20px !important;
+				color: #ffffff !important;
+			}
+			html,body{
+				background: #FFFFFF;
+			}
+			.mui-content{
+				background: #FFFFFF !important;
+			}
+			
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav bg-color">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title"></h1>
+		</header>
+		<div class="mui-content">
+			
+		</div>
+		<script src="../../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../../js/ip_config.js" ></script>
+		<script type="text/javascript">
+			mui.init();
+			window.onload = function() {
+				mui.plusReady(function() {
+					var showpage = function() {
+						var id = setInterval(function() {
+							userdata = JSON.parse(plus.storage.getItem('userinfo'));
+							if(userdata) {
+								clearInterval(id);
+								setTimeout(function() {
+									plus.nativeUI.closeWaiting();
+									mui.currentWebview.show("slide-in-right");
+								}, 50);
+							}
+						}, 20);
+					};
+					showpage();
+				});
+			}
+			document.addEventListener('xw_data',function(e){
+				mui('.mui-title')[0].innerText=e.detail.xw_title;
+				/*mui.openWindow({
+					url: e.detail.xw_link,
+					id: "xwctn",
+					styles: {
+						top: "44px",
+						bottom: "0px",
+					},
+					createNew: false,
+					show: {
+						autoShow: true,
+						event: 'titleUpdate',
+						extras: {}
+					},
+					waiting: {
+						autoShow: false,
+						title: '正在加载...',
+					}
+				});*/
+				var self = plus.webview.currentWebview();
+				var baiduWV = plus.webview.create(e.detail.xw_link, "xwctn", {
+					top: "44px",
+					bottom: 0
+				});
+				self.append(baiduWV);
+			});
+		</script>
+	</body>
+
+</html>

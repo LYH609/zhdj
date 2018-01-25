@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" href="../../../css/mui.min.css" />
+		<style type="text/css">
+			header {
+				background: #cc352b !important;
+				border: none;
+				box-shadow: none !important;
+			}
+			
+			h1 {
+				font-size: 20px !important;
+				color: #ffffff !important;
+			}
+			
+			.mui-content {
+				background: #F7F7F7 !important;
+			}
+			
+			.top_selebar {
+				background: #CC352B;
+				height: 40px;
+				color: #FFFFFF;
+			}
+			
+			.mui-segmented-control-positive.mui-segmented-control-inverted .mui-control-item.mui-active {
+				color: #CC352B !important;
+				border-bottom: 2px solid #CC352B !important;
+				background: 0 0;
+			}
+			
+			.ctn_this {
+				width: 100%;
+			}
+			
+			.ctn_this table {
+				width: 100%;
+				border: 1px solid #eee;
+				text-align: center;
+			}
+			
+			thead tr th {
+				padding: 10px 10px;
+				border: 1px solid #eee;
+				color: #757575;
+				font-weight: normal;
+			}
+			
+			tr td {
+				padding: 10px 10px;
+				border: 1px solid #eee;
+				color: #212121;
+			}
+			
+			.col_1 {
+				color: #45a0ec;
+			}
+			
+			.col_2 {
+				color: #CC352B;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav bg-color">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title">打卡记录</h1>
+		</header>
+		<div class="mui-content">
+			<div class="ctn_this">
+				<table>
+					<thead>
+						<tr>
+							<th style="width: 40%">打卡时间</th>
+							<th style="width: 60%;">打卡地点</th>
+						</tr>
+					</thead>
+					<tbody class="ctnbody">
+
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<script type="text/javascript" src="../../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../../js/ip_config.js"></script>
+		<script>
+			mui.init();
+			window.onload = function() {
+				mui.plusReady(function() {
+					var showpage = function() {
+						var id = setInterval(function() {
+							userdata = JSON.parse(plus.storage.getItem('userinfo'));
+							if(userdata) {
+								clearInterval(id);
+								mui.ajax('http://' + ip_address + 'signIn/listSignIn', {
+									data: {
+										start:"0",
+										length:"11111",
+										keyword:userdata.userName
+									},
+									dataType: 'json',
+									contentType: "application/json",
+									type: 'post',
+									timeout: 0,
+									success: function(r) {
+										alert(JSON.stringify(r));
+										if(r.code == 200){
+											var list="";
+											for(var i=0;i<r.value.length;i++){
+												list += '<tr>' +
+															'<td>' + r.value[i].signInTime + '</td>' +
+															'<td>' + r.value[i].address + '</td>' +
+														'</tr>';
+											}
+											mui(".ctnbody")[0].innerHTML= list;
+										}else{
+											
+										}
+									},
+									error: function(xhr, type, errorThrown) {
+										console.log(errorThrown)
+									}
+								});
+								setTimeout(function() {
+									plus.nativeUI.closeWaiting();
+									mui.currentWebview.show("slide-in-right");
+								}, 50);
+							}
+						}, 20);
+					};
+					showpage();
+				});
+			}
+		</script>
+	</body>
+
+</html>

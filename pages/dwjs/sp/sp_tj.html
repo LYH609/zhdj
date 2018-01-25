@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../../css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			header {
+				background: #cc352b !important;
+				border: none;
+				box-shadow: none !important;
+			}
+			
+			h1 {
+				font-size: 20px !important;
+				color: #ffffff !important;
+			}
+			
+			.user_info {
+				width: 100%;
+				height: 70px;
+				border-bottom: 1px solid #e4e4e4;
+				padding-left: 30px;
+			}
+			
+			.user_info img {
+				border-radius: 50px;
+				float: left;
+			}
+			
+			.creat_name {
+				color: #212121;
+				line-height: 25px;
+				font-size: 18px;
+				text-indent: 10px;
+				margin-bottom: 0 !important;
+			}
+			
+			.creat_status {
+				color: #f55d53;
+				line-height: 25px;
+				font-size: 15px;
+				margin-bottom: 0 !important;
+				text-indent: 10px;
+			}
+			
+			.norbal {
+				color: #A3A3A3;
+				padding-left: 30px;
+				line-height: 40px;
+				margin-bottom: 0 !important;
+				font-size: 17px;
+			}
+			
+			.norbal_1{
+				color: #A3A3A3;
+				padding-left: 30px;
+				line-height: 40px;
+				margin-bottom: 0 !important;
+				font-size: 17px;
+			}
+			
+			.norbal_1 span {
+				color: #212121;
+			}
+			
+			.norbal span {
+				color: #212121;
+			}
+			
+			.sp_data {
+				color: #212121;
+				background: #E8E8E8;
+				height: 40px;
+				line-height: 40px;
+				text-indent: 10px;
+				width: 90%;
+				margin-left: 5%;
+			}
+			
+			.mui-tab-item .mui-tab-label {
+				color: #CC352B !important;
+			}
+			.fj_name {
+				padding: 0px 20px 42px;
+				color: #CC352B;
+				font-size: 19px;
+				word-break: break-all;
+			}
+			html,
+			body {
+				background: #FFFFFF !important;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav bg-color">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title">审批内容</h1>
+		</header>
+		<div class="mui-content" id="mctn" style="background: #FFFFFF;">
+			<div style="height: 20px;width: 100%;"></div>
+			<div class="user_info">
+				<img class="headpng_user" src="../../../img/default_avatar@2x.png" width="50" />
+				<p class="creat_name"></p>
+				<p class="creat_status"></p>
+			</div>
+			<p class="norbal" style="margin-top: 10px;">审批编号：<span class="ss_1"></span></p>
+			<p class="norbal">所在组织：<span class="ss_1"></span></p>
+			<div class="sp_data">审批明细</div>
+			<p class="norbal">申请主题：<span class="ss_1"></span></p>
+			<p class="norbal_1">类型：<span class="ss_2"></span></p>
+			<p class="norbal">申请时间：<span class="ss_1"></span></p>
+			<p class="norbal">会议室：<span class="ss_1"></span></p>
+			<p class="norbal">开始时间：<span class="ss_1"></span></p>
+			<p class="norbal"><span class="ss_1"></span></p>
+			<div style="height: 50px;"></div>
+			<nav class="mui-bar mui-bar-tab tab_ctn">
+				<a class="mui-tab-item mui-active" id="sp_yj.html">
+					<span class="mui-tab-label">同意</span>
+				</a>
+				<a class="mui-tab-item" id="reject">
+					<span class="mui-tab-label">拒绝</span>
+				</a>
+			</nav>
+		</div>
+		<script src="../../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../../js/ip_config.js" ></script>
+		<script type="text/javascript">
+			mui.init();
+			var spdata_id = null;
+			window.onload = function() {
+				mui.plusReady(function() {
+					var showpage = function() {
+						var id = setInterval(function() {
+							userdata = JSON.parse(plus.storage.getItem('userinfo'));
+							if(userdata) {
+								clearInterval(id);
+								setTimeout(function() {
+									plus.nativeUI.closeWaiting();
+									mui.currentWebview.show("slide-in-right");
+								}, 50);
+							}
+						}, 20);
+					};
+					showpage();
+				});
+			}
+			mui(".mui-bar-tab").on('tap', '.mui-tab-item', function(e) {
+				var id = this.getAttribute('id');
+				if(id == "reject") {
+					mui.openWindow({
+						url: "sp_yj.html",
+						id: "sp_yj",
+						styles: {
+							top: "0px",
+							bottom: "0px",
+						},
+						createNew: false,
+						show: {
+							autoShow: false,
+							event: 'titleUpdate',
+							extras: {}
+						},
+						waiting: {
+							autoShow: true,
+							title: '正在加载...',
+						}
+					});
+					mui.fire(plus.webview.getWebviewById("sp_yj"),'tell_id',{id:spdata_id,stu:"0"});
+				} else {
+					mui.openWindow({
+						url: id,
+						id: id,
+						styles: {
+							top: "0px",
+							bottom: "0px",
+						},
+						createNew: false,
+						show: {
+							autoShow: false,
+							event: 'titleUpdate',
+							extras: {}
+						},
+						waiting: {
+							autoShow: true,
+							title: '正在加载...',
+						}
+					});
+					mui.fire(plus.webview.getWebviewById(id),'tell_id',{id:spdata_id,stu:"1"});
+				}
+			});
+			document.addEventListener('tel_id', function(e) {
+				spdata_id = e.detail.id;
+				mui.ajax('http://'+ip_address+'process/findReqById', {
+					data: {
+						reqId: spdata_id
+					},
+					dataType: 'json',
+					type: 'post',
+					timeout: 0,
+					success: function(r) {
+						if(r.value) {
+							var thisdata = JSON.parse(r.value.data);
+							//console.log(r.value.data);
+							var spstatus = "";
+							if(r.value.type == 1) {
+								if(r.value.createPeopleImage) {
+									mui('.headpng_user')[0].setAttribute('src', "http://"+ip_address+"uploadFiles/headImage/" + r.value.createPeopleImage);
+								} else {
+
+								}
+								if(r.value.status == 1) {
+									spstatus = "待审批";
+								} else if(r.value.status == 2) {
+									spstatus = "审批中";
+								} else if(r.value.status == 3) {
+									spstatus = "审核拒绝";
+									mui('.tab_ctn')[0].style.display = "none";
+								} else if(r.value.status == 4) {
+									spstatus = "审核通过";
+									mui('.tab_ctn')[0].style.display = "none";
+								} else if(r.value.status == 3) {
+									spstatus = "撤销";
+									mui('.tab_ctn')[0].style.display = "none";
+								}
+								mui(".creat_name")[0].innerText = r.value.createPeopleName;
+								mui(".creat_status")[0].innerText = spstatus;
+								mui(".ss_1")[0].innerText = r.value.code;
+								if(thisdata.meetingTypeName){
+									mui(".ss_2")[0].innerText = thisdata.meetingTypeName+'('+thisdata.parentTypeName+')';
+								}else{
+									mui(".ss_2")[0].innerText = '学习制度(党委)';
+								}
+								mui(".ss_1")[1].innerText = r.value.createPeopleArea;
+								mui(".ss_1")[2].innerText = thisdata.theme;
+								mui(".ss_1")[3].innerText = thisdata.createDate;
+								mui(".ss_1")[4].innerText = thisdata.boardroomName;
+								mui(".ss_1")[5].innerText = thisdata.time;
+							}else if(r.value.type == 2) {
+								var ino=JSON.parse(r.value.data);
+								var fjlist=JSON.parse(ino.attachments);
+								if(r.value.createPeopleImage) {
+									mui('.headpng_user')[0].setAttribute('src', "http://"+ip_address+"uploadFiles/headImage/" + r.value.createPeopleImage);
+								} else {
+
+								}
+								if(r.value.status == 1) {
+									spstatus = "待审批";
+								} else if(r.value.status == 2) {
+									spstatus = "审批中";
+								} else if(r.value.status == 3) {
+									spstatus = "审批拒绝";
+									mui('.tab_ctn')[0].style.display = "none";
+								} else if(r.value.status == 4) {
+									spstatus = "审批通过";
+									mui('.tab_ctn')[0].style.display = "none";
+								} else if(r.value.status == 3) {
+									spstatus = "撤销";
+									mui('.tab_ctn')[0].style.display = "none";
+								}
+								mui(".creat_name")[0].innerText = r.value.createPeopleName;
+								mui(".creat_status")[0].innerText = spstatus;
+								mui(".ss_1")[0].innerText = r.value.code;
+								mui(".ss_1")[1].innerText = r.value.createPeopleArea;
+								mui(".norbal")[2].style.display = "none";
+								mui(".norbal_1")[0].style.display = "none";
+								mui(".norbal")[3].style.display = "none";
+								mui(".norbal")[4].style.display = "none";
+								mui(".norbal")[5].style.display = "none";
+								mui(".norbal")[6].style.display = "none";
+								var docs=document.getElementById("mctn");
+								var div = document.createElement('p');
+								div.setAttribute("class","norbal");
+								div.innerHTML='提交时间:<span>'+ino.createTime+'</span>';
+								docs.appendChild(div);
+								var div = document.createElement('p');
+								div.setAttribute("class","norbal");
+								div.innerHTML='报告主题:<span>'+ino.theme+'</span>';
+								docs.appendChild(div);
+								var div = document.createElement('p');
+								div.setAttribute("class","norbal");
+								div.innerHTML='报告内容:<span>'+ino.content+'</span>';
+								docs.appendChild(div);
+								for(var i=0;i<fjlist.length;i++){
+									var div = document.createElement('div');
+									div.setAttribute("class","fj_name");
+									div.setAttribute("path",fjlist[i].filePath);
+									div.innerHTML='附件'+(i+1)+':<span>'+fjlist[i].orginFileName+'</span>';
+									docs.appendChild(div);
+								}
+							}
+						}else{
+							mui('.mui-content')[0].innerHTML="";
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+
+					}
+				});
+			});
+			document.addEventListener("sp_tg",function(e){
+				if(e.detail.id==21){
+					mui(".creat_status")[0].innerText="审批通过";
+					mui('.tab_ctn')[0].style.display = "none";
+				}else{
+					mui(".creat_status")[0].innerText="审批拒绝";
+					mui('.tab_ctn')[0].style.display = "none";
+				}
+			});
+			
+			mui('.mui-content').on('tap', '.fj_name', function() {
+				var _self = this.getAttribute('path');
+				var slef_name = _self.split("\\");
+				plus.nativeUI.confirm("是否下载" + this.innerText, function(e) {
+					if(e.index == 0) {
+						var downLoader = plus.downloader.createDownload("http://"+ip_address+ _self.replace("\\", "\/"), {
+							method: 'GET',
+							filename: '_doc/' + slef_name[slef_name.length - 1]
+						}, function(d, status) {
+							plus.nativeUI.showWaiting("正在下载...");
+							var fileName = d.filename;
+							if(status == 200) {
+								plus.nativeUI.closeWaiting();
+								mui.toast("下载完成");
+								plus.nativeUI.confirm("下载完成，是否打开", function(e) {
+									if(e.index == 0) {
+										plus.runtime.openFile(fileName, {}, function(e) {
+											alert(JSON.stringify(e));
+										});
+									}
+								}, "下载完成", ["确定", "取消"]);
+							}
+						});
+						downLoader.start();
+					} else if(e.index == 1) {
+
+					}
+				}, "新建下载", ["确定", "取消"]);
+			});
+		</script>
+	</body>
+
+</html>

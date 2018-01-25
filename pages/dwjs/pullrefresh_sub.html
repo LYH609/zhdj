@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../../css/mui.min.css">
+		<style type="text/css">
+			.sp_info {
+				padding-left: 10px;
+				position: relative;
+			}
+			
+			.sp_info_text {
+				margin-left: 65px;
+				height: auto;
+			}
+			
+			.status_color {
+				position: relative;
+				top: 0;
+				height: 3px;
+				width: 100%;
+				background: #f5b55f;
+				border-radius: 5px 5px 0px 0px;
+			}
+			
+			.sp_text_1 {
+				padding: 10px 10px;
+				font-size: 20px;
+			}
+			
+			.text_div {
+				position: relative;
+				top: 0;
+				margin-left: 53px;
+				border-radius: 5px 5px 5px 5px;
+			}
+			
+			.type_text {
+				position: relative;
+				top: 0;
+				margin-left: 57px;
+				font-size: 15px;
+				color: #a3a3a3;
+			}
+			
+			.sp_text_1_time {
+				font-size: 14px;
+				color: #c9c9c9;
+				float: right;
+			}
+			
+			.mui-table-view-chevron .mui-table-view-cell {
+				padding-right: 0px !important;
+			}
+			
+			.sp_text_3 {
+				padding: 2px 10px;
+				font-size: 15px;
+				color: #C0C0C0;
+			}
+			
+			.sp_text_3 span {
+				color: #545454;
+			}
+			
+			.sp_text_4 {
+				font-size: 19px;
+				color: #33daae;
+				padding: 5px 10px;
+			}
+			
+			.sp_text_4_reject {
+				font-size: 19px;
+				padding: 5px 10px;
+				color: #f67070 !important;
+			}
+			
+			img {
+				border-radius: 75px;
+				position: absolute;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--下拉刷新容器-->
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<ul class="mui-table-view mui-table-view-chevron">
+
+				</ul>
+			</div>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/ip_config.js" ></script>
+		<script>
+			mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					up: {
+						auto: true,
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});
+			var count = 0;
+			var data_type = "1";
+			var data_this = "";
+			var search_info = "";
+			var filter_status = "";
+			var filter_type = "";
+			document.addEventListener('sp_data', function(e) {
+				if(data_type != e.detail.id) {
+					if(e.detail.id == "待审批") {
+						data_type = "1";
+					} else if(e.detail.id == "已审批") {
+						data_type = "2";
+					} else if(e.detail.id == "我发起") {
+						data_type = "3";
+					} else if(e.detail.id == "抄送我") {
+						data_type = "4";
+					}
+					//data_type = e.detail.id;
+					mui('#pullrefresh').pullRefresh().scrollTo(0, 0, 100);
+					mui('#pullrefresh').pullRefresh().refresh(true);
+					mui('.mui-table-view')[0].innerHTML = "";
+					count = 0;
+					pullupRefresh();
+				}
+			});
+			//搜索
+			document.addEventListener("search_fordata", function(e){
+				mui('.mui-table-view')[0].innerHTML = "";
+				mui('#pullrefresh').pullRefresh().disablePullupToRefresh();
+			});
+			//确认搜索
+			document.addEventListener("search_enter", function(e){
+				count = 0;
+				search_info = e.detail.searchdata;
+				mui('.mui-table-view')[0].innerHTML = "";
+				pullupRefresh();
+				mui('#pullrefresh').pullRefresh().enablePullupToRefresh();
+			});
+			//取消搜索
+			document.addEventListener("search_cancle", function(e){
+				count = 0;
+				search_info = "";
+				mui('.mui-table-view')[0].innerHTML = "";
+				pullupRefresh();
+				mui('#pullrefresh').pullRefresh().enablePullupToRefresh();
+			});
+			//过滤返回
+			document.addEventListener('filter_return', function(e){
+				filter_status = e.detail.data_1;
+				filter_type = e.detail.data_2;
+				count = 0;
+				mui('.mui-table-view')[0].innerHTML = "";
+				pullupRefresh();
+			});
+			/**
+			 * 上拉加载具体业务实现
+			 */
+			function pullupRefresh() {
+				var fst="";
+				var fty="";
+				if(filter_status){
+					var fst=JSON.stringify(filter_status);
+				}
+				if(filter_type){
+					var fty=JSON.stringify(filter_type);
+				}
+				
+				mui.ajax('http://'+ip_address+'process/listReqInfoByCondition', {
+					data: {
+						start: "0",
+						length: "1000",
+						dataType: data_type,
+						status:fst,
+						reqType:fty,
+						content:search_info
+					},
+					dataType: 'json',
+					type: 'post',
+					timeout: 0,
+					success: function(r) {
+						filter_status="";
+						filter_type="";
+						search_info="";
+						if(r.code == 500) {
+							mui.toast(r.msg);
+							return false;
+						}
+						setTimeout(function(){
+							mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 0));
+							var table = document.body.querySelector('.mui-table-view');
+							var cells = document.body.querySelectorAll('.mui-table-view-cell');
+							for(var i = 0; i < r.value.data.length; i++) {
+								var peopleimg="";
+								var sp_dts="";
+								var sp_cid="sp_text_4";
+								var detail_info=JSON.parse(r.value.data[i].data);
+								if(detail_info.createUserImage){
+									peopleimg="http://"+ip_address+"uploadFiles/headImage/"+detail_info.createUserImage;
+								}else{
+									peopleimg="../../img/default_avatar@2x.png";
+								}
+								
+								var li = document.createElement('li');
+								li.className = 'mui-table-view-cell';
+								li.setAttribute("id",r.value.data[i].systemno);
+								li.setAttribute("typeid",r.value.data[i].systemno);
+								if(r.value.data[i].status==1){
+									sp_dts="待审批";
+								}else if(r.value.data[i].status==2){
+									sp_dts="审批中";
+								}else if(r.value.data[i].status==3){
+									sp_dts="审批拒绝";
+									sp_cid="sp_text_4_reject";
+								}else if(r.value.data[i].status==4){
+									sp_dts="审批通过";
+								}else if(r.value.data[i].status==5){
+									sp_dts="撤销";
+									sp_cid="sp_text_4_reject";
+								}
+								if(r.value.data[i].type=="1"){
+									li.innerHTML = '<div class="sp_info">'+
+														'<img src="'+peopleimg+'" width="50" height="50" />'+
+														'<p class="sp_info_text">'+
+															'<div class="text_div">' +
+																'<div class="sp_text_1">'+detail_info.theme+'<span class="sp_text_1_time">'+r.value.data[i].createDate+'</span></div>'+
+																'<div class="sp_text_3">类型：<span>活动申请审批</span></div>'+
+																'<div class="sp_text_3">活动时间：<span>'+detail_info.time+'</span></div>'+
+																'<div class="sp_text_3">申请人：<span>'+detail_info.createUserName+'</span></div>'+
+																'<div class="'+sp_cid+'">'+sp_dts+'</div>'+
+															'</div>'+
+														'</p>'+
+													'</div>';
+								}else if(r.value.data[i].type=="2"){
+									li.innerHTML = '<div class="sp_info">'+
+														'<img src="'+peopleimg+'" width="50" height="50" />'+
+														'<p class="sp_info_text">'+
+															'<div class="text_div">' +
+																'<div class="sp_text_1">'+detail_info.theme+'<span class="sp_text_1_time">'+r.value.data[i].createDate+'</span></div>'+
+																'<div class="sp_text_3">类型：<span>活动报告申请审批</span></div>'+
+																'<div class="sp_text_3">提交时间：<span>'+detail_info.createTime+'</span></div>'+
+																'<div class="sp_text_3">申请人：<span>'+detail_info.createUserName+'</span></div>'+
+																'<div class="'+sp_cid+'">'+sp_dts+'</div>'+
+															'</div>'+
+														'</p>'+
+													'</div>';
+								}
+								table.appendChild(li);
+							}
+						}, 100);
+					},
+					error: function(xhr, type, errorThrown) {
+						console.log(type);
+					}
+				});
+
+			}
+			if(mui.os.plus) {
+				mui.plusReady(function() {
+					var userdata = JSON.parse(plus.storage.getItem('userinfo'));
+					setTimeout(function() {
+						mui('#pullrefresh').pullRefresh().pullupLoading();
+					}, 100);
+				});
+			} else {
+				mui.ready(function() {
+					mui('#pullrefresh').pullRefresh().pullupLoading();
+				});
+			}
+			mui('#pullrefresh').on('tap','.mui-table-view-cell',function(e){
+				var id=this.getAttribute('id');
+				mui.openWindow({
+						url: "sp/sp_tj.html",
+						id: "sp_tj",
+						styles: {
+							top: "0px",
+							bottom: "0px",
+						},
+						createNew: false,
+						show: {
+							autoShow: false,
+							event: 'titleUpdate',
+							extras: {}
+						},
+						waiting: {
+							autoShow: true,
+							title: '正在加载...',
+						}
+				});
+				mui.fire(plus.webview.getWebviewById("sp_tj"),'tel_id',{id:id});
+			});
+			document.addEventListener("sp_tg",function(e){
+				mui('#pullrefresh').pullRefresh().scrollTo(0, 0, 100);
+				mui('#pullrefresh').pullRefresh().refresh(true);
+				mui('.mui-table-view')[0].innerHTML = "";
+				count = 0;
+				pullupRefresh();
+			});
+		</script>
+	</body>
+
+</html>

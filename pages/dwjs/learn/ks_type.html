@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="../../../css/mui.min.css" />
+		<script src="html5plus://ready"></script>
+		<script type="text/javascript" src="../../../js/mui.min.js"></script>
+		<style type="text/css">
+			header {
+				background: #cc352b !important;
+				border: none;
+				box-shadow: none !important;
+			}
+			
+			h1 {
+				font-size: 20px !important;
+				color: #ffffff !important;
+			}
+			.mui-content {
+				background: #F7F7F7 !important;
+			}
+			
+			html,
+			body {
+				background: #F7F7F7 !important;
+			}
+			
+			.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body {
+				height: 20px;
+				line-height: 20px;
+			}
+			
+			.dj_text {
+				height: 50px;
+				line-height: 50px;
+				font-size: 18px;
+				background: #FFFFFF;
+				margin-top: 5px;
+				text-indent: 15px;
+				border-top: 1px solid #e4e4e4;
+				border-bottom: 1px solid #e4e4e4;
+			}
+			
+			.dj_xrb {
+				width: 30px;
+				height: 30px;
+				background: url(../../../img/3_06@3x.png) no-repeat;
+				background-size: 100% 100%;
+			}
+			
+			
+			.mui-grid-view.mui-grid-9 {
+				background: #FFFFFF !important;
+				border-top: none !important;
+				border: none !important;
+			}
+			
+			.mui-grid-view.mui-grid-9 .mui-table-view-cell {
+				padding: 0 !important;
+				border-bottom: 1px solid #eee;
+			}
+			
+			.mui-media-body {
+				font-size: 14px !important;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav bg-color">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title">理论测试</h1>
+		</header>
+		<div class="mui-content">
+			<div class="dj_text">测试类型</div>
+			<ul class="mui-table-view mui-grid-view mui-grid-9 ul_b">
+				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4" id="lx_list.html">
+					<a href="#">
+						<span class="mui-icon dj_xrb"></span>
+						<div class="mui-media-body">练习</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4" id="kj_list.html">
+					<a href="#">
+						<span class="mui-icon dj_xrb"></span>
+						<div class="mui-media-body">考试</div>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<script type="text/javascript">
+			window.onload = function() {
+				mui.plusReady(function() {
+					var showpage = function() {
+						var id = setInterval(function() {
+							userdata = JSON.parse(plus.storage.getItem('userinfo'));
+							if(userdata) {
+								clearInterval(id);
+								setTimeout(function() {
+									plus.nativeUI.closeWaiting();
+									mui.currentWebview.show("slide-in-right");
+								}, 50);
+							}
+						}, 20);
+					};
+					showpage();
+				});
+			}
+			mui(".mui-content").on('tap', '.mui-table-view-cell', function(e) {
+				var href = this.getAttribute("id");
+				if(href){
+					mui.openWindow({
+						url: href,
+						id: href,
+						styles: {
+							top: "0px",
+							bottom: "0px",
+						},
+						createNew: false,
+						show: {
+							autoShow: false,
+							event: 'titleUpdate',
+							extras: {}
+						},
+						waiting: {
+							autoShow: true,
+							title: '正在加载...',
+						}
+					});
+				}
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,222 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../../css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			header {
+				background: #cc352b !important;
+				border: none;
+				box-shadow: none !important;
+			}
+			
+			h1 {
+				font-size: 20px !important;
+				color: #ffffff !important;
+			}
+			
+			html,
+			body {
+				background: #FFFFFF;
+			}
+			
+			.mui-content {
+				background: #FFFFFF !important;
+			}
+			
+			.email_title {
+				font-size: 19px;
+				color: #212121;
+				padding: 22px 20px 8px;
+			}
+			
+			.email_time {
+				color: #757575;
+				font-size: 15px;
+				padding-bottom: 15px;
+				padding-left: 20px;
+			}
+			
+			.email_senduser {
+				padding-left: 20px;
+				padding-bottom: 8px;
+				font-size: 17px;
+				color: #212121;
+			}
+			
+			.email_senduser span:first-child {
+				background: #76BDF3;
+				padding: 1px 3px;
+				margin-right: 3px;
+				color: #FFFFFF;
+				font-size: 15px;
+				border-radius: 5px;
+			}
+			
+			.email_receiveuser {
+				padding-left: 20px;
+				font-size: 17px;
+				padding-bottom: 15px;
+				color: #212121;
+				border-bottom: 1px solid #E4E4E4;
+			}
+			
+			.email_receiveuser span:first-child {
+				background: #F38078;
+				padding: 1px 3px;
+				margin-right: 3px;
+				color: #FFFFFF;
+				font-size: 15px;
+				border-radius: 5px;
+			}
+			
+			.email_content {
+				padding: 28px 20px;
+				color: #212121;
+				font-size: 19px;
+				line-height: 30px;
+			}
+			
+			.fj_name {
+				padding: 0px 20px 42px;
+				color: #CC352B;
+				font-size: 19px;
+				word-break: break-all;
+			}
+			
+			.fj_icon {
+				width: 20px;
+				height: 20px;
+				background: url(../../../img/uploading_accessory@2x.png) no-repeat;
+				background-size: 100% 100%;
+				float: left;
+				margin-right: 10px;
+			}
+			
+			.send_user {
+				padding: 0px 20px 3px;
+				font-size: 15px;
+				color: #212121;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav bg-color">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title">汇报详情</h1>
+		</header>
+		<div class="mui-content">
+			<div class="email_title"></div>
+			<div class="email_time"></div>
+			<div class="email_senduser"><span>发件人</span><span class="sender"></span></div>
+			<div class="email_receiveuser"><span>收件人</span><span class="recivor"></span></div>
+			<div class="email_content"></div>
+			<div class="fj_list"></div>
+			<div class="send_user">姓名：<span class="senm_1"></span></div>
+			<div class="send_user">部门：<span class="senm_1"></span></div>
+			<div class="send_user">党组织：<span class="senm_1"></span></div>
+			<div class="send_user">岗位：<span class="senm_1"></span></div>
+			<div class="send_user">级别：<span class="senm_1"></span></div>
+			<div class="send_user">手机号：<span class="senm_1"></span></div>
+		</div>
+		<script src="../../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../../js/ip_config.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			var userdata=null;
+			window.onload = function() {
+				mui.plusReady(function() {
+					var showpage = function() {
+						var id = setInterval(function() {
+							userdata = JSON.parse(plus.storage.getItem('userinfo'));
+							if(userdata) {
+								clearInterval(id);
+								setTimeout(function() {
+									plus.nativeUI.closeWaiting();
+									mui.currentWebview.show("slide-in-right");
+								}, 50);
+							}
+						}, 20);
+					};
+					showpage();
+				});
+			}
+			document.addEventListener("email_data", function(e) {
+				mui.ajax('http://' + ip_address + 'mailbox/findMailboxById', {
+					data: {
+						id:e.detail.id
+					},
+					dataType: 'json',
+					type: 'post',
+					timeout: 0,
+					success: function(r) {
+						if(r.code==200){
+							var fj_ctn='';
+							/*<div><span class="fj_icon"></span>附件：<span class="fj_this"></span></div>*/
+							mui('.email_title')[0].innerText=r.value.theme;
+							mui('.email_time')[0].innerText=r.value.sendTime;
+							mui('.sender')[0].innerText=r.value.senderName;
+							mui('.recivor')[0].innerText=r.value.addresseeJson;
+							mui('.email_content')[0].innerText=r.value.content;
+							if(!r.value.attachments){
+								mui('.fj_name')[0].style.display="none";
+							}
+							if(r.value.attachments) {
+								var attalist=JSON.parse(r.value.attachments);
+								for(var i=0;i<attalist.length;i++){
+									fj_ctn += "<div class='fj_name' id='" + attalist[i].filePath + "'><span class='fj_icon'></span>附件：" + attalist[i].orginFileName + "</div>";
+								}
+							}
+							mui('.fj_list')[0].innerHTML=fj_ctn;
+							mui('.senm_1')[0].innerText=r.value.senderName;
+							mui('.senm_1')[1].innerText=r.value.senderUnitName;
+							mui('.senm_1')[2].innerText=r.value.senderPartyBranch;
+							mui('.senm_1')[3].innerText=r.value.senderPeopleType;
+							mui('.senm_1')[4].innerText=r.value.senderTitleType;
+							mui('.senm_1')[5].innerText=r.value.senderPhoneNumber;
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+
+					}
+				});
+			});
+			
+			mui('.mui-content').on('tap', '.fj_name', function() {
+				var _self = this.getAttribute('id');
+				var slef_name = _self.split("\\");
+				plus.nativeUI.confirm("是否下载" + this.innerText, function(e) {
+					if(e.index == 0) {
+						var downLoader = plus.downloader.createDownload("http://"+ip_address+ _self.replace("\\", "\/"), {
+							method: 'GET',
+							filename: '_doc/' + slef_name[slef_name.length - 1]
+						}, function(d, status) {
+							plus.nativeUI.showWaiting("正在下载...");
+							var fileName = d.filename;
+							console.log(fileName);
+							if(status == 200) {
+								plus.nativeUI.closeWaiting();
+								mui.toast("下载完成");
+								plus.nativeUI.confirm("下载完成，是否打开", function(e) {
+									if(e.index == 0) {
+										plus.runtime.openFile(fileName, {}, function(e) {
+											alert(JSON.stringify(e));
+										});
+									}
+								}, "下载完成", ["确定", "取消"]);
+							}
+						});
+						downLoader.start();
+					} else if(e.index == 1) {
+
+					}
+				}, "新建下载", ["确定", "取消"]);
+			});
+		</script>
+	</body>
+
+</html>

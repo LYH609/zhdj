@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>Bat</title>
+		<link rel="stylesheet" href="../../css/mui.min.css" />
+		<script src="html5plus://ready"></script>
+		<style>
+			header {
+				background: #cc352b !important;
+				border: none;
+				box-shadow: none !important;
+			}
+			
+			h1 {
+				font-size: 20px !important;
+				color: #ffffff !important;
+			}
+			.top_gr {
+				position: relative;
+				height: 135px;
+				width: 96%;
+				background: url(../../img/avatar_bg.png) no-repeat;
+				background-size: 100% 100%;
+				margin-top: 10px;
+				margin-left: 2%;
+				margin-bottom: 10px;
+				border-radius: 10px;
+				box-shadow: 0px 0px 10px #bbb;
+			}
+			
+			.top_gr_tx_img {
+				border-radius: 75px;
+				margin-top: 15px;
+				margin-left: 30px;
+			}
+			
+			.top_gr_tx {
+				margin-top: 10px;
+				width: 75px;
+				height: 75px;
+				padding: 7px;
+				display: inline-block;
+				background: url("../../img/default_avatar.png") no-repeat;
+				background-size: 100% 100%
+			}
+			
+			.top_gr_name {
+				width: auto;
+				display: inline-block;
+				position: absolute;
+				line-height: 20px;
+				top: 15px;
+				left: 125px;
+				height: 20px;
+				text-align: center;
+				font-size: 18px;
+			}
+			
+			.top_gr_name_type {
+				width: auto;
+				display: inline-block;
+				position: absolute;
+				line-height: 20px;
+				top: 40px;
+				left: 125px;
+				height: 20px;
+				text-align: center;
+				font-size: 15px;
+			}
+			
+			.top_gr_name_zz {
+				width: auto;
+				display: inline-block;
+				position: absolute;
+				line-height: 20px;
+				top: 65px;
+				left: 125px;
+				height: 20px;
+				text-align: center;
+				font-size: 15px;
+			}
+			
+			.mui-table-view-cell {
+				padding-bottom: 13px;
+				padding-top: 13px
+			}
+			
+			.img_msg {
+				width: 19px;
+				height: 19px;
+				margin-right: 5px;
+				float: left;
+				background: url("../../img/personal_center_12@2x.png") no-repeat;
+				background-size: 100% 100%;
+			}
+			
+			.img_sszz {
+				width: 19px;
+				height: 19px;
+				margin-right: 5px;
+				float: left;
+				background: url("../../img/personal_center_01@2x.png") no-repeat;
+				background-size: 100% 100%;
+			}
+			
+			.img_bj {
+				width: 19px;
+				height: 19px;
+				margin-right: 5px;
+				float: left;
+				background: url("../../img/personal_center_02@2x.png") no-repeat;
+				background-size: 100% 100%
+			}
+			
+			.img_zwdj {
+				width: 19px;
+				height: 19px;
+				margin-right: 5px;
+				float: left;
+				background: url("../../img/personal_center_11@2x.png") no-repeat;
+				background-size: 100% 100%
+			}
+			
+			.img_sc {
+				width: 19px;
+				height: 19px;
+				margin-right: 5px;
+				float: left;
+				background: url("../../img/personal_center_03@2x.png") no-repeat;
+				background-size: 100% 100%
+			}
+			
+			.img_rdsj {
+				width: 19px;
+				height: 19px;
+				margin-right: 5px;
+				float: left;
+				background: url("../../img/personal_center_09@2x.png") no-repeat;
+				background-size: 100% 100%
+			}
+			
+			.img_zl {
+				width: 19px;
+				height: 19px;
+				float: left;
+				margin-right: 5px;
+				background: url("../../img/personal_center_04@2x.png") no-repeat;
+				background-size: 100% 100%
+			}
+			
+			.img_xt {
+				width: 19px;
+				height: 19px;
+				float: left;
+				margin-right: 5px;
+				background: url("../../img/personal_center_05@2x.png") no-repeat;
+				background-size: 100% 100%
+			}
+			
+			.img_gy {
+				width: 19px;
+				height: 19px;
+				float: left;
+				margin-right: 5px;
+				background: url("../../img/personal_center_07@2x.png") no-repeat;
+				background-size: 100% 100%
+			}
+			
+			.img_jxdj {
+				width: 19px;
+				height: 19px;
+				float: left;
+				margin-right: 5px;
+				background: url("../../img/personal_center_10@2x.png") no-repeat;
+				background-size: 100% 100%
+			}
+			
+			.img_kf {
+				width: 19px;
+				height: 19px;
+				float: left;
+				margin-right: 5px;
+				background: url("../../img/personal_center_08@2x.png") no-repeat;
+				background-size: 100% 100%
+			}
+			.mui-tab-label1 {
+				font-size: 11px;
+				display: block;
+				overflow: hidden;
+				color: #929292;
+				text-overflow: ellipsis;
+			}
+			.mui-tab-label2 {
+				font-size: 11px;
+				display: block;
+				overflow: hidden;
+				color: #CC352B;
+				text-overflow: ellipsis;
+			}
+			.mui-icon-kxj {
+				background: url(../../img/2_02@3x.png) no-repeat;
+				background-size: 100% 100%;
+				width: 24px;
+				height: 24px;
+			}
+			.mui-icon-xxj {
+				background: url(../../img/2_03@3x.png) no-repeat;
+				background-size: 100% 100%;
+				width: 24px;
+				height: 24px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav bg-color">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title">用户信息</h1>
+		</header>
+		<div class="mui-content">
+			<ul id="list" class="mui-table-view mui-table-view-chevron">
+				<li class="mui-table-view-cell">
+					<a class="" href="">
+						<div class="img_msg"></div>
+						<span>所属部门：</span><span class="text_gr_1"></span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell" id="bumen">
+					<a class="" href="" style="padding-right: 10px;">
+						<div class="img_sszz"></div>
+						<span>所属组织：</span><span class="text_gr_1"></span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="" href="">
+						<div class="img_bj"></div>
+						<span>岗位类别：</span><span class="text_gr_2"></span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="" href="">
+						<div class="img_zwdj"></div>
+						<span>职务等级：</span><span class="text_gr_4"></span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="" href="">
+						<div class="img_jxdj"></div>
+						<span>警衔等级：</span><span class="text_gr_6"></span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="" href="">
+						<div class="img_sc"></div>
+						<span>政治面貌：</span><span class="text_gr_3"></span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="" href="">
+						<div class="img_rdsj"></div>
+						<span id="time_rtd">入党时间：</span><span class="text_gr_5"></span>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<nav class="mui-bar mui-bar-tab tab_ctn">
+			<a class="mui-tab-item mui-active" id="">
+				<span class="mui-icon mui-icon-kxj mui-icon-kxj-active"></span>
+				<span class="mui-tab-label2">基本信息</span>
+				<span class="mui-badge mui-badge-danger badge_posi" style="display: none;">0</span>
+			</a>
+			<a class="mui-tab-item" id="dyld.html">
+				<span class="mui-icon mui-icon-xxj"></span>
+				<span class="mui-tab-label1">党员流动</span>
+			</a>
+		</nav>
+
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/ip_config.js" ></script>
+		<script>
+			mui.init();
+			var userdata = null;
+			var uid=null;
+			var udata=null;
+
+			window.onload = function() {
+				mui.plusReady(function() {
+					var showpage = function() {
+						var id = setInterval(function() {
+							userdata = JSON.parse(plus.storage.getItem('userinfo'));
+							if(userdata) {
+								clearInterval(id);
+								setTimeout(function() {
+									plus.nativeUI.closeWaiting();
+									mui.currentWebview.show("slide-in-right");
+								}, 50);
+							}
+						}, 20);
+					};
+					showpage();
+				});
+			}
+
+			document.addEventListener('giveuid',function(e){
+				uid=e.detail.data;
+				mui.ajax('http://'+ip_address+'usermessage/findUserById',{
+					data:{
+						"userId":e.detail.data
+					},
+					dataType:'json',
+					type:'post',
+					timeout:0,
+					success:function(r){
+						udata=r.value;
+						var nnh = "入党时间：";
+						if(r.value.politicalStatus == "团员") {
+							nnh = "入团时间："
+						}
+						mui('#time_rtd')[0].innerText = nnh;
+						mui('.text_gr_1')[0].innerText = r.value.unitStructure.unitName;
+						mui('.text_gr_1')[1].innerText = r.value.partyBranch;
+						mui('.text_gr_2')[0].innerText = r.value.peopleType;
+						mui('.text_gr_3')[0].innerText = r.value.politicalStatus;
+						mui('.text_gr_4')[0].innerText = r.value.partyType;
+						mui('.text_gr_5')[0].innerText = r.value.entryPartTime;
+						mui('.text_gr_6')[0].innerText = r.value.titleType;
+					},
+					error:function(xhr,type,errorThrown){
+						
+					}
+				});
+			});
+			
+			mui(".mui-content").on('tap', '.mui-table-view-cell', function(e) {
+				var id = this.getAttribute('id');
+				if(id == "bumen") {
+					plus.nativeUI.alert(mui('.text_gr_1')[1].innerText, function() {}, "所属组织", "确定");
+				}
+			});
+			
+			mui(".mui-bar-tab").on('tap', '.mui-tab-item', function(e) {
+				var id = this.getAttribute('id');
+				if(id) {
+					mui.openWindow({
+						url: id,
+						id: id,
+						styles: {
+							top: "0px",
+							bottom: "0px",
+						},
+						createNew: false,
+						show: {
+							autoShow: false,
+							event: 'titleUpdate',
+							extras: {}
+						},
+						waiting: {
+							autoShow: true,
+							title: '正在加载...',
+						}
+					});
+					mui.fire(plus.webview.getWebviewById(id),'uid_chans',{id:uid,udt:udata});
+				}
+			});
+			
+		</script>
+	</body>
+
+</html>

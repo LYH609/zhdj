@@ -1,0 +1,219 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../../css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			header {
+				background: #cc352b !important;
+				border: none;
+				box-shadow: none !important;
+			}
+			
+			h1 {
+				font-size: 20px !important;
+				color: #ffffff !important;
+			}
+			
+			.receive_content_div {
+				width: 100%;
+				background: #FFFFFF;
+				margin-top: 15px;
+				padding: 10px 10px;
+			}
+			
+			.read_status {
+				color: #BBBBBB;
+				font-size: 14px;
+				float: right;
+				background: #f5f5f5;
+				border-radius: 10px;
+				padding: 0px 10px;
+				text-indent: 0;
+			}
+			
+			.read_status_active {
+				color: #FFFFFF !important;
+				background: #f67070;
+			}
+			
+			.mui-media-body {
+				text-indent: 10px;
+			}
+			
+			.u_name {
+				color: #333;
+				font-size: 18px;
+			}
+			
+			.mui-ellipsis {
+				padding-top: 10px !important;
+			}
+			
+			.rz_type {
+				font-size: 18px;
+				color: #333;
+				padding: 10px 5px;
+			}
+			
+			.rz_title {
+				color: #757575;
+				padding: 2px 5px;
+			}
+			
+			.rz_content {
+				color: #333333;
+				line-height: 25px;
+				font-size: 18px;
+				padding-bottom: 20px;
+				padding-left: 20px;
+			}
+			
+			.check_rz {
+				line-height: 30px;
+				font-size: 18px;
+				color: #F37F77;
+				text-align: right;
+			}
+			
+			.fj_name {
+				padding: 10px 10px 10px;
+				color: #CC352B;
+				font-size: 19px;
+				word-break: break-all;
+			}
+			
+			.fj_icon {
+				width: 20px;
+				height: 20px;
+				background: url(../../../img/uploading_accessory@2x.png) no-repeat;
+				background-size: 100% 100%;
+				float: left;
+				margin-right: 10px;
+			}
+			
+			.tp_icon {
+				width: 20px;
+				height: 20px;
+				background: url(../../../img/uploading_picture@2x.png) no-repeat;
+				background-size: 100% 100%;
+				float: left;
+				margin-right: 10px;
+			}
+			
+			img {
+				border-radius: 52px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav bg-color">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title">记录详情</h1>
+		</header>
+		<div class="mui-content">
+
+		</div>
+		<script src="../../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../../js/ip_config.js" ></script>
+		<script type="text/javascript">
+			mui.init();
+			window.onload = function() {
+				mui.plusReady(function() {
+					var showpage = function() {
+						var id = setInterval(function() {
+							userdata = JSON.parse(plus.storage.getItem('userinfo'));
+							if(userdata) {
+								clearInterval(id);
+								setTimeout(function() {
+									plus.nativeUI.closeWaiting();
+									mui.currentWebview.show("slide-in-right");
+								}, 50);
+							}
+						}, 20);
+					};
+					showpage();
+				});
+
+				document.addEventListener('rz_data', function(e) {
+					mui.ajax('http://'+ip_address+'meeting/findMeetingPretById', {
+						data: {
+							id: e.detail.rzid
+						},
+						dataType: 'json',
+						type: 'get',
+						timeout: 0,
+						success: function(r) {
+							if(r.code == 200) {
+								var headimg = "";
+								var fj_ctn = "";
+								if(r.value.createUserImage) {
+									headimg = "http://"+ip_address+"uploadFiles/headImage/" + r.value.createUserImage
+								} else {
+									headimg = "../../../img/default_avatar@2x.png";
+								}
+
+								if(r.value.attachments) {
+									var attalist=JSON.parse(r.value.attachments);
+									for(var i=0;i<attalist.length;i++){
+										fj_ctn += "<div class='fj_name' id='" + attalist[i].filePath + "'><span class='fj_icon'></span>附件：" + attalist[i].orginFileName + "</div>";
+									}
+								}
+
+								var c = '<div class="receive_content_div">'+
+								'<a href="javascript:;">'+
+									'<img class="mui-media-object mui-pull-left" width="52" src="'+headimg+'">'+
+									'<div class="mui-media-body">'+
+										'<span class="u_name">'+r.value.createUserName+'</span>'+
+										'<p class="mui-ellipsis">'+r.value.createTime+'</p>'+
+									'</div>'+
+								'</a>'+
+								'<div class="rz_type">主题:'+r.value.theme+'</div>'+
+								'<div class="rz_title">内容:</div>'+
+								'<div class="rz_content">'+r.value.content+'</div>'+
+								fj_ctn+
+							'</div>';
+								mui('.mui-content')[0].innerHTML = c;
+							}
+						}
+					});
+				});
+			}
+			mui('.mui-content').on('tap', '.fj_name', function() {
+				var _self = this.getAttribute('id');
+				var slef_name = _self.split("\\");
+				plus.nativeUI.confirm("是否下载" + this.innerText, function(e) {
+					if(e.index == 0) {
+						console.log("http://"+ip_address+ _self);
+						var downLoader = plus.downloader.createDownload("http://"+ip_address+ _self.replace("\\", "\/"), {
+							method: 'GET',
+							filename: '_doc/' + slef_name[slef_name.length - 1]
+						}, function(d, status) {
+							plus.nativeUI.showWaiting("正在下载...");
+							var fileName = d.filename;
+							if(status == 200) {
+								plus.nativeUI.closeWaiting();
+								mui.toast("下载完成");
+								plus.nativeUI.confirm("下载完成，是否打开", function(e) {
+									if(e.index == 0) {
+										plus.runtime.openFile(fileName, {}, function(e) {
+											alert(JSON.stringify(e));
+										});
+									}
+								}, "下载完成", ["确定", "取消"]);
+							}
+						});
+						downLoader.start();
+					} else if(e.index == 1) {
+
+					}
+				}, "新建下载", ["确定", "取消"]);
+			});
+		</script>
+	</body>
+
+</html>

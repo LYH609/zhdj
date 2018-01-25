@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="../../css/mui.min.css" />
+		<script type="text/javascript" src="../../js/mui.min.js"></script>
+		<style>
+			header {
+				background: #cc352b !important;
+				border: none;
+				box-shadow: none !important;
+			}
+			
+			h1 {
+				font-size: 20px !important;
+				color: #ffffff !important;
+			}
+			
+			.sp_time {
+				color: #FFFFFF;
+				font-size: 15px;
+				width: 100%;
+				height: auto;
+				text-align: center;
+				margin-top: 10px;
+			}
+			
+			.sp_time span {
+				background: #cacaca;
+				padding: 3px 5px;
+				border-radius: 10px;
+			}
+			
+			img {
+				border-radius: 75px;
+				position: absolute;
+			}
+			
+			.sp_info {
+				margin-top: 10px;
+				margin-bottom: 40px;
+				padding-left: 10px;
+				position: relative;
+			}
+			
+			.sp_info_text {
+				margin-left: 65px;
+				height: auto;
+			}
+			
+			.status_color {
+				position: relative;
+				top: 0;
+				height: 3px;
+				width: 100%;
+				background: #a682c2;
+				border-radius: 5px 5px 0px 0px;
+			}
+			
+			.sp_text_1 {
+				color: #a682c2;
+				padding: 10px 10px;
+			}
+			
+			.text_div {
+				position: relative;
+				top: 0;
+				margin-left: 65px;
+				background: #FFFFFF;
+				padding-bottom: 15px;
+				border-radius: 5px 5px 5px 5px;
+			}
+			
+			.type_text {
+				position: relative;
+				top: 0;
+				margin-left: 65px;
+				font-size: 15px;
+				color: #a3a3a3;
+			}
+			
+			.sp_text_2 {
+				padding: 5px 10px;
+			}
+			
+			.sp_text_3 {
+				padding: 2px 10px;
+				font-size: 15px;
+				color: #C0C0C0;
+			}
+			
+			.sp_text_3 span {
+				color: #545454;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav bg-color">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title">汇报</h1>
+		</header>
+		<div class="mui-content" style="padding-right: 30px;">
+			<!--<div class="sp_time"><span>11:50</span></div>
+			<div class="sp_info">
+				<img src="../../img/information_letter@2x.png" width="50" height="50" />
+				<p class="sp_info_text">
+					<div class="type_text">信箱</div>
+					<div class="text_div">
+						<div class="status_color"></div>
+						<div class="sp_text_1">会议资料</div>
+						<div class="sp_text_3">发送人：<span>六子</span></div>
+						<div class="sp_text_3">发送时间：<span>2017.07.09 11:40-12:30</span></div>
+						<div class="sp_text_1">已查看</div>
+					</div>
+				</p>
+			</div>-->
+		</div>
+		<script type="text/javascript" src="../../js/ip_config.js"></script>
+		<script>
+			mui.plusReady(function() {
+				mui.ajax('http://' + ip_address + 'message/listHistoryMessageByUT', {
+					data: {
+						start: "0",
+						length: "10001",
+						type: "5"
+					},
+					dataType: 'json',
+					type: 'post',
+					timeout: 0,
+					success: function(r) {
+						if(r.code == 200) {
+							var xx_list = "";
+							for(var i = 0; i < r.value.data.length; i++) {
+								var lokstu = "";
+								if(r.value.data[i].lookStatus == 0) {
+									lokstu = "未查看";
+								}
+								if(r.value.data[i].lookStatus == 1) {
+									lokstu = "已查看";
+								}
+								var xxdata = JSON.parse(r.value.data[i].data);
+								xx_list += '<div class="sp_time"><span>'+r.value.data[i].date+'</span></div>'+
+											'<div class="sp_info" xx_id="'+r.value.data[i].eventId+'" sysid="'+r.value.data[i].systemno+'">'+
+												'<img src="../../img/information_letter@2x.png" width="50" height="50" />'+
+												'<p class="sp_info_text">'+
+													'<div class="type_text">汇报</div>'+
+													'<div class="text_div">'+
+														'<div class="status_color"></div>'+
+														'<div class="sp_text_1">'+xxdata.theme+'</div>'+
+														'<div class="sp_text_3">发送人：<span>'+xxdata.senderName+'</span></div>'+
+														'<div class="sp_text_3">发送时间：<span>'+r.value.data[i].date+'</span></div>'+
+														'<div class="sp_text_1">'+lokstu+'</div>'+
+													'</div>'+
+												'</p>'+
+											'</div>';
+							}
+							mui('.mui-content')[0].innerHTML = xx_list;
+							mui.scrollTo(99999, 10);
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+
+					}
+				});
+				setTimeout(function() {
+					plus.nativeUI.closeWaiting();
+					mui.currentWebview.show("slide-in-right");
+				}, 50);
+			});
+
+			mui('.mui-content').on('tap', '.sp_info', function(e) {
+				var mailid = this.getAttribute("xx_id");
+				var sysid=this.getAttribute("sysid");
+				mui.ajax('http://' + ip_address + 'message/updateMessageLookStatus',{
+					data:{
+						messageId:sysid
+					},
+					dataType:'json',
+					type:'post',
+					timeout:0,
+					success:function(r){
+						
+					},
+					error:function(xhr,type,errorThrown){
+						
+					}
+				});
+				mui.openWindow({
+					url: "../dwjs/email/email_detail.html",
+					id: "email_detail",
+					styles: {
+						top: "0px",
+						bottom: "0px",
+					},
+					createNew: false,
+					show: {
+						autoShow: false,
+						event: 'titleUpdate',
+						extras: {}
+					},
+					waiting: {
+						autoShow: true,
+						title: '正在加载...',
+					}
+				});
+				mui.fire(plus.webview.getWebviewById("email_detail"), 'email_data', {
+					id: mailid
+				});
+			});
+		</script>
+	</body>
+
+</html>

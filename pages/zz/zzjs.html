@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" href="../../css/mui.min.css" />
+		<link rel="stylesheet" href="../../css/mui.picker.min.css" />
+		<style type="text/css">
+			header {
+				background: #cc352b !important;
+				border: none;
+				box-shadow: none !important;
+			}
+			
+			h1 {
+				font-size: 20px !important;
+				color: #ffffff !important;
+			}
+			
+			.mui-content {
+				background: #F7F7F7 !important;
+			}
+			
+			.top_selebar {
+				background: #CC352B;
+				height: 40px;
+				color: #FFFFFF;
+			}
+			/*.div_1 {
+				width: 50%;
+				float: left;
+				overflow: hidden;
+				text-align: center;
+				padding-left: 10px;
+				height: 40px;
+				line-height: 40px;
+				font-size: 17px;
+			}*/
+			
+			.div_2 {
+				width: 100%;
+				overflow: hidden;
+				text-align: center;
+				padding-right: 10px;
+				float: left;
+				height: 40px;
+				line-height: 40px;
+				font-size: 17px;
+			}
+			
+			.tongji_div {
+				height: 120px;
+				background: #FFFFFF;
+				width: 100%;
+			}
+			
+			.tongji_div_1 {
+				width: 100%;
+				background: #CC352B;
+				height: 120px;
+				text-align: center;
+				padding: 20px 15px 20px;
+			}
+			
+			.tongji_div_2 {
+				width: 100%;
+				height: 100px;
+				padding: 10px 15px;
+				background: #FFFFFF;
+			}
+			
+			.tongji_div_2_1 {
+				height: 80px;
+				width: 50%;
+				float: left;
+				padding: 10px 10px;
+				line-height: 30px;
+				text-align: center;
+				color: #757575;
+				border-right: 1px solid #E4E4E4;
+			}
+			
+			.tongji_div_2_1 span {
+				color: #212121;
+			}
+			
+			.tongji_div_2_2 span {
+				color: #212121;
+				font-size: 20px;
+			}
+			
+			.tongji_div_2_2 {
+				height: 80px;
+				width: 50%;
+				float: left;
+				padding: 10px 10px;
+				line-height: 30px;
+				text-align: center;
+				color: #757575;
+			}
+			
+			.tongji_div_1_1 {
+				height: 80px;
+				width: 80px;
+				display: inline-block;
+				border: 1px solid #FFFFFF;
+				border-radius: 100px;
+				padding: 20px 10px;
+				text-align: center;
+				font-size: 17px;
+				color: #FFFFFF;
+			}
+			
+			.tongji_div_1_1 span {
+				font-size: 23px;
+			}
+			
+			.tongji_div_1_2 span {
+				font-size: 20px;
+			}
+			
+			.tongji_div_1_2 {
+				height: 100px;
+				width: 48%;
+				margin-left: 4%;
+				background: #30DAAD;
+				padding: 20px 10px;
+				line-height: 30px;
+				float: left;
+				text-align: center;
+				color: #FFFFFF;
+			}
+			
+			.tongji_div_a {
+				height: 240px;
+				background: #FFFFFF;
+				width: 100%;
+				margin-top: 10px;
+			}
+			
+			.tonjititle {
+				padding: 10px 5px;
+				height: 40px;
+				width: 100%;
+				border-bottom: 1px solid #E4E4E4;
+				text-align: left;
+			}
+			
+			.tongji_div_3 {
+				width: 100%;
+				height: 100px;
+				padding: 10px 15px;
+				border-bottom: 1px solid #E4E4E4;
+			}
+			
+			.tongji_div_3_1 {
+				height: 80px;
+				width: 50%;
+				float: left;
+				padding: 10px 10px;
+				line-height: 30px;
+				text-align: center;
+				color: #757575;
+				border-right: 1px solid #E4E4E4;
+			}
+			
+			.tongji_div_3_1 span {
+				color: #212121;
+			}
+			
+			.tongji_div_3_2 span {
+				color: #212121;
+				font-size: 20px;
+			}
+			
+			.tongji_div_3_2 {
+				height: 80px;
+				width: 50%;
+				float: left;
+				padding: 10px 10px;
+				line-height: 30px;
+				text-align: center;
+				color: #757575;
+			}
+			
+			.tongji_div_4 {
+				width: 100%;
+				height: 100px;
+				padding: 10px 15px;
+			}
+			
+			.tongji_div_4_1 {
+				height: 80px;
+				width: 50%;
+				float: left;
+				padding: 10px 10px;
+				line-height: 30px;
+				text-align: center;
+				color: #757575;
+				border-right: 1px solid #E4E4E4;
+			}
+			
+			.tongji_div_4_1 span {
+				color: #212121;
+			}
+			
+			.tongji_div_4_2 span {
+				color: #212121;
+				font-size: 20px;
+			}
+			
+			.tongji_div_4_2 {
+				height: 80px;
+				width: 50%;
+				float: left;
+				padding: 10px 10px;
+				line-height: 30px;
+				text-align: center;
+				color: #757575;
+			}
+			
+			.tongji_div_b {
+				height: 140px;
+				background: #FFFFFF;
+				width: 100%;
+				margin-top: 10px;
+			}
+			
+			.mui-icon-tsa {
+				width: 20px;
+				height: 20px;
+				background: url(../../img/spread_01@2x.png) no-repeat;
+				background-size: 100% 100%;
+				display: inline-block;
+				float: right;
+				margin-top: 9px;
+			}
+			
+			.tongji_div_5_1 {
+				width: 100%;
+				height: 80px;
+				line-height: 30px;
+				text-align: center;
+			}
+			
+			#demo1 {
+				width: 30%;
+				display: inline-block;
+			}
+			
+			.mui-segmented-control-positive.mui-segmented-control-inverted .mui-control-item.mui-active {
+				color: #CC352B !important;
+				border-bottom: 2px solid #CC352B !important;
+				background: 0 0;
+			}
+			
+			.ctn_this {
+				width: 100%;
+			}
+			
+			.ctn_this table {
+				width: 100%;
+				border: 1px solid #eee;
+				text-align: center;
+			}
+			
+			thead tr th {
+				padding: 10px 10px;
+				border: 1px solid #eee;
+				color: #757575;
+			}
+			
+			tr td {
+				padding: 10px 10px;
+				border: 1px solid #eee;
+				color: #212121;
+			}
+			
+			tr th {
+				padding: 10px 10px;
+				border: 1px solid #eee;
+				color: #888888;
+				font-weight: normal;
+			}
+			
+			.col_1 {
+				color: #45a0ec;
+			}
+			
+			.col_2 {
+				color: #CC352B;
+			}
+			
+			.title_table {
+				color: #CC352B;
+				font-size: 16px;
+				text-align: left;
+				padding: 10px 0px;
+				text-indent: 10px;
+			}
+			
+			.blandw {
+				width: 100%;
+				height: 10px;
+				background: #EEEEEE;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav bg-color">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title">党内职务</h1>
+		</header>
+		<div class="mui-content">
+			<div class="top_selebar">
+				<div class="div_1"></div>
+				<div class="div_2">
+					<span class="text_unit">九江县</span><span class="mui-icon mui-icon-tsa"></span>
+				</div>
+			</div>
+
+			<div class="ctn_this">
+				<!--<div class="blandw"></div>
+				<div class="title_table">九江县大队党委(支部)委员会成员表</div>
+				<table>
+					<thead>
+					<tr>
+						<th>姓名</th>
+						<th>党内职务</th>
+						<th>党内任职时间</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr>
+						<td>詹家年</td>
+						<td>书记</td>
+						<td>2016.01</td>
+					</tr>
+					<tr>
+						<td>江雄平</td>
+						<td>副书记</td>
+						<td>2017.03</td>
+					</tr>
+					<tr>
+						<td>刘波</td>
+						<td>委员</td>
+						<td>2016.01</td>
+					</tr>
+					<tr>
+						<td>张文鑫</td>
+						<td>委员</td>
+						<td>2017.03</td>
+					</tr>
+					<tr>
+						<td>吴志诚</td>
+						<td>委员</td>
+						<td>2014.07</td>
+					</tr>
+					</tbody>
+				</table>-->
+
+			</div>
+		</div>
+
+		<script type="text/javascript" src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/ip_config.js"></script>
+		<script type="text/javascript" src="../../js/mui.picker.all.js"></script>
+		<script>
+			mui.init();
+			var unit = [];
+			var unitid = null;
+			mui.ajax('http://' + ip_address + 'unitstructure/list4Tree', {
+				data: {
+
+				},
+				dataType: 'json',
+				type: 'post',
+				timeout: 0,
+				success: function(r) {
+					if(r.code == 500) {
+						return false;
+					}
+					for(var i = 0; i < r.value.length; i++) {
+						var unit_list = {};
+						unit_list.unitid = r.value[i].id;
+						unit_list.text = r.value[i].text;
+						unit.push(unit_list);
+					}
+					unitid = unit[0].unitid;
+					mui('.text_unit')[0].innerText = unit[0].text;
+					mui('.text_unit')[0].setAttribute("id", unit[0].unitid)
+				},
+				error: function(xhr, type, errorThrown) {
+					console.log(errorThrown)
+				}
+			});
+			window.onload = function() {
+				mui.plusReady(function() {
+					var showpage = function() {
+						var id = setInterval(function() {
+							userdata = JSON.parse(plus.storage.getItem('userinfo'));
+							if(userdata && unitid) {
+								clearInterval(id);
+								zz_table();
+								setTimeout(function() {
+									plus.nativeUI.closeWaiting();
+									mui.currentWebview.show("slide-in-right");
+								}, 50);
+							}
+						}, 20);
+					};
+					showpage();
+				});
+			}
+
+			mui(".mui-content").on("tap", ".div_2", function(e) {
+				var picker = new mui.PopPicker();
+				picker.setData(unit);
+				picker.show(function(selectItems) {
+					unitid = selectItems[0].unitid;
+					mui('.text_unit')[0].innerText = selectItems[0].text;
+					zz_table();
+				})
+			});
+
+			function zz_table() {
+				mui.ajax('http://' + ip_address + 'partypost/list', {
+					data: {
+						unitId: unitid
+					},
+					dataType: 'json',
+					type: 'post',
+					timeout: 0,
+					success: function(r) {
+						mui('.ctn_this')[0].innerHTML="";
+						for(var i = 0; i < r.value.length; i++) {
+							var div_1 = document.createElement('div');
+							div_1.className = "blandw";
+							var div_2 = document.createElement('div');
+							div_2.innerText = r.value[i].branch;
+							div_2.className = "title_table";
+							mui('.ctn_this')[0].appendChild(div_1);
+							mui('.ctn_this')[0].appendChild(div_2);
+							var table_1 = document.createElement('table');
+							table_1.innerHTML = '<thead>' +
+								'<tr>' +
+								'<th>姓名</th>' +
+								'<th>党内职务</th>' +
+								'<th>党内任职时间</th>' +
+								'</tr>' +
+								'</thead>' +
+								'<tbody class="contenttable_' + i + '"></tbody>';
+							mui('.ctn_this')[0].appendChild(table_1);
+							var trlist = "";
+							for(var j = 0; j < r.value[i].partyPostList.length; j++) {
+								trlist += '<tr>' +
+									'<td>' + r.value[i].partyPostList[j].userName + '</td>' +
+									'<td>' + r.value[i].partyPostList[j].postName + '</td>' +
+									'<td>' + r.value[i].partyPostList[j].postTime + '</td>' +
+									'</tr>';
+							}
+							mui('.contenttable_' + i)[0].innerHTML = trlist;
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+
+					}
+				});
+			}
+		</script>
+	</body>
+
+</html>

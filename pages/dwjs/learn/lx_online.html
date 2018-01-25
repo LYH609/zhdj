@@ -1,0 +1,375 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../../css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			header {
+				background: #cc352b !important;
+				border: none;
+				box-shadow: none !important;
+			}
+			
+			h1 {
+				font-size: 20px !important;
+				color: #ffffff !important;
+			}
+			
+			html,
+			body {
+				background: #FFFFFF;
+			}
+			
+			.mui-content {
+				background: #FFFFFF !important;
+			}
+			
+			.btn_div {
+				width: 80%;
+				margin-left: 10%;
+				margin-top: 20px;
+			}
+			
+			.mui-content {
+				text-align: center;
+				background: url(../../../img/test_bg_1.png) no-repeat !important;
+				background-size: 100% auto !important;
+			}
+			
+			.testinfo {
+				width: 80%;
+				height: auto;
+				background: #FFFFFF;
+				display: inline-block;
+				box-shadow: 0 0 10px #CC352B;
+				box-shadow: -2px 0 5px #fedfc2, 0 0px 1px #fedfc2, 0 2px 5px #fedfc2, 2px 0 5px #fedfc2;
+				margin-top: 30px;
+			}
+			
+			ul {
+				background: #FFFFFF !important;
+			}
+			
+			.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body {
+				width: auto !important;
+				height: auto !important;
+				line-height: 16px !important;
+				text-align: left !important;
+			}
+			
+			.mui-table-view-cell p {
+				font-size: 16px !important;
+				margin-top: 3px !important;
+			}
+			
+			img {
+				border-radius: 50px;
+			}
+			
+			.mui-table-view .mui-media-object {
+				line-height: 45px !important;
+				max-width: 45px !important;
+				height: 45px !important;
+			}
+			
+			.mui-grid-view.mui-grid-9 .mui-table-view-cell>a:not(.mui-btn) {
+				padding: 15px 0px !important;
+			}
+			
+			.dtsj {
+				height: 98px;
+				width: 100%;
+				border-bottom: 1px solid #DDDDDD;
+			}
+			
+			.dtsj_1 {
+				width: 50%;
+				height: 98px;
+				float: left;
+				line-height: 98px;
+				text-align: center;
+			}
+			
+			.dtsj_2 {
+				width: 50%;
+				height: 98px;
+				float: left;
+				padding: 4px 0px;
+			}
+			
+			.dtsj_3 {
+				width: 50%;
+				height: 98px;
+				float: left;
+				line-height: 98px;
+				text-align: center;
+			}
+			
+			.time_start {
+				height: 30px;
+				width: 100%;
+				font-size: 16px;
+				line-height: 30px;
+				text-align: center;
+			}
+			
+			.time_ts {
+				height: 30px;
+				width: 100%;
+				font-size: 16px;
+				line-height: 30px;
+				text-align: center;
+			}
+			
+			.time_end {
+				height: 30px;
+				width: 100%;
+				font-size: 16px;
+				line-height: 30px;
+				text-align: center;
+			}
+			
+			.mui-table-view .mui-media-object.mui-pull-left {
+				margin-right: 0px !important;
+			}
+			
+			.df_ts {
+				text-align: center;
+				font-size: 20px;
+				color: #212121;
+				line-height: 50px;
+			}
+			
+			.df_num {
+				text-align: center;
+				line-height: 50px;
+				font-size: 30px;
+				color: #CC352B;
+			}
+			
+			.result {
+				text-align: center;
+				line-height: 50px;
+				font-size: 17px;
+				color: #CC352B;
+			}
+			
+			.history_text {
+				margin-top: 20px;
+				color: #C0C0C0;
+				font-size: 16px;
+				line-height: 50px;
+				text-align: left;
+				text-indent: 40px;
+			}
+			
+			.line_1 {
+				text-align: left;
+				text-indent: 40px;
+			}
+			
+			.ling_right {
+				float: right;
+				text-indent: 0px;
+			}
+			
+			.ling_right_num {
+				margin-right: 30px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav bg-color">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title">在线练习</h1>
+		</header>
+		<div class="mui-content">
+			<div class="testinfo">
+				<ul class="mui-table-view mui-grid-view mui-grid-9">
+					<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-3">
+						<a href="javascript:;">
+							<img class="mui-media-object mui-pull-left" src="../../../img/online_testing_1@2x.png">
+							<div class="mui-media-body">
+								答题总分
+								<p class='mui-ellipsis' id="totalnum">100</p>
+							</div>
+						</a>
+					</li>
+					<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-3">
+						<a href="javascript:;">
+							<img class="mui-media-object mui-pull-left" src="../../../img/online_testing_2@2x.png">
+							<div class="mui-media-body">
+								及格分数
+								<p class='mui-ellipsis' id="jigenum">60</p>
+							</div>
+						</a>
+					</li>
+					<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-3">
+						<a href="javascript:;">
+							<img class="mui-media-object mui-pull-left" src="../../../img/online_testing_3@2x.png">
+							<div class="mui-media-body">
+								总题数
+								<p class='mui-ellipsis' id="totaltestnum">10</p>
+							</div>
+						</a>
+					</li>
+					<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-3">
+						<a href="javascript:;">
+							<img class="mui-media-object mui-pull-left" src="../../../img/online_testing_4@2x.png">
+							<div class="mui-media-body">
+								答题时长
+								<p class='mui-ellipsis' id="testtime">30min</p>
+							</div>
+						</a>
+					</li>
+				</ul>
+				<div class="dtsj">
+					<div class="dtsj_1">答题时间</div>
+					<div class="dtsj_2">
+						<div class="time_start">2017.09.10</div>
+						<div class="time_ts">至</div>
+						<div class="time_end">2017.10.10</div>
+					</div>
+				</div>
+				<div class="dtsj">
+					<div class="dtsj_1">答题说明</div>
+					<div class="dtsj_3">能力测试</div>
+				</div>
+			</div>
+
+			<div class="testinfo" style="display: none;">
+				<div style="height: 50px;"></div>
+				<div class="df_ts">本次得分</div>
+				<div class="df_num">89</div>
+				<div class="result">超过<span class="beatnum">65%</span>的党员</div>
+				<ul class="mui-table-view mui-grid-view mui-grid-9">
+					<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-3">
+						<a href="javascript:;" style="padding: 15px 5px !important;">
+							<img class="mui-media-object mui-pull-left" src="../../../img/online_testing_5@2x.png">
+							<div class="mui-media-body">
+								评分
+								<p class='mui-ellipsis pf'>不合格</p>
+							</div>
+						</a>
+					</li>
+					<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-3">
+						<a href="javascript:;" style="padding: 15px 5px !important;">
+							<img class="mui-media-object mui-pull-left" src="../../../img/online_testing_6@2x.png">
+							<div class="mui-media-body">
+								错误
+								<p class='mui-ellipsis cw'>3</p>
+							</div>
+						</a>
+					</li>
+				</ul>
+			</div>
+
+			<div class="btn_div">
+				<button type="button" style="width: 100%;padding: 10px 10px;" class="mui-btn mui-btn-danger">开始答题</button>
+			</div>
+			<div style="height: 30px;width: 100%;"></div>
+		</div>
+		<script src="../../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../../js/ip_config.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			var test_id = null;
+			var userdata = null;
+			window.onload = function() {
+				mui.plusReady(function() {
+					var showpage = function() {
+						var id = setInterval(function() {
+							userdata = JSON.parse(plus.storage.getItem('userinfo'));
+							if(userdata) {
+								clearInterval(id);
+								setTimeout(function() {
+									plus.nativeUI.closeWaiting();
+									mui.currentWebview.show("slide-in-right");
+								}, 50);
+							}
+						}, 20);
+					};
+					showpage();
+				});
+			}
+			mui('.mui-content').on('tap', '.mui-btn', function(e) {
+				mui.openWindow({
+					url: "lx_t.html",
+					id: "lx_t",
+					styles: {
+						top: "0px",
+						bottom: "0px",
+					},
+					createNew: false,
+					show: {
+						autoShow: false,
+						event: 'titleUpdate',
+						extras: {}
+					},
+					waiting: {
+						autoShow: true,
+						title: '正在加载...',
+					}
+				});
+				mui.fire(plus.webview.getWebviewById("lx_t"), 'testidnum', {
+					id: test_id,
+					scoreid: ""
+				});
+			});
+
+			//获取试卷id
+			document.addEventListener('testid', function(e) {
+				test_id = e.detail.id;
+				if(e.detail.status == "待考") {
+					mui.ajax('http://' + ip_address + 'testpaper/showTestPaper', {
+						data: {
+							testId: e.detail.id
+						},
+						dataType: 'json',
+						type: 'post',
+						timeout: 0,
+						success: function(r) {
+							console.log(JSON.stringify(r));
+							if(r.code != 200) {
+								return;
+							}
+							mui('#totalnum')[0].innerText = r.value.totalScore;
+							mui('#jigenum')[0].innerText = r.value.testPass;
+							mui('#totaltestnum')[0].innerText = r.value.testNumber;
+							mui('#testtime')[0].innerText = r.value.testDuration;
+							mui('.time_start')[0].innerText = r.value.startTime.split(" ")[0];
+							mui('.time_end')[0].innerText = r.value.endTime;
+							mui('.dtsj_3')[0].innerText = r.value.testDesc;
+						},
+						error: function(xhr, type, errorThrown) {
+
+						}
+					});
+				}
+			});
+
+			//答题结束返回
+			document.addEventListener("goal_return", function(e) {
+				console.log(JSON.stringify(e.detail.result));
+				mui('.testinfo')[0].style.display = "none";
+				mui('.btn_div')[0].style.display = "none";
+				mui('.testinfo')[1].style.display = "inline-block";
+				mui('.df_num')[0].innerText = e.detail.result.score;
+				mui('.beatnum')[0].innerText = e.detail.result.beatNumber?e.detail.result.beatNumber:0;
+				mui('.pf')[0].innerText = e.detail.result.scoreLevel;
+				mui('.cw')[0].innerText = e.detail.result.wrongNumber;
+				/*mui('.yxl')[0].innerText = e.detail.result.historyScore.excellentRate;
+				mui('.jgl')[0].innerText = e.detail.result.historyScore.passRate;
+				mui('.zp')[0].innerText = e.detail.result.historyScore.totalScoreLevel;
+
+				mui('.ling_right_num')[0].innerText = e.detail.result.historyScore.beatNumber;
+				mui('.ling_right_num')[1].innerText = e.detail.result.historyScore.wrongNumber;*/
+			});
+		</script>
+	</body>
+
+</html>

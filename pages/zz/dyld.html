@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>Bat</title>
+		<link rel="stylesheet" href="../../css/mui.min.css" />
+		<script src="html5plus://ready"></script>
+		<style>
+			header {
+				background: #cc352b !important;
+				border: none;
+				box-shadow: none !important;
+			}
+			
+			h1 {
+				font-size: 20px !important;
+				color: #ffffff !important;
+			}
+			
+			html,
+			body {
+				height: 100%;
+				background: #FFFFFF;
+			}
+			
+			li {
+				padding: 10px 0px;
+				letter-spacing:2px;
+			}
+			
+			.mui-content {
+				background: #FFFFFF !important;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav bg-color">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title">党员流动</h1>
+		</header>
+		<div class="mui-content">
+			<ul id="ll_list">
+
+			</ul>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/ip_config.js"></script>
+		<script>
+			mui.init();
+			window.onload = function() {
+				mui.plusReady(function() {
+					var showpage = function() {
+						var id = setInterval(function() {
+							userdata = JSON.parse(plus.storage.getItem('userinfo'));
+							if(userdata) {
+								clearInterval(id);
+								setTimeout(function() {
+									plus.nativeUI.closeWaiting();
+									mui.currentWebview.show("slide-in-right");
+								}, 50);
+							}
+						}, 20);
+					};
+					showpage();
+				});
+			}
+			document.addEventListener("uid_chans", function(e) {
+				mui.ajax('http://' + ip_address + 'changeunitlog/listUnitLogs', {
+					data: {
+						userId: e.detail.id
+					},
+					dataType: 'json',
+					type: 'post',
+					timeout: 0,
+					success: function(r) {
+						var ul = document.getElementById("ll_list");
+						if(r.value == null) {
+							var li = document.createElement('li');
+							li.innerText = e.detail.udt.entryPartTime + " - 至今, " + e.detail.udt.unitStructure.unitName + "  " + e.detail.udt.partyBranch + " " + e.detail.udt.peopleType;
+							ul.appendChild(li);
+							return false;
+						}
+						for(var i = 0; i < r.value.length; i++) {
+							var li = document.createElement('li');
+							li.innerText = r.value[i].fromDate +" - "+ r.value[i].toDate + ',' + r.value[i].unitName +'  '+r.value[i].partBranch  +'  '+r.value[i].peopleType;
+							ul.appendChild(li);
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+
+					}
+				});
+			});
+		</script>
+	</body>
+
+</html>

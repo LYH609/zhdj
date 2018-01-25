@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="../../js/mui.min.js"></script>
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+		</script>
+		<style>
+			header {
+				background: -webkit-gradient(linear, 0 0, 0 bottom, from(#b7b7b5), to(#bdbbb9));
+				border: none;
+				box-shadow: none !important;
+			}
+			
+			h1 {
+				font-size: 20px !important;
+				color: #ffffff !important;
+			}
+			
+			#container {
+				background: -webkit-gradient(linear, 0 0, 0 bottom, from(#bdbbb9), to(#59656f));
+				margin-bottom: 10px;
+			}
+			
+			.userheadimg {
+				width: 30px;
+				left: 53px;
+				border-radius: 30px;
+				top: 5px;
+			}
+			
+			ul li {
+				padding-left: 10px !important;
+			}
+			
+			.titlesp {
+				font-size: 19px;
+				display: inline-block;
+				height: 38px;
+				line-height: 38px;
+			}
+			
+			.mui-table-view-cell>a:not(.mui-btn) {
+				padding-left: 40px !important;
+			}
+			
+			.title_1 {
+				padding-left: 20px !important;
+			}
+			
+			.first_page {
+				font-size: 18px;
+				color: #CC352B;
+				float: right;
+				line-height: 38px;
+			}
+			
+			.user_ctn {
+				display: inline-block;
+				float: left;
+				margin-right: 10px;
+			}
+			
+			.user_ctn_list {
+				font-size: 18px;
+				color: #212121;
+				line-height: 38px;
+				float: left;
+			}
+			
+			.mui-table-view {
+				margin-bottom: 15px !important;
+			}
+			
+			img {
+				border-radius: 50px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav bg-color">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title">日历</h1>
+		</header>
+		<div class="mui-content">
+			<div id="container">
+
+			</div>
+			<div id="event_todo">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell mui-media">
+						<a href="javascript:;" class="title_1" style="padding-left: 20px !important">
+							<img class="mui-media-object mui-pull-left" src="../../img/information_approve@3x.png">
+							<div class="mui-media-body titlesp">
+								审批
+							</div>
+							<span class="first_page" id="pullrefresh_main.html">进入首页</span>
+						</a>
+					</li>
+					
+				</ul>
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell mui-media">
+						<a href="javascript:;" class="title_1" style="padding-left: 20px !important">
+							<img class="mui-media-object mui-pull-left" src="../../img/information_approve@3x.png">
+							<div class="mui-media-body titlesp">
+								活动
+							</div>
+							<span class="first_page" id="miss/report.html">进入首页</span>
+						</a>
+					</li>
+					
+				</ul>
+			</div>
+		</div>
+		<link href="../../css/MCalendar.css" rel="stylesheet" />
+		<script type="text/javascript" src="../../js/ip_config.js"></script>
+		<script src="../../js/MCalendar.js"></script>
+		<script>
+			var a=[];
+			var test = function() {
+				var today = mui.DateUtil.addDate(mui.DateUtil.getToday(), 0);
+				var MC = mui("#container").MCalendar({
+					date: today
+				});
+			};
+			window.onload = function() {
+				
+				mui.ajax('http://' + ip_address + 'process/listTaskDate', {
+					data: {
+
+					},
+					async: true,
+					dataType: 'json',
+					type: 'post',
+					timeout: 0,
+					success: function(r) {
+						if(r.code == 200) {
+							a = r.value;
+							test();
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+
+					}
+				});
+				
+				mui.plusReady(function() {
+					var showpage = function() {
+						var id = setInterval(function() {
+							userdata = JSON.parse(plus.storage.getItem('userinfo'));
+							if(userdata) {
+								clearInterval(id);
+								setTimeout(function() {
+									plus.nativeUI.closeWaiting();
+									mui.currentWebview.show("slide-in-right");
+									plus.navigator.setStatusBarBackground("#bdbbb9");
+								}, 50);
+							}
+						}, 20);
+					};
+					showpage();
+				});
+			}
+			var back_to = mui.back;
+			mui.back = function() {
+				plus.navigator.setStatusBarBackground("#CC352B");
+				back_to();
+			}
+			mui('.mui-content').on('tap', '.first_page', function(e) {
+				var id = this.getAttribute("id");
+				mui.openWindow(id, id, {
+					styles: {
+						top: "0px",
+						bottom: "0px",
+					},
+					createNew: false,
+					show: {
+						autoShow: false,
+						event: 'titleUpdate',
+						extras: {}
+					},
+					waiting: {
+						autoShow: true,
+						title: '正在加载...',
+					}
+				});
+				plus.navigator.setStatusBarBackground("#CC352B");
+				mui.fire(plus.webview.getWebviewById(id),'top_color',{id:23});
+			});
+		</script>
+
+	</body>
+
+</html>

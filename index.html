@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>九江消防智慧党建</title>
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<script src="html5plus://ready"></script>
+		<style>
+			header {
+				background: #cc352b !important;
+			}
+			
+			h1 {
+				font-size: 20px !important;
+				color: #ffffff !important;
+			}
+			
+			.badge_pri {
+				float: right;
+				margin-right: -2px !important;
+			}
+			
+			.tab_ctn {
+				background: #FFFFFF !important;
+			}
+			
+			.mui-icon-xw {
+				background: url("img/tab_01_n@2x.png") no-repeat;
+				background-size: 100% 100%;
+				width: 24px;
+				height: 24px;
+			}
+			
+			.mui-icon-xw-active {
+				background: url("img/tab_01_s@2x.png") no-repeat !important;
+				background-size: 100% 100% !important;
+			}
+			
+			.mui-icon-zjjd {
+				background: url("img/tab_02_n@3x.png") no-repeat;
+				background-size: 100% 100%;
+				width: 24px;
+				height: 24px
+			}
+			
+			.mui-icon-zjjd-active {
+				background: url("img/tab_02_s@3x.png") no-repeat !important;
+				background-size: 100% 100% !important;
+			}
+			
+			.mui-icon-xfzz {
+				background: url("img/tab_03_n@3x.png") no-repeat;
+				background-size: 100% 100%;
+				width: 24px;
+				height: 24px
+			}
+			
+			.mui-icon-xfzz-active {
+				background: url("img/tab_03_s@3x.png") no-repeat !important;
+				background-size: 100% 100% !important;
+			}
+			
+			.mui-icon-gr {
+				background: url("img/tab_04_n@2x.png") no-repeat;
+				background-size: 100% 100%;
+				width: 24px;
+				height: 24px;
+			}
+			
+			.mui-icon-gr-active {
+				background: url("img/tab_04_s@2x.png") no-repeat !important;
+				background-size: 100% 100% !important;
+			}
+			
+			.mui-bar-tab .mui-tab-item.mui-active {
+				color: #f45f37 !important;
+			}
+			
+			.dang_logo {
+				position: relative;
+				top: 3px;
+			}
+			
+			nav {
+				box-shadow: 0 -1px 2px #EEEEEE !important;
+			}
+			
+			.mui-backdrop {
+				background-color: rgba(0, 0, 0, 0) !important;
+			}
+			
+			.mui-bar-tab .mui-tab-item .mui-icon {
+				top: 8px !important;
+			}
+			
+			.badge_posi {
+				position: absolute;
+				right: 19px;
+				top: 3px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<div class="mui-pull-left btn_bj"></div>
+			<h1 class="mui-title"><img class="dang_logo" src="img/topbar_logo@2x.png" width="22" height="22"/>智慧党建</h1>
+		</header>
+		<nav class="mui-bar mui-bar-tab tab_ctn">
+			<a class="mui-tab-item mui-active" id="pages/notice.html" style="position: relative;">
+				<span class="mui-icon mui-icon-xw mui-icon-xw-active"></span>
+				<span class="mui-tab-label">消息</span>
+				<span class="mui-badge mui-badge-danger badge_posi" style="display: none;">0</span>
+			</a>
+			<a class="mui-tab-item" id="pages/dwjs.html">
+				<span class="mui-icon mui-icon-zjjd"></span>
+				<span class="mui-tab-label">工作</span>
+			</a>
+			<a class="mui-tab-item" id="pages/xfzz.html">
+				<span class="mui-icon mui-icon-xfzz"></span>
+				<span class="mui-tab-label">组织</span>
+			</a>
+			<a class="mui-tab-item" id="pages/gr.html">
+				<span class="mui-icon mui-icon-gr"></span>
+				<span class="mui-tab-label">个人</span>
+			</a>
+		</nav>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/ip_config.js"></script>
+		<script>
+			mui.init({
+				subpages: [{
+					url: "pages/notice.html",
+					id: "pages/notice.html",
+					styles: {
+						top: "44px",
+						bottom: "52px",
+					},
+					extras: {}
+				}]
+			});
+			
+			var IMAGE_UNSPECIFIED = "image/*";
+			var PHOTOZOOM = 2;
+			var PHOTOLAT = 1;
+			var main;
+			var Intent;
+			var MediaStore;
+			var File;
+			var Uri;
+
+			var websocket = null;
+			var data_websocket = null;
+			mui.plusReady(function() {
+				plus.navigator.setStatusBarBackground("#cc352b");
+				var backButtonPress = 0;
+				mui.back = function(event) {
+					backButtonPress++;
+					if(backButtonPress > 1) {
+						websocket.close();
+						plus.runtime.quit();
+					} else {
+						plus.nativeUI.toast('再按一次退出应用');
+					}
+					setTimeout(function() {
+						backButtonPress = 0;
+					}, 1000);
+					return false;
+				};
+
+				function wakeLock() {
+				    main = plus.android.runtimeMainActivity();
+				    var Context = plus.android.importClass("android.content.Context");
+				    var PowerManager = plus.android.importClass("android.os.PowerManager");
+				    var pm = main.getSystemService(Context.POWER_SERVICE);
+				    g_wakelock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "ANY_NAME");
+				    g_wakelock.acquire();
+				}
+				//释放wakelock
+				function releaseWakeLock () {
+				    if(g_wakelock != null && g_wakelock.isHeld()) {
+				        g_wakelock.release();
+				        g_wakelock = null;
+				    }
+				}
+				wakeLock();
+
+				var id = setInterval(function() {
+					var userdata = JSON.parse(plus.storage.getItem('userinfo'));
+					if(userdata) {
+						clearInterval(id);
+						websocket = new WebSocket("ws://" + ip_address + "websocket/socketServer?userId=" + userdata.userId);
+						document.addEventListener("netchange", function() {
+							websocket = new WebSocket("ws://" + ip_address + "websocket/socketServer?userId=" + userdata.userId);
+						}, false);
+
+						setInterval(function() {
+							//console.log("当前连接状态：" + websocket.readyState);
+							if(websocket.readyState == 3 || websocket.readyState == 0) {
+								websocket = new WebSocket("ws://" + ip_address + "websocket/socketServer?userId=" + userdata.userId);
+								websocket.onerror = function() {
+									console.log("连接发生错误");
+								};
+								websocket.onopen = function() {
+									console.log("WebSocket连接成功");
+								};
+								websocket.onmessage = function(event) {
+									receive_message(JSON.parse(event.data));
+									data_websocket = JSON.parse(event.data);
+									if(data_websocket.hy > 0) {
+										plus.push.createMessage("收到" + data_websocket.hy + "条活动信息");
+									}
+									if(data_websocket.sp > 0) {
+										plus.push.createMessage("收到" + data_websocket.sp + "条审批信息");
+									}
+									if(data_websocket.tz > 0) {
+										plus.push.createMessage("收到" + data_websocket.tz + "条通知信息");
+									}
+									if(data_websocket.sx > 0) {
+										plus.push.createMessage("收到" + data_websocket.sx + "条私信信息");
+									}
+									if(data_websocket.xx > 0) {
+										plus.push.createMessage("收到" + data_websocket.xx + "条汇报信息");
+									}
+
+									if(plus.webview.getWebviewById('pages/notice.html')) {
+										mui.fire(plus.webview.getWebviewById('pages/notice.html'), 'new_message', {
+											data: data_websocket
+										});
+									}
+								}
+								websocket.onclose = function() {
+									console.log("连接关闭");
+								}
+							}
+						}, 3000);
+
+						websocket.onerror = function() {
+							console.log("连接发生错误");
+						};
+						websocket.onopen = function() {
+							console.log("WebSocket连接成功");
+						};
+						websocket.onmessage = function(event) {
+							receive_message(JSON.parse(event.data));
+							data_websocket = JSON.parse(event.data);
+							if(data_websocket.hy > 0) {
+								plus.push.createMessage("收到" + data_websocket.hy + "条活动信息");
+							}
+							if(data_websocket.sp > 0) {
+								plus.push.createMessage("收到" + data_websocket.sp + "条审批信息");
+							}
+							if(data_websocket.tz > 0) {
+								plus.push.createMessage("收到" + data_websocket.tz + "条通知信息");
+							}
+							if(data_websocket.sx > 0) {
+								plus.push.createMessage("收到" + data_websocket.sx + "条私信信息");
+							}
+							if(data_websocket.xx > 0) {
+								plus.push.createMessage("收到" + data_websocket.xx + "条汇报信息");
+							}
+
+							if(plus.webview.getWebviewById('pages/notice.html')) {
+								mui.fire(plus.webview.getWebviewById('pages/notice.html'), 'new_message', {
+									data: data_websocket
+								});
+							}
+						}
+						websocket.onclose = function() {
+							console.log("连接关闭");
+						}
+						var receive_message = function(a) {
+							console.log("收到信息");
+							if(a.zs > 0) {
+								mui('.badge_posi')[0].innerText = Number(a.zs);
+								mui('.badge_posi')[0].style.display = "inline-block";
+							}
+						}
+					}
+				}, 20);
+			});
+			var success = null;
+			document.addEventListener("login_success", function(e) {
+				success = e.detail.id;
+			});
+
+			function addClass(obj, cls) {
+				var obj_class = obj.className,
+					blank = (obj_class != '') ? ' ' : '';
+				added = obj_class + blank + cls;
+				obj.className = added;
+			}
+
+			function removeClass(obj, cls) {
+				var obj_class = ' ' + obj.className + ' ';
+				obj_class = obj_class.replace(/(\s+)/gi, ' '),
+					removed = obj_class.replace(' ' + cls + ' ', ' ');
+				removed = removed.replace(/(^\s+)|(\s+$)/g, '');
+				obj.className = removed;
+			}
+
+			mui(".mui-bar-tab").on('tap', '.mui-tab-item', function(e) {
+				var id = this.getAttribute('id');
+				if(id == "pages/notice.html" && plus.webview.getWebviewById("pages/notice.html")) {
+
+				} else {
+					mui.openWindow({
+						url: id,
+						id: id,
+						styles: {
+							top: "44px",
+							bottom: "52px",
+						},
+						createNew: false,
+						show: {
+							autoShow: false,
+							event: 'titleUpdate',
+							extras: {}
+						},
+						waiting: {
+							autoShow: true,
+							title: '正在加载...',
+						}
+					});
+				}
+				plus.webview.close(plus.webview.getWebviewById("login"), "none", 100);
+				var mask = mui.createMask();
+				mask.show();
+				setTimeout(function() {
+					mask.close();
+				}, 400);
+				if(this.getElementsByTagName('span')[1].innerText == "消息") {
+					if(Number(mui('.badge_posi')[0].innerText) > 0) {
+						plus.webview.getWebviewById('pages/notice.html').addEventListener("loaded", function() {
+							mui.fire(plus.webview.getWebviewById('pages/notice.html'), 'new_message', {
+								data: data_websocket
+							});
+						});
+					}
+					mui.fire(plus.webview.getWebviewById('pages/dwjs.html'), 'close_subbill', {
+						id: "15"
+					});
+					mui.fire(plus.webview.getWebviewById('pages/gr.html'), 'close_gr', {
+						id: "15"
+					});
+					mui.fire(plus.webview.getWebviewById('pages/xfzz.html'), 'close_xfzz', {
+						id: "15"
+					});
+					removeClass(mui('.mui-icon')[0], 'mui-icon-xw-active');
+					removeClass(mui('.mui-icon')[1], 'mui-icon-zjjd-active');
+					removeClass(mui('.mui-icon')[2], 'mui-icon-xfzz-active');
+					removeClass(mui('.mui-icon')[3], 'mui-icon-gr-active');
+					addClass(this.getElementsByTagName('span')[0], 'mui-icon-xw-active');
+				} else if(this.getElementsByTagName('span')[1].innerText == "工作") {
+					mui.fire(plus.webview.getWebviewById('pages/notice.html'), 'close_news', {
+						id: "15"
+					});
+					mui.fire(plus.webview.getWebviewById('pages/gr.html'), 'close_gr', {
+						id: "15"
+					});
+					mui.fire(plus.webview.getWebviewById('pages/xfzz.html'), 'close_xfzz', {
+						id: "15"
+					});
+					removeClass(mui('.mui-icon')[0], 'mui-icon-xw-active');
+					removeClass(mui('.mui-icon')[1], 'mui-icon-zjjd-active');
+					removeClass(mui('.mui-icon')[2], 'mui-icon-xfzz-active');
+					removeClass(mui('.mui-icon')[3], 'mui-icon-gr-active');
+					addClass(this.getElementsByTagName('span')[0], 'mui-icon-zjjd-active');
+				} else if(this.getElementsByTagName('span')[1].innerText == "个人") {
+					mui.fire(plus.webview.getWebviewById('pages/dwjs.html'), 'close_subbill', {
+						id: "15"
+					});
+					mui.fire(plus.webview.getWebviewById('pages/notice.html'), 'close_news', {
+						id: "15"
+					});
+					mui.fire(plus.webview.getWebviewById('pages/xfzz.html'), 'close_xfzz', {
+						id: "15"
+					});
+					removeClass(mui('.mui-icon')[0], 'mui-icon-xw-active');
+					removeClass(mui('.mui-icon')[1], 'mui-icon-zjjd-active');
+					removeClass(mui('.mui-icon')[2], 'mui-icon-xfzz-active');
+					removeClass(mui('.mui-icon')[3], 'mui-icon-gr-active');
+					addClass(this.getElementsByTagName('span')[0], 'mui-icon-gr-active');
+				} else if(this.getElementsByTagName('span')[1].innerText == "组织") {
+					mui.fire(plus.webview.getWebviewById('pages/dwjs.html'), 'close_subbill', {
+						id: "15"
+					});
+					mui.fire(plus.webview.getWebviewById('pages/notice.html'), 'close_news', {
+						id: "15"
+					});
+					mui.fire(plus.webview.getWebviewById('pages/gr.html'), 'close_gr', {
+						id: "15"
+					});
+					removeClass(mui('.mui-icon')[0], 'mui-icon-xw-active');
+					removeClass(mui('.mui-icon')[1], 'mui-icon-zjjd-active');
+					removeClass(mui('.mui-icon')[2], 'mui-icon-xfzz-active');
+					removeClass(mui('.mui-icon')[3], 'mui-icon-gr-active');
+					addClass(this.getElementsByTagName('span')[0], 'mui-icon-xfzz-active');
+				}
+			});
+
+			document.addEventListener("deletemsg", function(e) {
+				if(e.detail.id > 0) {
+					mui('.badge_posi')[0].innerText = Number(mui('.badge_posi')[0].innerText) - Number(e.detail.id);
+					if(mui('.badge_posi')[0].innerText <= 0) {
+						mui('.badge_posi')[0].style.display = "none";
+						mui('.badge_posi')[0].innerText = "0";
+					}
+				}
+			});
+			
+			function getgallerimg() {
+					plus.nativeUI.showWaiting("打开相册");
+					main = plus.android.runtimeMainActivity();
+					Intent = plus.android.importClass("android.content.Intent");
+					MediaStore = plus.android.importClass("android.provider.MediaStore");
+					File = plus.android.importClass("java.io.File");
+					Uri = plus.android.importClass("android.net.Uri");
+					var outPutPath = plus.io.convertLocalFileSystemURL("_doc/a.png");
+					var intent = new Intent(Intent.ACTION_PICK, null);
+					intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, IMAGE_UNSPECIFIED);
+					main.startActivityForResult(intent, PHOTOZOOM);
+					plus.nativeUI.closeWaiting();
+					main.onActivityResult = function(requestCode, resultCode, data) {
+						if(PHOTOZOOM == requestCode) {
+							var file = new File(outPutPath);
+							var outPutUri = Uri.fromFile(file);
+							if(data == undefined) {
+								mui.toast("您已取消操作");
+								return false;
+							}
+							plus.android.importClass(data);
+							var uri = data.getData();
+							var cropIntent = new Intent("com.android.camera.action.CROP");
+							cropIntent.setDataAndType(uri, IMAGE_UNSPECIFIED);
+							cropIntent.putExtra(MediaStore.EXTRA_OUTPUT, outPutUri);
+							cropIntent.putExtra("crop", "true");
+							cropIntent.putExtra("aspectX", 1);
+							cropIntent.putExtra("aspectY", 1);
+							cropIntent.putExtra("outputX", 300);
+							cropIntent.putExtra("outputY", 300);
+							cropIntent.putExtra("return-data", true);
+							main.startActivityForResult(cropIntent, PHOTOLAT);
+						} else if(requestCode == PHOTOLAT) {
+							var file = new File(outPutPath);
+							var a = file.exists();
+							if(a) {
+								//mui('.top_gr_tx_img')[0].setAttribute("src", outPutPath + "?v=" + new Date().getTime());
+								var bitmap = new plus.nativeObj.Bitmap();
+								bitmap.load(outPutPath, function() {
+									var base4 = bitmap.toBase64Data();
+									mui.ajax("http://"+ip_address+"usermessage/changePicture", {
+										data: {
+											base64Data: base4
+										},
+										dataType: 'json',
+										type: 'post',
+										timeout: 0,
+										success: function(r) {
+											plus.storage.setItem('userinfo', JSON.stringify(r.value));
+											mui.fire(plus.webview.getWebviewById('pages/gr.html'), 'imgreturn_1', {
+												data: outPutPath
+											});
+											bitmap.clear();
+										},
+										error: function(xhr, type, errorThrown) {
+											alert(errorThrown);
+										}
+									});
+								}, function(e) {
+									console.log('加载图片失败：' + JSON.stringify(e));
+								});
+							}
+						}
+					};
+				}
+	
+				function getImage() {
+					plus.nativeUI.showWaiting("启动摄像头");
+					main = plus.android.runtimeMainActivity();
+					Intent = plus.android.importClass("android.content.Intent");
+					MediaStore = plus.android.importClass("android.provider.MediaStore");
+					File = plus.android.importClass("java.io.File");
+					Uri = plus.android.importClass("android.net.Uri");
+					var outPutPath = plus.io.convertLocalFileSystemURL("_doc/b.png");
+					var cmr = plus.camera.getCamera();
+					plus.nativeUI.closeWaiting();
+					cmr.captureImage(function(p) {
+						plus.io.resolveLocalFileSystemURL(p, function(entry) {
+							var file = new File(outPutPath);
+							var outPutUri = Uri.fromFile(file);
+							var path = entry.toLocalURL();
+							path = path.replace("\\", "");
+							path = path.replace("file://", "");
+							var _file = new File(path);
+							var a = _file.exists();
+							var curCropUri = Uri.fromFile(new File(path));
+							var cropIntent = new Intent("com.android.camera.action.CROP");
+							cropIntent.setDataAndType(curCropUri, IMAGE_UNSPECIFIED);
+							cropIntent.putExtra(MediaStore.EXTRA_OUTPUT, outPutUri);
+							cropIntent.putExtra("crop", "true");
+							cropIntent.putExtra("aspectX", 1);
+							cropIntent.putExtra("aspectY", 1);
+							cropIntent.putExtra("outputX", 300);
+							cropIntent.putExtra("outputY", 300);
+							cropIntent.putExtra("return-data", true);
+							main.startActivityForResult(cropIntent, 1);
+	
+							main.onActivityResult = function(requestCode, resultCode, data) {
+								//mui('.top_gr_tx_img')[0].setAttribute("src", outPutPath + "?v=" + new Date().getTime());
+								var bitmap = new plus.nativeObj.Bitmap();
+								bitmap.load(outPutPath, function() {
+									var base4 = bitmap.toBase64Data();
+									mui.ajax('http://'+ip_address+'usermessage/changePicture', {
+										data: {
+											base64Data: base4
+										},
+										dataType: 'json',
+										type: 'post',
+										timeout: 0,
+										success: function(r) {
+											plus.storage.setItem('userinfo', JSON.stringify(r.value));
+											mui.fire(plus.webview.getWebviewById('pages/gr.html'), 'imgreturn_1', {
+												data: outPutPath
+											});
+											bitmap.clear();
+										},
+										error: function(xhr, type, errorThrown) {
+											alert(errorThrown);
+										}
+									});
+								}, function(e) {
+									//alert('加载图片失败：' + JSON.stringify(e));
+								});
+							};
+						}, function(e) {
+							//alert("读取拍照文件错误：" + e.message);
+						});
+					}, function(e) {
+						//alert("失败：" + e.message);
+					}, {
+						filename: "_doc/camera/",
+						index: 1
+					});
+				}
+			
+			document.addEventListener("imgpicksele", function(e) {
+				getgallerimg();
+			});
+			document.addEventListener("paizhao", function(e) {
+				getImage();
+			});
+		</script>
+	</body>
+
+</html>

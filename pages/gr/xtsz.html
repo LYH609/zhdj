@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>Bat</title>
+		<link rel="stylesheet" href="../../css/mui.min.css" />
+		<script src="html5plus://ready"></script>
+		<style>
+			header {
+				background: #cc352b !important;
+			}
+			
+			h1 {
+				font-size: 20px !important;
+				color: #ffffff !important;
+			}
+			
+			.mui-table-view-cell {
+				padding-bottom: 13px;
+				padding-top: 13px
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav bg-color">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title">系统设置</h1>
+		</header>
+		<div class="mui-content">
+			<ul id="list" class="mui-table-view mui-table-view-chevron">
+				<!--<li class="mui-table-view-cell" id="update_checked">
+					<a class="mui-navigate-right">
+						<div class="img_msg"></div>
+						<span>检查更新</span>
+					</a>
+				</li>-->
+				<!--<li class="mui-table-view-cell" id="online_update_checked">
+					<a class="mui-navigate-right">
+						<div class="img_msg"></div>
+						<span>在线更新</span>
+					</a>
+				</li>-->
+				<li class="mui-table-view-cell" id="reg.html">
+					<a class="mui-navigate-right">
+						<div class="img_msg"></div>
+						<span>修改密码</span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell" id="/login.html">
+					<a class="mui-navigate-right">
+						<div class="img_msg"></div>
+						<span>退出当前登录</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script>
+			mui.init();
+			var userdata = null;
+			var wgtVer = null;
+
+			var checkUrl = "http://demo.dcloud.net.cn/test/update/check.php";
+
+			function checkUpdate() {
+				plus.nativeUI.showWaiting("检测更新...");
+				var xhr = new XMLHttpRequest();
+				xhr.onreadystatechange = function() {
+					switch(xhr.readyState) {
+						case 4:
+							plus.nativeUI.closeWaiting();
+							if(xhr.status == 200) {
+								var newVer = xhr.responseText;
+								console.log(newVer);
+								if(wgtVer && newVer && (wgtVer != newVer)) {
+									downWgt();
+								} else {
+									plus.nativeUI.alert("无新版本可更新！");
+								}
+							} else {
+								console.log("检测更新失败！");
+								plus.nativeUI.alert("检测更新失败！");
+							}
+							break;
+						default:
+							break;
+					}
+				}
+				xhr.open('GET', checkUrl);
+				xhr.send();
+			}
+
+			var wgtUrl = "http://demo.dcloud.net.cn/test/update/H5EF3C469.wgt";
+
+			function downWgt() {
+				plus.nativeUI.showWaiting("下载更新包...");
+				plus.downloader.createDownload(wgtUrl, {
+					filename: "_doc/update/"
+				}, function(d, status) {
+					if(status == 200) {
+						installWgt(d.filename);
+					} else {
+						plus.nativeUI.alert("下载更新包失败！");
+					}
+					plus.nativeUI.closeWaiting();
+				}).start();
+			}
+
+			function installWgt(path) {
+				plus.nativeUI.showWaiting("安装...");
+				plus.runtime.install(path, {}, function() {
+					plus.nativeUI.closeWaiting();
+					plus.io.resolveLocalFileSystemURL(path, function(entity) {
+						entity.remove();
+					}, function(error) {
+						console.log(error.message);
+					});
+					plus.nativeUI.alert("应用资源更新完成！", function() {
+						plus.runtime.restart();
+					});
+				}, function(e) {
+					plus.nativeUI.closeWaiting();
+					plus.nativeUI.alert("安装更新文件失败[" + e.code + "]：" + e.message);
+				});
+			}
+
+			window.onload = function() {
+				mui.plusReady(function() {
+					plus.runtime.getProperty(plus.runtime.appid, function(inf) {
+						wgtVer = inf.version;
+					});
+					var showpage = function() {
+						var id = setInterval(function() {
+							userdata = JSON.parse(plus.storage.getItem('userinfo'));
+							if(userdata) {
+								clearInterval(id);
+								setTimeout(function() {
+									plus.nativeUI.closeWaiting();
+									mui.currentWebview.show("slide-in-right");
+								}, 20);
+							}
+						}, 20);
+					};
+					showpage();
+				});
+			}
+			mui(".mui-content").on('tap', '.mui-table-view-cell', function(e) {
+				var id = this.getAttribute('id');
+				if(id == "/login.html") {
+					var mainPage = mui.preload({
+						"id": 'login',
+						"url": id
+					});
+					var login_flag = false;
+					mainPage.addEventListener("loaded", function() {
+						login_flag = true;
+					});
+					var toMain = function() {
+						var idd = setInterval(function() {
+							if(login_flag) {
+								clearInterval(idd);
+								mainPage.show("pop-in");
+							}
+						}, 20);
+					};
+					plus.storage.clear();
+					toMain();
+					setTimeout(function() {
+						plus.webview.close(plus.webview.getWebviewById('pages/gr.html'), "none", 100);
+						plus.webview.close(plus.webview.getWebviewById('index'), "none", 100);
+					}, 100);
+				} else if(id == "update_checked") {
+					mui.ajax('http://219.131.199.198:8989/hz/main/chackUpgrade.do', {
+						data: {
+							v: plus.runtime.version
+						},
+						dataType: 'json',
+						type: 'post',
+						timeout: 3000,
+						success: function(r) {
+							if(r.url) {
+								plus.nativeUI.confirm("发现新版本，是否更新", function(e) {
+									if(e.index == 0) {
+										plus.nativeUI.showWaiting("正在下载安装...");
+										var dtask = plus.downloader.createDownload(r.url, {}, function(d, status) {
+											dtask.addEventListener("statechanged", function() {
+												var downSize = dtask.downloadedSize;
+												var totalSize = dtask.totalSize;
+											}, false);
+											if(status == 200) {
+												var path = d.filename;
+												plus.runtime.install(path, {}, function() {
+													plus.nativeUI.closeWaiting();
+												}, function(wg) {
+													alert("应用安装失败");
+												});
+											} else {
+												alert("下载失败");
+											}
+											plus.nativeUI.closeWaiting();
+										});
+										dtask.start();
+									} else if(e.index == 1) {
+
+									}
+								}, "版本更新提醒", ["确定", "取消"]);
+							} else {
+								plus.nativeUI.confirm("当前应用已经是最新版本", function(e) {
+
+								}, "版本更新提醒", ["确定"]);
+							}
+						},
+						error: function(xhr, type, errorThrown) {
+
+						}
+					});
+				} else if(id == "reg.html") {
+					mui.openWindow({
+						url: "reg.html",
+						id: "reg",
+						styles: {
+							top: "0",
+							bottom: "0",
+						},
+						createNew: false,
+						show: {
+							autoShow: false,
+							event: 'titleUpdate',
+							extras: {}
+						},
+						waiting: {
+							autoShow: true,
+							title: '正在加载..',
+						}
+					});
+				} else if(id == "online_update_checked") {
+					checkUpdate();
+				}
+			});
+		</script>
+	</body>
+
+</html>

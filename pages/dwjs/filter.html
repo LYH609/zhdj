@@ -1,0 +1,195 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<style>
+			.mui-content {
+				background: #FFFFFF !important;
+				padding: 30px 10px;
+			}
+			
+			.status_point {
+				width: 10px;
+				height: 10px;
+				border-radius: 10px;
+				background: #76BDF3;
+				display: inline-block;
+			}
+			
+			.type_point {
+				width: 10px;
+				height: 10px;
+				border-radius: 10px;
+				background: #30daad;
+				display: inline-block;
+			}
+			
+			.status {
+				font-size: 18px;
+			}
+			
+			.type {
+				font-size: 18px;
+			}
+			
+			.status_content {
+				padding: 10px 10px;
+			}
+			
+			.type_content {
+				padding: 10px 10px;
+			}
+			
+			.type_btn {
+				padding: 15px 20px;
+				background: #F7F7F7;
+				width: 40%;
+				text-align: center;
+				display: inline-block;
+				border-radius: 5px;
+				margin-bottom: 10px;
+				margin-right: 10px;
+				color: #777;
+				font-size: 17px;
+			}
+			
+			.type_btn_active {
+				background: #e2fff7 !important;
+				color: #30daad !important;
+			}
+			
+			.status_btn {
+				padding: 15px 20px;
+				background: #F7F7F7;
+				width: auto;
+				text-align: center;
+				display: inline-block;
+				border-radius: 5px;
+				margin-bottom: 10px;
+				margin-right: 10px;
+				color: #777;
+				font-size: 17px;
+			}
+			
+			.status_btn_active {
+				background: #e3f3ff !important;
+				color: #76bdf3 !important;
+			}
+			
+			.btn_div {
+				padding: 15px 15px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content">
+			<div class="status">
+				<div class="status_point"></div>
+				<label for="">状态</label>
+			</div>
+			<div class="status_content">
+				<p class="status_btn" status="0" data="all">全部</p>
+				<p class="status_btn" status="0" stid="1">待审批</p>
+				<p class="status_btn" status="0" stid="2">审批中</p>
+				<p class="status_btn" status="0" stid="4">审批通过</p>
+				<p class="status_btn" status="0" stid="3">审批拒绝</p>
+				<p class="status_btn" status="0" stid="5">撤销</p>
+			</div>
+			<div class="type">
+				<div class="type_point"></div>
+				<label for="">类型</label>
+			</div>
+			<div class="type_content">
+				<p class="type_btn" status="0" data="all">全部</p>
+				<p class="type_btn" status="0" stid="1">活动召开</p>
+				<p class="type_btn" status="0" stid="2">记录</p>
+			</div>
+			<div class="btn_div">
+				<button style="width: 100%;padding: 10px 10px;" class="mui-btn mui-btn-danger">确定</button>
+			</div>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			var type_data = [];
+			var status_data = [];
+			mui('.mui-content').on('tap', '.status_btn', function(e) {
+				var a = this.getAttribute('status');
+				var b = this.getAttribute('data');
+				if(b == "all" && a == "0") {
+					type_data = [];
+					for(var i = 0; i < mui('.status_btn').length; i++) {
+						mui('.status_btn')[i].setAttribute('class', 'status_btn status_btn_active');
+						mui('.status_btn')[i].setAttribute('status', '1');
+						if(i > 0) type_data.push(mui('.status_btn')[i].getAttribute('stid'));
+					}
+				}
+				if(b == "all" && a == "1") {
+					for(var i = 0; i < mui('.status_btn').length; i++) {
+						mui('.status_btn')[i].setAttribute('status', '0');
+						mui('.status_btn')[i].setAttribute('class', 'status_btn');
+					}
+					type_data = [];
+				}
+				if(a == "0" && !b) {
+					this.setAttribute('class', 'status_btn status_btn_active');
+					this.setAttribute('status', '1');
+					if(type_data.indexOf(this.getAttribute('stid')) == "-1")
+						type_data.push(this.getAttribute('stid'));
+				} else if(a == "1" && !b) {
+					var index = type_data.indexOf(this.getAttribute('stid'));
+					type_data.splice(index,1);
+					mui('.status_btn')[0].setAttribute('status', '0');
+					mui('.status_btn')[0].setAttribute('class', 'status_btn');
+					this.setAttribute('status', '0');
+					this.setAttribute('class', 'status_btn');
+				}
+			});
+			mui('.mui-content').on('tap', '.type_btn', function(e) {
+				var a = this.getAttribute('status');
+				var b = this.getAttribute('data');
+				if(b == "all" && a == "0") {
+					status_data = [];
+					for(var i = 0; i < mui('.type_btn').length; i++) {
+						mui('.type_btn')[i].setAttribute('class', 'type_btn type_btn_active');
+						mui('.type_btn')[i].setAttribute('status', '1');
+						if(i > 0) status_data.push(mui('.type_btn')[i].getAttribute("stid"));
+					}
+				}
+				if(b == "all" && a == "1") {
+					for(var i = 0; i < mui('.type_btn').length; i++) {
+						mui('.type_btn')[i].setAttribute('status', '0');
+						mui('.type_btn')[i].setAttribute('class', 'type_btn');
+					}
+					status_data = [];
+				}
+				if(a == "0" && !b) {
+					this.setAttribute('class', 'type_btn type_btn_active');
+					this.setAttribute('status', '1');
+					if(status_data.indexOf(this.getAttribute('stid')) == "-1")
+						status_data.push(this.getAttribute('stid'));
+				} else if(a == "1" && !b) {
+					var index = status_data.indexOf(this.getAttribute('stid'));
+					status_data.splice(index,1);
+					mui('.type_btn')[0].setAttribute('status', '0');
+					mui('.type_btn')[0].setAttribute('class', 'type_btn');
+					this.setAttribute('status', '0');
+					this.setAttribute('class', 'type_btn');
+				}
+			});
+			mui('.mui-content').on('tap', '.mui-btn', function(e) {
+				mui.fire(plus.webview.getWebviewById('pullrefresh_sub.html'),'filter_return',{data_1:type_data,data_2:status_data});
+				mui.back();
+			});
+			document.addEventListener("tap_click", function(e){
+				mui.back();
+			});
+		</script>
+	</body>
+
+</html>

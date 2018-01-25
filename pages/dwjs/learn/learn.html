@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../../../css/mui.min.css">
+		<style>
+			header {
+				background: #cc352b !important;
+				border: none;
+				box-shadow: none !important;
+			}
+			
+			h1 {
+				font-size: 20px !important;
+				color: #ffffff !important;
+			}
+			
+			#close {
+				position: absolute;
+				width: 160px;
+				left: 50%;
+				margin-left: -80px;
+				bottom: 15%;
+				padding: 10px;
+				color: #fff;
+				border-color: #fff;
+			}
+			
+			.item-logo {
+				width: 100%;
+				height: 100%;
+				position: relative;
+			}
+			
+			.item-logo a {
+				width: 200px;
+				height: 200px;
+				display: block;
+				border: 1px solid #FFFFFF;
+				/*border-color: rgba(255, 255, 255, 0.5);*/
+				text-align: center;
+				line-height: 200px;
+				border-radius: 50%;
+				font-size: 40px;
+				color: #fff;
+				position: absolute;
+				top: 15%;
+				left: 50%;
+				margin-left: -100px;
+			}
+			
+			.animate {
+				position: absolute;
+				left: 0;
+				bottom: 15%;
+				width: 100%;
+				color: #fff;
+				display: -moz-box;
+			}
+			
+			.animate h2 {
+				text-align: center;
+				margin-bottom: 20px;
+			}
+			
+			.animate li {
+				width: 50%;
+				height: 30px;
+				line-height: 30px;
+				list-style: none;
+				font-size: 16px;
+				text-align: right;
+			}
+			
+			.animate li:nth-child(3) {
+				text-align: left;
+				float: right;
+			}
+			
+			.animated {
+				-webkit-animation-duration: 1s;
+				-webkit-animation-play-state: paused;
+				-webkit-animation-fill-mode: both;
+			}
+			
+			.guide-show .bounceInDown {
+				-webkit-animation-name: bounceInDown;
+				-webkit-animation-play-state: running;
+				-webkit-animation-delay: 1s;
+				display: block;
+			}
+			
+			.guide-show .bounceInLeft {
+				-webkit-animation-name: bounceInLeft;
+				display: block;
+				-webkit-animation-play-state: running;
+			}
+			
+			.guide-show .bounceInRight {
+				-webkit-animation-name: bounceInRight;
+				display: block;
+				-webkit-animation-play-state: running;
+				-webkit-animation-delay: 0.5s;
+			}
+			
+			@-webkit-keyframes bounceInDown {
+				0%,
+				60%,
+				75%,
+				90%,
+				100% {
+					-webkit-animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+					animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+				}
+				0% {
+					opacity: 0;
+					-webkit-transform: translate3d(0, -3000px, 0);
+					transform: translate3d(0, -3000px, 0);
+				}
+				60% {
+					opacity: 1;
+					-webkit-transform: translate3d(0, 25px, 0);
+					transform: translate3d(0, 25px, 0);
+				}
+				75% {
+					-webkit-transform: translate3d(0, -5px, 0);
+					transform: translate3d(0, -5px, 0);
+				}
+				90% {
+					-webkit-transform: translate3d(0, 3px, 0);
+					transform: translate3d(0, 3px, 0);
+				}
+				100% {
+					-webkit-transform: none;
+					transform: none;
+				}
+			}
+			
+			@-webkit-keyframes bounceInLeft {
+				0%,
+				60%,
+				75%,
+				90%,
+				100% {
+					-webkit-animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+					animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+				}
+				0% {
+					opacity: 0;
+					-webkit-transform: translate3d(-3000px, 0, 0);
+					transform: translate3d(-3000px, 0, 0);
+				}
+				60% {
+					opacity: 1;
+					-webkit-transform: translate3d(25px, 0, 0);
+					transform: translate3d(25px, 0, 0);
+				}
+				75% {
+					-webkit-transform: translate3d(-10px, 0, 0);
+					transform: translate3d(-10px, 0, 0);
+				}
+				90% {
+					-webkit-transform: translate3d(5px, 0, 0);
+					transform: translate3d(5px, 0, 0);
+				}
+				100% {
+					-webkit-transform: none;
+					transform: none;
+				}
+			}
+			
+			@-webkit-keyframes bounceInRight {
+				0%,
+				60%,
+				75%,
+				90%,
+				100% {
+					-webkit-animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+					animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+				}
+				0% {
+					opacity: 0;
+					-webkit-transform: translate3d(3000px, 0, 0);
+					transform: translate3d(3000px, 0, 0);
+				}
+				60% {
+					opacity: 1;
+					-webkit-transform: translate3d(-25px, 0, 0);
+					transform: translate3d(-25px, 0, 0);
+				}
+				75% {
+					-webkit-transform: translate3d(10px, 0, 0);
+					transform: translate3d(10px, 0, 0);
+				}
+				90% {
+					-webkit-transform: translate3d(-5px, 0, 0);
+					transform: translate3d(-5px, 0, 0);
+				}
+				100% {
+					-webkit-transform: none;
+					transform: none;
+				}
+			}
+			
+			.top_bar {
+				height: 44px;
+				width: 100%;
+			}
+			
+			#rubric {
+				background: #FFFFFF;
+				padding: 20px 10px;
+			}
+			
+			.rubric_type {
+				background: #76BDF3;
+				padding: 3px 7px;
+				border-radius: 5px;
+				color: #FFFFFF;
+				font-size: 16px;
+			}
+			
+			.rubric_text {
+				font-size: 18px;
+				line-height: 25px;
+				color: #212121;
+			}
+			
+			.img_sel {
+				width: 30px !important;
+				height: 30px !important;
+				float: left;
+			}
+			
+			.rbrc_A {
+				background: #F7F7F7;
+				padding: 10px 20px;
+			}
+			
+			.rbrc_B {
+				background: #FFFFFF;
+				padding: 10px 20px;
+			}
+			
+			.rbrc_C {
+				background: #F7F7F7;
+				padding: 10px 20px;
+			}
+			
+			.rbrc_f {
+				background: #FFFFFF;
+				padding: 10px 20px;
+				height: 50px;
+			}
+			
+			.select_text {
+				line-height: 30px;
+				font-size: 15px;
+			}
+			
+			.foot_total {
+				background: #FFFFFF;
+				height: 42px;
+				width: 100%;
+				padding: 10px 20px;
+				position: fixed;
+				left: 0;
+				bottom: 0;
+				z-index: 999;
+			}
+			
+			.foot_total img {
+				width: 20px;
+			}
+			
+			.fr {
+				float: right;
+			}
+			
+			.fl {
+				float: left;
+			}
+			
+			.btn_div {
+				width: 80%;
+				margin-left: 10%;
+				margin-top: 20px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav bg-color">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title">在线测试</h1>
+		</header>
+		<div id="slider" class="mui-slider mui-fullscreen" style="background-color: black;">
+			<div class="mui-slider-group" id="tm_list">
+
+			</div>
+		</div>
+		<div class="foot_total">
+			<img src="../../../img/count_right@2x.png" class="fl" />
+			<span class="fl right_num" style="padding-left: 5px;color: #30DAAD;padding-right: 30px;">0</span>
+			<img src="../../../img/count_wrong@2x.png" class="fl" />
+			<span class="fl wrong_num" style="padding-left: 5px;color: #F67070;">0</span>
+			<span class="fr" style="padding-left: 10px;"><span class="ncs_1">1</span>/<span class="ncs_1">4</span></span>
+			<img src="../../../img/count_all@2x.png" class="fr" />
+		</div>
+		<script src="../../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../../js/ip_config.js"></script>
+		<script>
+			mui.init();
+			var scoreId=null;
+			var userdata=null;
+			var wn = 0;
+			var rn = 0;
+			var mwn = 0;
+			var mrn = 0;
+			var answer = {};
+			var testid = "";
+			var thispageindex = 0;
+			window.onload = function() {
+				mui.plusReady(function() {
+					var showpage = function() {
+						var id = setInterval(function() {
+							userdata = JSON.parse(plus.storage.getItem('userinfo'));
+							if(userdata) {
+								clearInterval(id);
+								setTimeout(function() {
+									plus.nativeUI.closeWaiting();
+									mui.currentWebview.show("slide-in-right");
+								}, 350);
+							}
+						}, 20);
+					};
+					showpage();
+				});
+			}
+
+			//获取试卷id
+			document.addEventListener("testidnum", function(e) {
+				testid = e.detail.id;
+				scoreId=e.detail.scoreid;
+				mui.ajax('http://' + ip_address + 'testpaper/listTestTitle', {
+					data: {
+						testId: e.detail.id
+					},
+					dataType: 'json',
+					type: 'post',
+					timeout: 0,
+					success: function(r) {
+						if(r.code != 200) {
+							mui.toast(r.msg);
+							return;
+						}
+						var testlist = document.getElementById('tm_list');
+						for(var i = 0; i < r.value.length; i++) {
+							var rubric_type = "单选"
+							var sel_type = "only";
+							var a_r_w = "wrong";
+							var b_r_w = "wrong";
+							var c_r_w = "wrong";
+							var d_r_w = "wrong";
+							var e_r_w = "wrong";
+							var f_r_w = "wrong";
+							var c_dom="";
+							var d_dom="";
+							var e_dom = "";
+							var f_dom = "";
+							if(r.value[i].titleType == "2") {
+								rubric_type = "多选";
+								sel_type = "muit";
+							}
+							if(r.value[i].optionRight == "1.0") {
+								a_r_w = "right";
+								b_r_w = "wrong";
+								c_r_w = "wrong";
+								d_r_w = "wrong";
+							}
+							if(r.value[i].optionRight == "2.0") {
+								a_r_w = "wrong";
+								b_r_w = "right";
+								c_r_w = "wrong";
+								d_r_w = "wrong";
+							}
+							if(r.value[i].optionRight == "3.0") {
+								a_r_w = "wrong";
+								b_r_w = "wrong";
+								c_r_w = "right";
+								d_r_w = "wrong";
+							}
+							if(r.value[i].optionRight == "4.0") {
+								a_r_w = "wrong";
+								b_r_w = "wrong";
+								c_r_w = "wrong";
+								d_r_w = "right";
+							}
+							
+							if(r.value[i].optionC) {
+								c_dom = '<div class="rbrc_C rbrc_' + i + '" dtths="' + c_r_w + '">' +
+									'<img src="../../../img/c@2x.png" class="img_sel" />' +
+									'<div class="select_text">' + r.value[i].optionC + '</div>' +
+									'</div>';
+							}
+							
+							if(r.value[i].optionD) {
+								d_dom = '<div class="rbrc_B rbrc_' + i + '" dtths="' + d_r_w + '">' +
+									'<img src="../../../img/d@2x.png" class="img_sel" />' +
+									'<div class="select_text">' + r.value[i].optionD + '</div>' +
+									'</div>';
+							}
+							
+							if(r.value[i].optionE) {
+								if(r.value[i].optionE == r.value[i].optionRight) {
+									e_r_w = "right";
+								}
+								e_dom = '<div class="rbrc_C rbrc_' + i + '" dtths="' + e_r_w + '">' +
+									'<img src="../../../img/e@2x.png" class="img_sel" />' +
+									'<div class="select_text">' + r.value[i].optionE + '</div>' +
+									'</div>';
+							}
+							if(r.value[i].optionF) {
+								if(r.value[i].optionF == r.value[i].optionRight) {
+									f_r_w = "right";
+								}
+								f_dom = '<div class="rbrc_B rbrc_' + i + '" dtths="' + f_r_w + '">' +
+									'<img src="../../../img/f@2x.png" class="img_sel" />' +
+									'<div class="select_text">' + r.value[i].optionF + '</div>' +
+									'</div>';
+							}
+							var div = document.createElement("div");
+							div.className = "mui-slider-item";
+							div.innerHTML = '<div class="item-logo" sel_type="' + sel_type + '" id="' + r.value[i].titleSeq + '" style="background-color: #f7f7f7">' +
+								'<div class="top_bar"></div>' +
+								'<div id="rubric">' +
+								'<span class="rubric_type">' + rubric_type + '</span>' +
+								'<span class="rubric_text">' + r.value[i].titleDesc + '</span>' +
+								'</div>' +
+								'<div class="rbrc_A rbrc_' + i + '" dtths="' + a_r_w + '">' +
+								'<img src="../../../img/a@2x.png" class="img_sel" />' +
+								'<div class="select_text">' + r.value[i].optionA + '</div>' +
+								'</div>' +
+								'<div class="rbrc_B rbrc_' + i + '" dtths="' + b_r_w + '">' +
+								'<img src="../../../img/b@2x.png" class="img_sel" />' +
+								'<div class="select_text">' + r.value[i].optionB + '</div>' +
+								'</div>' +c_dom+d_dom + e_dom + f_dom +
+								'</div>';
+							if(i == r.value.length - 1) {
+								div.innerHTML = '<div class="item-logo" sel_type="' + sel_type + '" id="' + r.value[i].titleSeq + '" style="background-color: #f7f7f7">' +
+									'<div class="top_bar"></div>' +
+									'<div id="rubric">' +
+									'<span class="rubric_type">' + rubric_type + '</span>' +
+									'<span class="rubric_text">' + r.value[i].titleDesc + '</span>' +
+									'</div>' +
+									'<div class="rbrc_A rbrc_' + i + '" dtths="' + a_r_w + '">' +
+									'<img src="../../../img/a@2x.png" class="img_sel" />' +
+									'<div class="select_text">' + r.value[i].optionA + '</div>' +
+									'</div>' +
+									'<div class="rbrc_B rbrc_' + i + '" dtths="' + b_r_w + '">' +
+									'<img src="../../../img/b@2x.png" class="img_sel" />' +
+									'<div class="select_text">' + r.value[i].optionB + '</div>' +
+									'</div>' +c_dom+d_dom + e_dom + f_dom +
+									'<div class="btn_div">' +
+									'<button type="button" style="width: 100%;padding: 10px 10px;" class="mui-btn mui-btn-danger">提交答案</button>' +
+									'</div>' +
+									'</div>'
+							}
+							testlist.appendChild(div);
+						}
+						mui('#slider').slider();
+						mui('.ncs_1')[1].innerText = mui('.mui-slider-item').length;
+						document.querySelector('.mui-slider').addEventListener('slide', function(event) {
+							var index = event.detail.slideNumber + 1;
+							mui('.ncs_1')[0].innerText = index;
+							thispageindex = event.detail.slideNumber;
+						});
+						for(var i = 0; i < mui('.mui-slider-item').length; i++) {
+							answer[mui('.item-logo')[i].getAttribute("id")] = "w";
+							mui('#slider').on('tap', '.rbrc_' + i, function(e) {
+								if(this.parentNode.getAttribute("sel_type") == "only") {
+									if(this.parentNode.getAttribute("status")) {
+
+									} else {
+										this.parentNode.setAttribute("status", this.getAttribute("dtths"));
+										if(this.getAttribute("dtths") == "wrong") {
+											answer[this.parentNode.getAttribute("id")] = "w";
+											wn++;
+											mui('.wrong_num')[0].innerText = wn + mwn;
+										} else if(this.getAttribute("dtths") == "right") {
+											rn++;
+											answer[this.parentNode.getAttribute("id")] = "r";
+											mui('.right_num')[0].innerText = rn + mrn;
+										}
+									}
+								}
+								if(this.parentNode.getAttribute("sel_type") == "muit") {
+									if(this.parentNode.getAttribute("status")) {
+
+									} else {
+										if(this.getAttribute("dtths") == "wrong") {
+											mwn++;
+											answer[this.parentNode.getAttribute("id")] = "w";
+											this.parentNode.setAttribute("status", this.getAttribute("dtths"));
+											mui('.wrong_num')[0].innerText = mwn + wn;
+										} else {
+											var pdcs = true;
+											this.setAttribute('selstu', 'hassel');
+											for(var j = 0; j < mui('.rbrc_' + thispageindex).length; j++) {
+												var ds = mui('.rbrc_' + thispageindex)[j].getAttribute('dtths');
+												if(ds == "right") {
+													if(mui('.rbrc_' + thispageindex)[j].getAttribute('selstu') == "hassel") {
+
+													} else {
+														pdcs = false;
+													}
+												}
+												if(!pdcs) break;
+											}
+											if(pdcs) {
+												mrn++;
+												this.parentNode.setAttribute("status", this.getAttribute("dtths"));
+												answer[this.parentNode.getAttribute("id")] = "r";
+												mui('.right_num')[0].innerText = rn + mrn;
+											}
+										}
+									}
+								}
+								var right_wrong = this.getAttribute("dtths");
+								if(right_wrong == "right") {
+									this.childNodes[0].setAttribute("src", "../../../img/right@2x.png");
+								} else if(right_wrong == "wrong") {
+									this.childNodes[0].setAttribute("src", "../../../img/wrong@2x.png");
+								}
+							});
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+
+					}
+				});
+			});
+
+			var oldback = mui.back;
+
+			//强制结束答题
+			mui.back = function() {
+				plus.nativeUI.confirm("是否结束答题", function(e) {
+					if(e.index == 0) {
+						var ccc = [];
+						var answercoll = {
+							"userId": userdata.userId,
+							"testId": testid,
+							"scoreId":scoreId,
+							"answers": []
+						};
+						for(var key in answer) {
+							var answer_1 = {};
+							answer_1.titleId = key;
+							answer_1.rw = answer[key];
+							answercoll.answers.push(answer_1);
+						}
+
+						mui.ajax('http://' + ip_address + 'testpaper/pushAnswer', {
+							data: JSON.stringify(answercoll),
+							contentType: "application/json",
+							dataType: 'json',
+							type: 'post',
+							timeout: 0,
+							success: function(r) {
+								if(r.code != 200) {
+									alert(r.msg);
+									return;
+								}
+								mui.fire(plus.webview.getWebviewById("online_ts"), 'goal_return', {
+									result: r.value
+								});
+								mui.fire(plus.webview.getWebviewById("kj_list.html"), 'goal_return', {
+									result: answer
+								});
+								oldback();
+							},
+							error: function(xhr, type, errorThrown) {
+								console.log(errorThrown)
+							}
+						});
+					}
+				}, "在线测试", ["结束答题", "继续答题"]);
+			}
+
+			//提交答卷
+			mui('#slider').on('tap', '.mui-btn', function(e) {
+				var ccc = [];
+				var answercoll = {
+					"userId": userdata.userId,
+					"scoreId":scoreId,
+					"testId": testid,
+					"answers": []
+				};
+				for(var key in answer) {
+					var answer_1 = {};
+					answer_1.titleId = key;
+					answer_1.rw = answer[key];
+					answercoll.answers.push(answer_1);
+				}
+
+				mui.ajax('http://' + ip_address + 'testpaper/pushAnswer', {
+					data: JSON.stringify(answercoll),
+					contentType: "application/json",
+					dataType: 'json',
+					type: 'post',
+					timeout: 0,
+					success: function(r) {
+						if(r.code != 200) {
+							alert(r.msg);
+							return;
+						}
+						mui.fire(plus.webview.getWebviewById("online_ts"), 'goal_return', {
+							result: r.value
+						});
+						mui.fire(plus.webview.getWebviewById("kj_list.html"), 'goal_return', {
+							result: answer
+						});
+						oldback();
+					},
+					error: function(xhr, type, errorThrown) {
+						console.log(errorThrown)
+					}
+				});
+
+			});
+		</script>
+	</body>
+
+</html>

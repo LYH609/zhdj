@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" href="../../../css/mui.min.css" />
+		<link rel="stylesheet" href="../../../css/mui.picker.min.css" />
+		<style type="text/css">
+			header {
+				background: #cc352b !important;
+				border: none;
+				box-shadow: none !important;
+			}
+			
+			h1 {
+				font-size: 20px !important;
+				color: #ffffff !important;
+			}
+			
+			.mui-content {
+				background: #F7F7F7 !important;
+			}
+			
+			.top_selebar {
+				background: #CC352B;
+				height: 40px;
+				color: #FFFFFF;
+			}
+			
+			.div_1 {
+				width: 50%;
+				float: left;
+				overflow: hidden;
+				padding-left: 10px;
+				height: 40px;
+				line-height: 40px;
+				font-size: 17px;
+			}
+			
+			.div_2 {
+				width: 50%;
+				overflow: hidden;
+				text-align: right;
+				padding-right: 10px;
+				float: left;
+				height: 40px;
+				line-height: 40px;
+				font-size: 17px;
+			}
+			
+			.tongji_div {
+				height: 120px;
+				background: #FFFFFF;
+				width: 100%;
+			}
+			
+			.tongji_div_1 {
+				width: 100%;
+				background: #CC352B;
+				height: 120px;
+				text-align: center;
+				padding: 20px 15px 20px;
+			}
+			
+			.tongji_div_2 {
+				width: 100%;
+				height: 100px;
+				padding: 10px 15px;
+				background: #FFFFFF;
+			}
+			
+			.tongji_div_2_1 {
+				height: 80px;
+				width: 50%;
+				float: left;
+				padding: 10px 10px;
+				line-height: 30px;
+				text-align: center;
+				color: #757575;
+				border-right: 1px solid #E4E4E4;
+			}
+			
+			.tongji_div_2_1 span {
+				color: #212121;
+			}
+			
+			.tongji_div_2_2 span {
+				color: #212121;
+				font-size: 20px;
+			}
+			
+			.tongji_div_2_2 {
+				height: 80px;
+				width: 50%;
+				float: left;
+				padding: 10px 10px;
+				line-height: 30px;
+				text-align: center;
+				color: #757575;
+			}
+			
+			.tongji_div_1_1 {
+				height: 80px;
+				width: 80px;
+				display: inline-block;
+				border: 1px solid #FFFFFF;
+				border-radius: 100px;
+				padding: 20px 10px;
+				text-align: center;
+				font-size: 17px;
+				color: #FFFFFF;
+			}
+			
+			.tongji_div_1_1 span {
+				font-size: 23px;
+			}
+			
+			.tongji_div_1_2 span {
+				font-size: 20px;
+			}
+			
+			.tongji_div_1_2 {
+				height: 100px;
+				width: 48%;
+				margin-left: 4%;
+				background: #30DAAD;
+				padding: 20px 10px;
+				line-height: 30px;
+				float: left;
+				text-align: center;
+				color: #FFFFFF;
+			}
+			
+			.tongji_div_a {
+				height: 240px;
+				background: #FFFFFF;
+				width: 100%;
+				margin-top: 10px;
+			}
+			
+			.tonjititle {
+				padding: 10px 5px;
+				height: 40px;
+				width: 100%;
+				border-bottom: 1px solid #E4E4E4;
+				text-align: left;
+			}
+			
+			.tongji_div_3 {
+				width: 100%;
+				height: 100px;
+				padding: 10px 15px;
+				border-bottom: 1px solid #E4E4E4;
+			}
+			
+			.tongji_div_3_1 {
+				height: 80px;
+				width: 50%;
+				float: left;
+				padding: 10px 10px;
+				line-height: 30px;
+				text-align: center;
+				color: #757575;
+				border-right: 1px solid #E4E4E4;
+			}
+			
+			.tongji_div_3_1 span {
+				color: #212121;
+			}
+			
+			.tongji_div_3_2 span {
+				color: #212121;
+				font-size: 20px;
+			}
+			
+			.tongji_div_3_2 {
+				height: 80px;
+				width: 50%;
+				float: left;
+				padding: 10px 10px;
+				line-height: 30px;
+				text-align: center;
+				color: #757575;
+			}
+			
+			.tongji_div_4 {
+				width: 100%;
+				height: 100px;
+				padding: 10px 15px;
+			}
+			
+			.tongji_div_4_1 {
+				height: 80px;
+				width: 50%;
+				float: left;
+				padding: 10px 10px;
+				line-height: 30px;
+				text-align: center;
+				color: #757575;
+				border-right: 1px solid #E4E4E4;
+			}
+			
+			.tongji_div_4_1 span {
+				color: #212121;
+			}
+			
+			.tongji_div_4_2 span {
+				color: #212121;
+				font-size: 20px;
+			}
+			
+			.tongji_div_4_2 {
+				height: 80px;
+				width: 50%;
+				float: left;
+				padding: 10px 10px;
+				line-height: 30px;
+				text-align: center;
+				color: #757575;
+			}
+			
+			.tongji_div_b {
+				height: 140px;
+				background: #FFFFFF;
+				width: 100%;
+				margin-top: 10px;
+			}
+			
+			.mui-icon-tsa {
+				width: 20px;
+				height: 20px;
+				background: url(../../../img/spread_01@2x.png) no-repeat;
+				background-size: 100% 100%;
+				display: inline-block;
+				float: right;
+				margin-top: 9px;
+			}
+			
+			.tongji_div_5_1 {
+				width: 100%;
+				height: 80px;
+				line-height: 30px;
+				text-align: center;
+			}
+			
+			#demo1 {
+				width: 30%;
+				display: inline-block;
+			}
+			
+			.mui-segmented-control-positive.mui-segmented-control-inverted .mui-control-item.mui-active {
+				color: #CC352B !important;
+				border-bottom: 2px solid #CC352B !important;
+				background: 0 0;
+			}
+			
+			.ctn_this {
+				width: 100%;
+			}
+			
+			.ctn_this table {
+				width: 100%;
+				border: 1px solid #eee;
+				text-align: center;
+			}
+			
+			thead tr th {
+				padding: 10px 10px;
+				border: 1px solid #eee;
+				color: #757575;
+				font-weight: normal;
+			}
+			
+			tr td {
+				padding: 10px 10px;
+				border: 1px solid #eee;
+				color: #212121;
+			}
+			
+			.col_1 {
+				color: #45a0ec;
+			}
+			
+			.col_2 {
+				color: #CC352B;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav bg-color">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title">会议巡检</h1>
+		</header>
+		<div class="mui-content">
+			<div class="top_selebar">
+				<div class="div_1"><span class="text_unit"></span><span class="mui-icon mui-icon-tsa"></span></div>
+				<div class="div_2">
+					<span class="time_0">2017</span>
+					<span class="mui-icon mui-icon-arrowdown" style="color: #FFFFFF;"></span>
+				</div>
+			</div>
+			
+			<div style="background: #eee;height: 10px;"></div>
+			<div class="ctn_this">
+
+			</div>
+		</div>
+
+		<script type="text/javascript" src="../../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../../js/ip_config.js"></script>
+		<script type="text/javascript" src="../../../js/mui.picker.all.js"></script>
+		<script>
+			mui.init();
+			var unit = [];
+			var requeid = "0";
+			var unit_work = null;
+			var time_work = "2017";
+			
+			var type_time = "year";
+			mui.ajax('http://' + ip_address + 'unitstructure/list4Tree', {
+				data: {
+
+				},
+				dataType: 'json',
+				type: 'post',
+				timeout: 0,
+				success: function(r) {
+					if(r.code == 500) {
+						return false;
+					}
+					for(var i = 0; i < r.value.length; i++) {
+						var unit_list = {};
+						unit_list.unitid = r.value[i].id;
+						unit_list.text = r.value[i].text;
+						unit.push(unit_list);
+					}
+					unit_work = unit[0].unitid;
+					
+					mui('.text_unit')[0].innerText = unit[0].text;
+					mui('.text_unit')[0].setAttribute("id", unit[0].unitid)
+				},
+				error: function(xhr, type, errorThrown) {
+					console.log(errorThrown)
+				}
+			});
+			window.onload = function() {
+
+				mui.plusReady(function() {
+					var showpage = function() {
+						var id = setInterval(function() {
+							userdata = JSON.parse(plus.storage.getItem('userinfo'));
+							if(userdata && unit.length > 0) {
+								clearInterval(id);
+
+								work_static();
+
+								setTimeout(function() {
+									plus.nativeUI.closeWaiting();
+									mui.currentWebview.show("slide-in-right");
+								}, 50);
+							}
+						}, 20);
+					};
+					showpage();
+				});
+			}
+
+			mui(".mui-content").on("tap", ".div_1", function(e) {
+				var picker = new mui.PopPicker();
+				picker.setData(unit);
+				picker.show(function(selectItems) {
+					mui('.text_unit')[0].innerText = selectItems[0].text;
+					unit_work = selectItems[0].unitid;
+					
+					if(requeid == "0") {
+						work_static();
+					}
+				});
+			});
+			mui(".mui-content").on("tap", ".div_2", function(e) {
+				var bts = [{
+					title: "选择月份"
+				}, {
+					title: "选择季度"
+				}, {
+					title: "选择年份"
+				}];
+				plus.nativeUI.actionSheet({
+					cancel: "取消",
+					buttons: bts
+				}, function(e) {
+					if(e.index == "1") {
+						var dtPicker = new mui.DtPicker({
+							type: 'month',
+							beginDate: new Date(2015, 04, 25),
+							endDate: new Date(2065, 04, 25),
+						});
+						dtPicker.show(function(e) {
+							mui('.time_0')[0].innerText = e.value;
+							
+							time_work = e.value;
+							
+							type_time = "month";
+							if(requeid == "0") {
+								work_static();
+							}
+						});
+					} else if(e.index == "2") {
+						var picker = new mui.PopPicker({
+							layer: 2
+						});
+						picker.setData([{
+							value: '2017',
+							text: '2017',
+							children: [{
+								value: "1",
+								text: "第一季度"
+							}, {
+								value: "2",
+								text: "第二季度"
+							}, {
+								value: "3",
+								text: "第三季度"
+							}, {
+								value: "4",
+								text: "第四季度"
+							}]
+						}, {
+							value: '2018',
+							text: '2018',
+							children: [{
+								value: "1",
+								text: "第一季度"
+							}, {
+								value: "2",
+								text: "第二季度"
+							}, {
+								value: "3",
+								text: "第三季度"
+							}, {
+								value: "4",
+								text: "第四季度"
+							}]
+						}, {
+							value: '2019',
+							text: '2019',
+							children: [{
+								value: "1",
+								text: "第一季度"
+							}, {
+								value: "2",
+								text: "第二季度"
+							}, {
+								value: "3",
+								text: "第三季度"
+							}, {
+								value: "4",
+								text: "第四季度"
+							}]
+						}, {
+							value: '2020',
+							text: '2020',
+							children: [{
+								value: "1",
+								text: "第一季度"
+							}, {
+								value: "2",
+								text: "第二季度"
+							}, {
+								value: "3",
+								text: "第三季度"
+							}, {
+								value: "4",
+								text: "第四季度"
+							}]
+						}, {
+							value: '2021',
+							text: '2021',
+							children: [{
+								value: "1",
+								text: "第一季度"
+							}, {
+								value: "2",
+								text: "第二季度"
+							}, {
+								value: "3",
+								text: "第三季度"
+							}, {
+								value: "4",
+								text: "第四季度"
+							}]
+						}, {
+							value: '2022',
+							text: '2022',
+							children: [{
+								value: "1",
+								text: "第一季度"
+							}, {
+								value: "2",
+								text: "第二季度"
+							}, {
+								value: "3",
+								text: "第三季度"
+							}, {
+								value: "4",
+								text: "第四季度"
+							}]
+						}, {
+							value: '2023',
+							text: '2023',
+							children: [{
+								value: "1",
+								text: "第一季度"
+							}, {
+								value: "2",
+								text: "第二季度"
+							}, {
+								value: "3",
+								text: "第三季度"
+							}, {
+								value: "4",
+								text: "第四季度"
+							}]
+						}, {
+							value: '2024',
+							text: '2024',
+							children: [{
+								value: "1",
+								text: "第一季度"
+							}, {
+								value: "2",
+								text: "第二季度"
+							}, {
+								value: "3",
+								text: "第三季度"
+							}, {
+								value: "4",
+								text: "第四季度"
+							}]
+						}, {
+							value: '2025',
+							text: '2025',
+							children: [{
+								value: "1",
+								text: "第一季度"
+							}, {
+								value: "2",
+								text: "第二季度"
+							}, {
+								value: "3",
+								text: "第三季度"
+							}, {
+								value: "4",
+								text: "第四季度"
+							}]
+						}, {
+							value: '2026',
+							text: '2026',
+							children: [{
+								value: "1",
+								text: "第一季度"
+							}, {
+								value: "2",
+								text: "第二季度"
+							}, {
+								value: "3",
+								text: "第三季度"
+							}, {
+								value: "4",
+								text: "第四季度"
+							}]
+						}]);
+						picker.show(function(selectItems) {
+							mui('.time_0')[0].innerText = selectItems[0].text + "-" + selectItems[1].text;
+							time_work = selectItems[0].text + "-" + selectItems[1].value;
+							
+							type_time = "quarter";
+							if(requeid == "0") {
+								work_static();
+							}
+						});
+					} else if(e.index == 3) {
+						var picker_1 = new mui.PopPicker();
+						picker_1.setData([{
+							value: '2017',
+							text: '2017'
+						}, {
+							value: '2018',
+							text: '2018'
+						}, {
+							value: '2019',
+							text: '2019'
+						}, {
+							value: '2020',
+							text: '2020'
+						}, {
+							value: '2021',
+							text: '2021'
+						}, {
+							value: '2022',
+							text: '2022'
+						}, {
+							value: '2023',
+							text: '2023'
+						}, {
+							value: '2024',
+							text: '2024'
+						}, {
+							value: '2025',
+							text: '2025'
+						}, {
+							value: '2026',
+							text: '2026'
+						}]);
+						picker_1.show(function(e) {
+							mui('.time_0')[0].innerText = e[0].text;
+							time_work = e[0].value;
+							
+							type_time = "year";
+							if(requeid == "0") {
+								work_static();
+							}
+						});
+					}
+				});
+			});			
+
+			function work_static() {
+				mui('.ctn_this')[0].innerHTML = '<table>' +
+					'<thead>' +
+					'<tr>' +
+					'<th>会议名称</th>' +
+					'<th>时间</th>' +
+					'<th>主讲人</th>' +
+					'<th>参会人数</th>'+
+					'</tr>' +
+					'</thead>' +
+					'<tbody class="ctnbody">' +
+
+					'</tbody>' +
+					'</table>';
+				mui.ajax('http://' + ip_address + 'meeting/reportCount', {
+					data: {
+						start: "0",
+						length: "1111",
+						unitId: unit_work,
+						timeType: type_time,
+						searchTime: time_work
+					},
+					dataType: 'json',
+					type: 'post',
+					timeout: 0,
+					success: function(r) {
+						if(r.code == 500) {
+							return;
+						}
+						
+						var table_tr = "";
+						var classnamethis="col_1";
+						for(var i = 0; i < r.value.data.length; i++) {
+							if(r.value.data[i].sign==r.value.data[i].sign){
+								classnamethis="col_1";
+							}else{
+								classnamethis="col_2";
+							}
+							table_tr += '<tr>' +
+								'<td>' + r.value.data[i].meetingTime + '</td>' +
+								'<td>' + r.value.data[i].meetingTypeName + '(' + r.value.data[i].parentMeetingTypeName + ')' + '</td>' +
+								'<td><span class="'+classnamethis+'">' + r.value.data[i].sign + '</span>/<span class="col_1">' + r.value.data[i].toBe + '</span></td>' +
+								'</tr>';
+						}
+						mui(".ctnbody")[0].innerHTML = table_tr;
+					},
+					error: function(xhr, type, errorThrown) {
+
+					}
+				});
+			}
+		</script>
+	</body>
+
+</html>

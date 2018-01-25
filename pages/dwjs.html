@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" href="../css/mui.min.css" />
+		<script src="html5plus://ready"></script>
+		<style>
+			.mui-content {
+				background: #F7F7F7 !important;
+			}
+			
+			html,
+			body {
+				background: #F7F7F7 !important;
+			}
+			
+			.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body {
+				height: 20px;
+				line-height: 20px;
+			}
+			
+			.dj_text {
+				height: 50px;
+				line-height: 50px;
+				font-size: 18px;
+				background: #FFFFFF;
+				margin-top: 5px;
+				text-indent: 15px;
+				border-top: 1px solid #e4e4e4;
+				border-bottom: 1px solid #e4e4e4;
+			}
+			
+			.dj_rz {
+				width: 30px;
+				height: 30px;
+				background: url(../img/1_01@3x.png) no-repeat;
+				background-size: 100% 100%;
+			}
+			
+			.dj_szmx{
+				width: 30px;
+				height: 30px;
+				background: url(../img/2_02@3x.png) no-repeat;
+				background-size: 100% 100%;
+			}
+			.dj_new{
+				width: 30px;
+				height: 30px;
+				background: url(../img/2_03@3x.png) no-repeat;
+				background-size: 100% 100%;
+			}
+			
+			.dj_hyzd {
+				width: 30px;
+				height: 30px;
+				background: url(../img/1_02@3x.png) no-repeat;
+				background-size: 100% 100%;
+			}
+			
+			.dj_hybg {
+				width: 30px;
+				height: 30px;
+				background: url(../img/1_04@3x.png) no-repeat;
+				background-size: 100% 100%;
+			}
+			.dj_hybg1{
+				width: 30px;
+				height: 30px;
+				background: url(../img/1_05@3x.png) no-repeat;
+				background-size: 100% 100%;
+			}
+			.dj_hykq{
+				width: 30px;
+				height: 30px;
+				background: url(../img/1_06@3x.png) no-repeat;
+				background-size: 100% 100%;
+			}
+			.dj_hyxj{
+				width: 30px;
+				height: 30px;
+				background: url(../img/hyxj.png) no-repeat;
+				background-size: 100% 100%;
+			}
+			.dj_znbb{
+				width: 30px;
+				height: 30px;
+				background: url(../img/1_07@3x.png) no-repeat;
+				background-size: 100% 100%;
+			}
+			.dj_znkcb{
+				width: 30px;
+				height: 30px;
+				background: url(../img/1_08@3x.png) no-repeat;
+				background-size: 100% 100%;
+			}
+			.dj_zzjs {
+				width: 30px;
+				height: 30px;
+				background: url(../img/2_01@3x.png) no-repeat;
+				background-size: 100% 100%;
+			}
+			
+			.dj_wyjf {
+				width: 30px;
+				height: 30px;
+				background: url(../img/1_03@3x.png) no-repeat;
+				background-size: 100% 100%;
+			}
+			.dj_fbhy{
+				width: 30px;
+				height: 30px;
+				background: url(../img/3_01@3x.png) no-repeat;
+				background-size: 100% 100%;
+			}
+			
+			.dj_zuzhijuese{
+				width: 30px;
+				height: 30px;
+				background: url(../img/2_04@3x.png) no-repeat;
+				background-size: 100% 100%;
+			}
+			.dj_dycp{
+				width: 30px;
+				height: 30px;
+				background: url(../img/3_06@3x.png) no-repeat;
+				background-size: 100% 100%;
+			}
+			.dj_dwsj{
+				width: 30px;
+				height: 30px;
+				background: url(../img/3_07@3x.png) no-repeat;
+				background-size: 100% 100%;
+			}
+			.dj_dwxw{
+				width: 30px;
+				height: 30px;
+				background: url(../img/3_02@3x.png) no-repeat;
+				background-size: 100% 100%;
+			}
+			.dj_lxyz{
+				width: 30px;
+				height: 30px;
+				background: url(../img/3_03@3x.png) no-repeat;
+				background-size: 100% 100%;
+			}
+			.dj_shyk{
+				width: 30px;
+				height: 30px;
+				background: url(../img/3_04@3x.png) no-repeat;
+				background-size: 100% 100%;
+			}
+			.dj_tkcs{
+				width: 30px;
+				height: 30px;
+				background: url(../img/3_05@3x.png) no-repeat;
+				background-size: 100% 100%;
+			}
+			.dj_zzss{
+				width: 30px;
+				height: 30px;
+				background: url(../img/2_05@3x.png) no-repeat;
+				background-size: 100% 100%;
+			}
+			.mui-grid-view.mui-grid-9 {
+				background: #FFFFFF !important;
+				border-top: none !important;
+				border: none !important;
+			}
+			
+			.mui-grid-view.mui-grid-9 .mui-table-view-cell {
+				padding: 0 !important;
+				border-bottom: 1px solid #eee;
+			}
+			.mui-media-body{
+				font-size: 14px !important;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content">
+			<div id="slider" class="mui-slider">
+				<div class="mui-slider-group mui-slider-loop">
+					<div class="mui-slider-item mui-slider-item-duplicate">
+						<a href="#">
+							<img src="../img/banner01.png">
+						</a>
+					</div>
+					<!-- 第一张 -->
+					<div class="mui-slider-item">
+						<a href="#">
+							<img src="../img/banner01.png">
+						</a>
+					</div>
+					<!-- 第二张 -->
+					<div class="mui-slider-item">
+						<a href="#">
+							<img src="../img/banner02.png">
+						</a>
+					</div>
+					<!-- 第三张 -->
+					<div class="mui-slider-item">
+						<a href="#">
+							<img src="../img/banner03.png">
+						</a>
+					</div>
+					<div class="mui-slider-item mui-slider-item-duplicate">
+						<a href="#">
+							<img src="../img/banner01.png">
+						</a>
+					</div>
+				</div>
+				<div class="mui-slider-indicator">
+					<div class="mui-indicator mui-active"></div>
+					<div class="mui-indicator"></div>
+					<div class="mui-indicator"></div>
+				</div>
+			</div>
+			<div class="dj_text">日常</div>
+			<ul class="mui-table-view mui-grid-view mui-grid-9 ul_b">
+				<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3" id="dwjs/pullrefresh_main.html">
+					<a href="#">
+						<span class="mui-icon dj_rz"></span>
+						<div class="mui-media-body">审批</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3" id="dwjs/rz.html">
+					<a href="#">
+						<span class="mui-icon dj_hyzd"></span>
+						<div class="mui-media-body">日志</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3" id="dwjs/barcode_scan.html">
+					<a href="#">
+						<span class="mui-icon dj_wyjf"></span>
+						<div class="mui-media-body">签到</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3" id="dwjs/email.html">
+					<a href="#">
+						<span class="mui-icon dj_hybg"></span>
+						<div class="mui-media-body">思想汇报</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3" id="dwjs/Statistics/Statistics_page.html">
+					<a href="#">
+						<span class="mui-icon dj_znbb"></span>
+						<div class="mui-media-body">智能报表</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3" id="dwjs/calendar.html">
+					<a href="#">
+						<span class="mui-icon dj_znkcb"></span>
+						<div class="mui-media-body">智能日程表</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3" id="dwjs/meetingroom.html">
+					<a href="#">
+						<span class="mui-icon dj_znkcb"></span>
+						<div class="mui-media-body">智能会议室</div>
+					</a>
+				</li>
+			</ul>
+			
+			<div class="dj_text">动态</div>
+			<ul class="mui-table-view mui-grid-view mui-grid-9 ul_b">
+				<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3" id="dwjs/miss/release.html">
+					<a href="#">
+						<span class="mui-icon dj_fbhy"></span>
+						<div class="mui-media-body">发布动态</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3" id="dwjs/miss/report.html">
+					<a href="#">
+						<span class="mui-icon dj_hybg1"></span>
+						<div class="mui-media-body">记录</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3" id="dwjs/miss/kaoqin.html">
+					<a href="#">
+						<span class="mui-icon dj_hykq"></span>
+						<div class="mui-media-body">动态考勤</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3" id="dwjs/miss/hyxj.html">
+					<a href="#">
+						<span class="mui-icon dj_hyxj"></span>
+						<div class="mui-media-body">会议巡检</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3" id="dwjs/wzqd.html">
+					<a href="#">
+						<span class="mui-icon dj_wzqd"></span>
+						<div class="mui-media-body">打卡签到</div>
+					</a>
+				</li>
+			</ul>
+			
+			<div class="dj_text">掌上党校</div>
+			<ul class="mui-table-view mui-grid-view mui-grid-9 ul_b">
+				<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3" id="dwjs/learn/news.html">
+					<a href="#">
+						<span class="mui-icon dj_dwxw"></span>
+						<div class="mui-media-body">党务新闻</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3" id="dwjs/learn/tsod.html">
+					<a href="#">
+						<span class="mui-icon dj_lxyz"></span>
+						<div class="mui-media-body">两学一做</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3" id="">
+					<a href="#">
+						<span class="mui-icon dj_shyk"></span>
+						<div class="mui-media-body">三会一课</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3" id="dwjs/learn/ks_type.html">
+					<a href="#">
+						<span class="mui-icon dj_dycp"></span>
+						<div class="mui-media-body">理论测试</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3" id="dwjs/learn/dwsj.html">
+					<a href="#">
+						<span class="mui-icon dj_dwsj"></span>
+						<div class="mui-media-body">党务书籍</div>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript" src="../js/ip_config.js" ></script>
+		<script>
+			mui.init();
+			var userdata = null;
+			
+			var gallery = mui('.mui-slider');
+			gallery.slider({
+				interval: 3000
+			});
+			
+			var first = null;
+			mui.back = function() {
+				if(!first) {
+					first = new Date().getTime();
+					mui.toast('再按一次退出应用');
+					setTimeout(function() {
+						first = null;
+					}, 1000);
+				} else {
+					if(new Date().getTime() - first < 1000) {
+						plus.runtime.quit();
+					}
+				}
+			};
+
+			window.onload = function() {
+				mui.plusReady(function() {
+					var showpage = function() {
+						var id = setInterval(function() {
+							userdata = JSON.parse(plus.storage.getItem('userinfo'));
+							if(userdata) {
+								clearInterval(id);
+								setTimeout(function() {
+									plus.nativeUI.closeWaiting();
+									mui.currentWebview.show("slide-in-right");
+								}, 50);
+							}
+						}, 20);
+					};
+					showpage();
+				});
+			}
+
+			mui(".mui-content").on('tap', '.mui-table-view-cell', function(e) {
+				var href = this.getAttribute("id");
+				if(href){
+					mui.openWindow({
+						url: href,
+						id: href,
+						styles: {
+							top: "0px",
+							bottom: "0px",
+						},
+						createNew: false,
+						show: {
+							autoShow: false,
+							event: 'titleUpdate',
+							extras: {}
+						},
+						waiting: {
+							autoShow: true,
+							title: '正在加载...',
+						}
+					});
+				}
+			});
+			document.addEventListener('barcode_return', function(e) {
+				//返回二维码扫描结果提交
+				//console.log(e.detail.id);
+				mui.ajax('http://'+ip_address+'meeting/meetingSign',{
+					data:{
+						meetingId:e.detail.id
+					},
+					dataType:'json',
+					type:'post',
+					timeout:10000,
+					success:function(r){
+						if(r.code==500){
+							alert("r.msg");
+							return false;
+						}
+						alert("签到成功");
+					},
+					error:function(xhr,type,errorThrown){
+						
+					}
+				});
+			});
+			
+			document.addEventListener('close_subbill', function(event) {
+				var ws = plus.webview.currentWebview();
+				setTimeout(function() {
+					plus.webview.close(ws, "none", 100);
+				}, 600);
+			});
+		</script>
+	</body>
+
+</html>

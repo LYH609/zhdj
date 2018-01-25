@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="../../css/mui.min.css" />
+		<script src="html5plus://ready"></script>
+		<script type="text/javascript" src="../../js/mui.min.js"></script>
+		<style type="text/css">
+			header {
+				background: #cc352b !important;
+				border: none;
+				box-shadow: none !important;
+			}
+			
+			h1 {
+				font-size: 20px !important;
+				color: #ffffff !important;
+			}
+			
+			.mui-content {
+				background: #F7F7F7 !important;
+			}
+			
+			html,
+			body {
+				background: #FFFFFF !important;
+			}
+			
+			.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body {
+				height: 20px;
+				line-height: 20px;
+			}
+			
+			.mui-grid-view.mui-grid-9 {
+				background: #FFFFFF !important;
+				border-top: none !important;
+				border: none !important;
+			}
+			
+			.mui-grid-view.mui-grid-9 .mui-table-view-cell {
+				padding: 0 !important;
+				border-bottom: 1px solid #eee;
+			}
+			
+			.mui-media-body {
+				font-size: 14px !important;
+			}
+			
+			.mui-icon-kxj {
+				background: url(../../img/letter_read_s@2x.png) no-repeat;
+				background-size: 100% 100%;
+				width: 24px;
+				height: 24px;
+			}
+			
+			.mui-bar-tab .mui-tab-item.mui-active {
+				color: #CC352B !important;
+			}
+			
+			.mui-icon-xxj {
+				background: url(../../img/letter_write_n@2x.png) no-repeat;
+				background-size: 100% 100%;
+				width: 24px;
+				height: 24px;
+			}
+			
+			.title_email {
+				font-size: 18px !important;
+				color: #212121;
+				padding: 10px 0px;
+			}
+			
+			.title_email span {
+				font-size: 16px !important;
+				color: #757575;
+				float: right;
+			}
+			
+			.right_icon {
+				width: 14px;
+				height: 14px;
+				float: right;
+				position: relative;
+				top: 4px;
+			}
+			
+			.mui-table-view-cell>a:not(.mui-btn) {
+				white-space: inherit !important;
+			}
+			
+			.email_content {
+				color: #757575;
+				padding-top: 10px;
+			}
+			
+			.send_user {
+				font-size: 15px;
+				color: #212121;
+			}
+			
+			.send_user_ts {
+				font-size: 15px;
+				padding: 1px 5px;
+				background: #76bdf3;
+				color: #FFFFFF;
+				border-radius: 5px;
+			}
+			
+			.mui-content>.mui-table-view:first-child {
+				margin-top: 0px;
+			}
+			
+			.email_content_none {
+				display: none;
+			}
+			
+			.mui-tab-label1 {
+				font-size: 11px;
+				display: block;
+				overflow: hidden;
+				color: #929292;
+				text-overflow: ellipsis;
+			}
+			.mui-tab-label2 {
+				font-size: 11px;
+				display: block;
+				overflow: hidden;
+				color: #CC352B;
+				text-overflow: ellipsis;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav bg-color">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title">汇报</h1>
+		</header>
+		<div class="mui-content">
+			<ul class="mui-table-view" id="mailbox_list">
+				
+			</ul>
+		</div>
+		<div style="height: 52px;background: #FFFFFF;width: 100%;"></div>
+		<nav class="mui-bar mui-bar-tab tab_ctn">
+			<a class="mui-tab-item mui-active" id="">
+				<span class="mui-icon mui-icon-kxj mui-icon-kxj-active"></span>
+				<span class="mui-tab-label2">查看汇报</span>
+				<span class="mui-badge mui-badge-danger badge_posi" style="display: none;">0</span>
+			</a>
+			<a class="mui-tab-item" id="email/email_edit.html">
+				<span class="mui-icon mui-icon-xxj"></span>
+				<span class="mui-tab-label1">写汇报</span>
+			</a>
+		</nav>
+		<script type="text/javascript" src="../../js/ip_config.js" ></script>
+		<script type="text/javascript">
+			mui.init();
+			var userdata=null;
+			window.onload = function() {
+				mui.plusReady(function() {
+					var showpage = function() {
+						var id = setInterval(function() {
+							userdata = JSON.parse(plus.storage.getItem('userinfo'));
+							if(userdata) {
+								clearInterval(id);
+								mui.ajax('http://'+ip_address+'mailbox/listMailbox',{
+									data:{
+										start:"0",
+										length:"11111",
+									},
+									dataType:'json',
+									type:'post',
+									timeout:0,
+									success:function(r){
+										if(r.code==200){
+											var maillist=document.getElementById("mailbox_list");
+											for(var i=0;i<r.value.data.length;i++){
+												var sendtime="2017.09.03";
+												if(r.value.data[i].sendTime){
+													sendtime=r.value.data[i].sendTime.split(" ")[0];
+												}
+												if(r.value.data[i].consultPwd!=""){
+													console.log(JSON.stringify(r.value.data[i]));
+													var li=document.createElement("li");
+													li.className="mui-table-view-cell mui-media";
+													li.setAttribute("id",r.value.data[i].systemno);
+													li.innerHTML='<a href="javascript:;">'+
+																	'<img class="mui-media-object mui-pull-left" width="52" src="../../img/information_letter@2x.png">'+
+																	'<div class="mui-media-body">'+
+																		'<p class="title_email">'+r.value.data[i].theme+'<img class="right_icon" src="../../img/arrows_n@2x.png" /><span>'+sendtime+'</span></p>'+
+																		'<p class="send_user"><span class="send_user_ts">发件人:</span>'+r.value.data[i].senderName+'</p>'+
+																		'<div class="email_content">'+
+																			r.value.data[i].content+
+																		'</div>'+
+																	'</div>'+
+																'</a>';
+													maillist.appendChild(li);
+												}
+											}
+											for(var i = 0; i < mui('.email_content').length; i++) {
+												if(mui('.email_content')[i].innerText.length > 50) {
+													var ctn = mui('.email_content')[i].innerText.slice(0, 50);
+													mui('.email_content')[i].innerText = ctn + "...";
+												};
+											}
+										}
+									},
+									error:function(xhr,type,errorThrown){
+										
+									}
+								});
+								setTimeout(function() {
+									plus.nativeUI.closeWaiting();
+									mui.currentWebview.show("slide-in-right");
+								}, 50);
+							}
+						}, 20);
+					};
+					showpage();
+				});
+			}
+			
+			mui(".mui-bar-tab").on('tap', '.mui-tab-item', function(e) {
+				var id = this.getAttribute('id');
+				if(id) {
+					mui.openWindow({
+						url: id,
+						id: id,
+						styles: {
+							top: "0px",
+							bottom: "0px",
+						},
+						createNew: false,
+						show: {
+							autoShow: false,
+							event: 'titleUpdate',
+							extras: {}
+						},
+						waiting: {
+							autoShow: true,
+							title: '正在加载...',
+						}
+					});
+				}
+			});
+			mui(".mui-table-view").on('tap', '.mui-table-view-cell', function(e) {
+				var mailid=this.getAttribute("id");
+				mui.openWindow({
+					url: "email/email_detail.html",
+					id: "email_detail",
+					styles: {
+						top: "0px",
+						bottom: "0px",
+					},
+					createNew: false,
+					show: {
+						autoShow: false,
+						event: 'titleUpdate',
+						extras: {}
+					},
+					waiting: {
+						autoShow: true,
+						title: '正在加载...',
+					}
+				});
+				mui.fire(plus.webview.getWebviewById("email_detail"),'email_data',{id:mailid});
+			});
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>Bat</title>
+		<link rel="stylesheet" href="../css/mui.min.css" />
+		<script src="html5plus://ready"></script>
+		<style>
+			.img_msg {
+				width: 40px;
+				height: 40px;
+				margin-right: 10px;
+				float: left;
+				background: url(../img/organization_01@3x.png) no-repeat;
+				background-size: 100% 100%;
+			}
+			
+			.mui-navigate-right {
+				line-height: 42px;
+			}
+			
+			#list {
+				margin-top: 0px;
+				margin-bottom: 10px;
+			}
+			
+			.img_dyld {
+				width: 40px;
+				height: 40px;
+				margin-right: 10px;
+				float: left;
+				background: url(../img/organization_02@3x.png) no-repeat;
+				background-size: 100% 100%;
+			}
+			
+			.img_zzjs {
+				width: 40px;
+				height: 40px;
+				margin-right: 10px;
+				float: left;
+				background: url(../img/organization_03@3x.png) no-repeat;
+				background-size: 100% 100%;
+			}
+			
+			.img_zzgw {
+				width: 40px;
+				height: 40px;
+				margin-right: 10px;
+				float: left;
+				background: url(../img/organization_04@3x.png) no-repeat;
+				background-size: 100% 100%;
+			}
+			
+			.img_dyhmc {
+				width: 40px;
+				height: 40px;
+				margin-right: 10px;
+				float: left;
+				background: url(../img/organization_05@3x.png) no-repeat;
+				background-size: 100% 100%;
+			}
+			
+			.mui-table-view-cell.mui-collapse .mui-collapse-content {
+				overflow: initial;
+			}
+			
+			.dyhmc_los .mui-navigate-right {
+				margin-right: -17px !important;
+			}
+			
+			.img_jj {
+				width: 15px;
+				height: 15px;
+				margin-right: 10px !important;
+				margin-left: -10px !important;
+				margin-top: 10px !important;
+				float: left;
+				background: url(../img/branch_arrows.png) no-repeat;
+				background-size: 100% 100%;
+			}
+			
+			.mui-table-view-cell.mui-collapse .mui-table-view .mui-table-view-cell:after {
+				left: 60px !important;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content" id="news_ctn">
+			<ul id="list" class="mui-table-view mui-table-view-chevron">
+				<li class="mui-table-view-cell" id="zz/zzjg.html">
+					<a class="mui-navigate-right" href="">
+						<div class="img_msg"></div>
+						<span>党组织</span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell" id="zz/zzjs.html">
+					<a class="mui-navigate-right" href="">
+						<div class="img_zzjs"></div>
+						<span>党内职务</span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell" id="zz/zzgw.html">
+					<a class="mui-navigate-right" href="">
+						<div class="img_zzgw"></div>
+						<span>职务职责</span>
+					</a>
+				</li>
+			</ul>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-collapse">
+					<a class="mui-navigate-right" href="#">
+						<div class="img_dyhmc"></div><span>党员花名册</span>
+					</a>
+					<div class="mui-collapse-content" style="padding: 0px 15px;">
+						<ul class="mui-table-view mui-table-view-chevron" id="list_dyhmc" style="margin-top: 0px;">
+
+						</ul>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript" src="../js/ip_config.js" ></script>
+		<script>
+			mui.init();
+
+			var userdata = null;
+
+			var first = null;
+			mui.back = function() {
+				if(!first) {
+					first = new Date().getTime();
+					mui.toast('再按一次退出应用');
+					setTimeout(function() {
+						first = null;
+					}, 1000);
+				} else {
+					if(new Date().getTime() - first < 1000) {
+						plus.runtime.quit();
+					}
+				}
+			};
+
+			document.addEventListener('close_xfzz', function(event) {
+				var ws = plus.webview.currentWebview();
+				setTimeout(function() {
+					plus.webview.close(ws, "none", 100);
+				}, 600);
+			});
+
+			window.onload = function() {
+				mui.plusReady(function() {
+					var showpage = function() {
+						var id = setInterval(function() {
+							userdata = JSON.parse(plus.storage.getItem('userinfo'));
+							if(userdata) {
+								clearInterval(id);
+								mui.ajax('http://'+ip_address+'unitstructure/listArea', {
+									data: {
+
+									},
+									dataType: 'json',
+									type: 'post',
+									timeout: 0,
+									success: function(r) {
+										if(r.code == 200) {
+											var area_data = "";
+											for(var i = 0; i < r.value.length; i++) {
+												area_data += `<li class="mui-table-view-cell dyhmc_los" id="zz/dyhmc.html" areaname="${r.value[i]}">
+																<a class="mui-navigate-right">
+																	<div class="img_jj"></div>
+																	<span>${r.value[i]}</span>
+																</a>
+															</li>`;
+											}
+											mui('#list_dyhmc')[0].innerHTML = area_data;
+										}
+									},
+									error: function(xhr, type, errorThrown) {
+
+									}
+								});
+							}
+							setTimeout(function() {
+								plus.nativeUI.closeWaiting();
+								mui.currentWebview.show("slide-in-right");
+							}, 50);
+
+						}, 20);
+					};
+					showpage();
+				});
+			}
+			mui(".mui-content").on('tap', '.mui-table-view-cell', function(e) {
+				var id = this.getAttribute('id');
+
+				if(id) {
+					mui.openWindow({
+						url: id,
+						id: id,
+						styles: {
+							top: "0",
+							bottom: "0",
+						},
+						createNew: false,
+						show: {
+							autoShow: false,
+							event: 'titleUpdate',
+							extras: {}
+						},
+						waiting: {
+							autoShow: true,
+							title: '正在加载..',
+						}
+					});
+				}
+				if(id == "zz/dyhmc.html") {
+					mui.fire(plus.webview.getWebviewById(id), 'zz_data', {
+						id: this.getAttribute("areaname")
+					});
+				}
+			});
+		</script>
+	</body>
+
+</html>
